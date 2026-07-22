@@ -1,0 +1,201 @@
+import mongoose from "mongoose";
+
+const interviewRoundSchema = new mongoose.Schema(
+{
+  communication:{
+    type:Number,
+    default:null
+  },
+
+  confidence:{
+    type:Number,
+    default:null
+  },
+
+  technicalSkill:{
+    type:Number,
+    default:null
+  },
+
+  experience:{
+    type:Number,
+    default:null
+  },
+
+  presentation:{
+    type:Number,
+    default:null
+  },
+
+
+  remarks:{
+    type:String,
+    default:""
+  },
+
+
+  recommendation:{
+    type:String,
+    enum:[
+      "Selected",
+      "Rejected",
+      "Hold",
+      ""
+    ],
+    default:""
+  }
+
+},
+{
+  _id:false
+}
+);
+
+const candidateSchema = new mongoose.Schema(
+  {
+    // ================= Personal =================
+
+    fullName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    gender: {
+      type: String,
+      enum: ["Male", "Female", "Other"],
+      default: undefined,
+    },
+
+    dateOfBirth: Date,
+
+    maritalStatus: {
+      type: String,
+      enum: ["Single", "Married", "Divorced", "Other"],
+      default: undefined,
+    },
+
+    mobile: {
+      type: String,
+      required: true,
+    },
+
+    email: {
+      type: String,
+      required: true,
+      lowercase: true,
+      trim: true,
+      unique: true,
+    },
+profileImage:{
+ type:String,
+ default:""
+},
+    address: {
+      type: String,
+      default: "",
+    },
+
+    // ================= Education =================
+
+    highestQualification: String,
+
+    university: String,
+
+    passingYear: String,
+
+    percentage: String,
+
+    // ================= Skills =================
+
+    softwareKnowledge: {
+      type: [String],
+      default: [],
+    },
+
+    // ================= Employment =================
+
+    previousCompany: String,
+
+    previousDesignation: String,
+
+    experience: {
+      type: String,
+      enum: ["Yes", "No", "Other"],
+      default: undefined,
+    },
+
+    experienceYears: String,
+
+    lastSalary: String,
+
+    lastInHandSalary: String,
+
+    salarySlip: {
+      type: String,
+      enum: ["Yes", "No", "Other"],
+      default: undefined,
+    },
+
+    currentlyWorking: {
+      type: String,
+      enum: ["Yes", "No", "Other"],
+      default: undefined,
+    },
+
+    joiningDate: String,
+
+    reference: String,
+
+    // ================= Resume =================
+
+    resume: {
+      type: String,
+      default: "",
+    },
+
+    // ================= Interview =================
+
+    round1: {
+      type: interviewRoundSchema,
+      default: undefined,
+    },
+
+    round2: {
+      type: interviewRoundSchema,
+      default: undefined,
+    },
+
+    // ================= Status =================
+
+    finalStatus: {
+      type: String,
+      enum: [
+     
+        "Round 1",
+        "Round 2",
+        "Selected",
+        "Rejected",
+        "On Hold",
+        "Joined",
+      ],
+      default: "New",
+    },
+
+    notes: {
+      type: String,
+      default: "",
+    },
+
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Company",
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+export default mongoose.models.Candidate ||
+  mongoose.model("Candidate", candidateSchema);

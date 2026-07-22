@@ -1,23 +1,22 @@
-
 import Header from "@/components/Header";
-import Sidebar from "@/components/Sidebar.jsx";
+import Sidebar from "@/components/Sidebar";
 
 export default function DashboardLayout({ children }) {
   return (
-    <div className="flex min-h-screen bg-[#F4F7FB]">
+    <div className="flex h-screen bg-[#F4F7FB]">
 
-      <Sidebar/>
+  <Sidebar />
 
-      <div className="flex-1 flex flex-col">
+  <div className="flex-1 ml-64 flex flex-col overflow-hidden">
 
-        <Header/>
+    <Header />
 
-        <main className="p-8">
-          {children}
-        </main>
+    <main className="flex-1 overflow-y-auto p-8">
+      {children}
+    </main>
 
-      </div>
+  </div>
 
-    </div>
+</div>
   );
 }

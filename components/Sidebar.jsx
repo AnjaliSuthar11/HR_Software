@@ -55,7 +55,7 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 h-screen bg-[#0F1E2D] text-white flex flex-col">
+    <aside className="fixed left-0 top-0 w-64 h-screen bg-[#0F1E2D] text-white flex flex-col">
 
       {/* Logo */}
       <div className="px-6 py-7 border-b border-slate-700">
@@ -66,7 +66,7 @@ export default function Sidebar() {
           </div>
 
           <div>
-            <h1 className="font-bold text-lg">Pulse HR</h1>
+            <h1 className="font-bold text-lg"> HR</h1>
             <p className="text-xs text-gray-400">
               Recruitment & People
             </p>
