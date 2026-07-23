@@ -795,7 +795,7 @@ export default function CandidateForm() {
     lastInHandSalary: "",
     salarySlip: "",
     currentlyWorking: "",
-    joiningDate: "",
+    preferredJoiningDate: "",
     criminalRecord:"",
     reference: "",
   });
@@ -856,7 +856,7 @@ const handleSubmit = async (e) => {
         lastInHandSalary: "",
         salarySlip: "",
         currentlyWorking: "",
-        joiningDate: "",
+        preferredJoiningDate: "",
         criminalRecord:"",
         reference: "",
       });
@@ -1273,13 +1273,12 @@ formData.experience === "Yes" && (
 
                 <input
                   type="date"
-                  name="joiningDate"
-                  value={formData.joiningDate}
+                  name="preferredJoiningDate"
+                  value={formData.preferredJoiningDate}
                   onChange={handleChange}
                   className="w-full border rounded-lg p-3"
                 />
               </div>
-
               {/* criminal record */}
                   <div>
                 <label className="block mb-2 font-medium">

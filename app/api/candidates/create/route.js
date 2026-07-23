@@ -37,7 +37,7 @@ export async function POST(req) {
       salarySlip: body.salarySlip || undefined,
       currentlyWorking: body.currentlyWorking || undefined,
 
-      joiningDate: body.joiningDate,
+      preferredJoiningDate: body.preferredJoiningDate,
       criminalRecord: body.criminalRecord,
       reference: body.reference,
 

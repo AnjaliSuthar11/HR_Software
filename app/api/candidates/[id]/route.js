@@ -54,51 +54,30 @@ export async function GET(req, { params }) {
 
 
 // UPDATE CANDIDATE
-export async function PUT(req,{params}){
+export async function PUT(req, { params }) {
+  await connectDB();
 
-try{
+  const { id } = await params;
+  const body = await req.json();
 
-const {id}=await params;
+  const candidate = await Candidate.findById(id);
 
-await connectDB();
+  if (body.finalStatus !== undefined) {
+    candidate.finalStatus = body.finalStatus;
+  }
 
+  if (body.offeredJoiningDate !== undefined) {
+    candidate.offeredJoiningDate = body.offeredJoiningDate;
+  }
 
-const body=await req.json();
+  if (body.notes !== undefined) {
+    candidate.notes = body.notes;
+  }
 
+  await candidate.save();
 
-const candidate=await Candidate.findByIdAndUpdate(
-id,
-{
-$set:{
-...body
-}
-},
-{
-new:true
-}
-);
-
-
-
-return NextResponse.json({
-success:true,
-candidate
-});
-
-
-}
-catch(error){
-
-return NextResponse.json(
-{
-success:false,
-message:error.message
-},
-{
-status:500
-}
-);
-
-}
-
+  return NextResponse.json({
+    success: true,
+    candidate,
+  });
 }

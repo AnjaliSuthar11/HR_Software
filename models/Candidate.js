@@ -45,7 +45,18 @@ const interviewRoundSchema = new mongoose.Schema(
       ""
     ],
     default:""
-  }
+  },
+
+preferredJoiningDate: {
+  type: Date,
+  default: null,
+},
+
+offeredJoiningDate: {
+  type: Date,
+  default: null,
+},
+
 
 },
 {
@@ -151,7 +162,8 @@ profileImage:{
       enum: ["Yes", "No"],
       default: undefined,
     },
-    joiningDate: String,
+     
+ 
 
 
     reference: String,

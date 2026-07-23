@@ -171,16 +171,20 @@ candidate.fullName?.charAt(0)
         ? "bg-purple-600"
         : candidate.round1?.communication
         ? "bg-orange-500"
-        : "bg-gray-500"
+        : ""
     }`}
   >
-    {candidate.finalStatus
-      ? candidate.finalStatus
-      : candidate.round2?.communication
-      ? "Round 2 Completed"
-      : candidate.round1?.communication
-      ? "Round 1 Completed"
-      : "New"}
+  {
+candidate.finalStatus &&
+candidate.finalStatus !== "New"
+  ? candidate.finalStatus
+  : candidate.round2?.communication
+  ? "Round 2 Completed"
+  : candidate.round1?.communication
+  ? "Round 1 Completed"
+  : ""
+}
+      
   </span>
 
   {/* Action Button */}
