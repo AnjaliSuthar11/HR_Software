@@ -155,7 +155,11 @@ export default function CandidateDetails({ params }) {
         notes,
         offeredJoiningDate,
       });
-
+console.log({
+  finalStatus,
+  notes,
+  offeredJoiningDate,
+});
       toast.success("Final Decision Saved");
       // alert("Final Decision Saved");
 
@@ -599,46 +603,113 @@ export default function CandidateDetails({ params }) {
 
       {/* ================= FINAL DECISION ================= */}
 
-      {candidate.round2 && (
-        <div className="mt-8 bg-white shadow rounded-xl p-6">
-          <h2 className="text-2xl font-bold mb-5">Final Decision</h2>
+     {/* ================= FINAL DECISION ================= */}
 
-          <select
-            value={finalStatus}
-            onChange={(e) => setFinalStatus(e.target.value)}
-            className="border p-3 rounded-lg w-full mb-4"
-          >
-            <option value="">Select Status</option>
-            <option value="Selected">Selected</option>
-            <option value="Rejected">Rejected</option>
-            <option value="On Hold">On Hold</option>
-            <option value="Joined">Joined</option>
-          </select>
+{candidate.round2 &&
+(candidate.finalStatus === "New" ||
+ candidate.finalStatus === "On Hold") && (
 
-          <label className="block text-sm font-medium mb-2">Joining Date</label>
+<div className="mt-8 bg-white shadow rounded-xl p-6">
 
-          <input
-            type="date"
-            value={offeredJoiningDate}
-            onChange={(e) => setofferedJoiningDate(e.target.value)}
-            className="w-full border rounded-lg p-3"
-          />
+  <h2 className="text-2xl font-bold mb-5">
+    Final Decision
+  </h2>
 
-          <textarea
-            placeholder="HR Notes"
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-            className="border p-3 rounded-lg w-full mb-4"
-          />
+  <select
+    value={finalStatus}
+    onChange={(e)=>setFinalStatus(e.target.value)}
+    className="border p-3 rounded-lg w-full mb-4"
+  >
+    <option value="">Select Status</option>
+    <option value="Selected">Selected</option>
+    <option value="Rejected">Rejected</option>
+    <option value="On Hold">On Hold</option>
+  </select>
 
-          <button
-            onClick={updateStatus}
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg"
-          >
-            Save Final Decision
-          </button>
-        </div>
-      )}
+  {finalStatus==="Selected" && (
+    <>
+      <label className="block text-sm font-medium mb-2">
+        Offered Joining Date
+      </label>
+
+      <input
+        type="date"
+        value={offeredJoiningDate}
+        onChange={(e)=>setofferedJoiningDate(e.target.value)}
+        className="w-full border rounded-lg p-3 mb-4"
+      />
+    </>
+  )}
+
+  <textarea
+    placeholder="HR Notes"
+    value={notes}
+    onChange={(e)=>setNotes(e.target.value)}
+    className="border p-3 rounded-lg w-full mb-4"
+  />
+
+  <button
+    onClick={updateStatus}
+    className="bg-blue-600 text-white px-6 py-3 rounded-lg"
+  >
+    Save Final Decision
+  </button>
+
+</div>
+
+)}
+{/* ================= FINAL DECISION RESULT ================= */}
+{candidate.finalStatus &&
+candidate.finalStatus !== "New" &&
+candidate.finalStatus !== "On Hold" && (
+
+<div className="mt-8 bg-green-50 border border-green-200 rounded-xl p-6">
+
+  <h2 className="text-2xl font-bold mb-6">
+    Final Decision
+  </h2>
+
+  <div className="grid md:grid-cols-3 gap-6">
+
+    <div>
+      <p className="text-gray-500 text-sm">
+        Status
+      </p>
+
+      <p className="font-semibold text-lg">
+        {candidate.finalStatus}
+      </p>
+    </div>
+
+    {candidate.finalStatus==="Selected" && (
+      <div>
+        <p className="text-gray-500 text-sm">
+          Offered Joining Date
+        </p>
+
+        <p className="font-semibold text-lg">
+          {candidate.offeredJoiningDate
+            ? new Date(candidate.offeredJoiningDate).toLocaleDateString("en-IN")
+            : "-"}
+        </p>
+      </div>
+    )}
+
+    <div>
+      <p className="text-gray-500 text-sm">
+        HR Notes
+      </p>
+
+      <p className="font-semibold">
+        {candidate.notes || "-"}
+      </p>
+    </div>
+
+  </div>
+
+</div>
+
+)}
     </div>
   );
 }
