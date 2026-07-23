@@ -419,7 +419,9 @@ className="border rounded-lg p-3 w-full"
 >
 
 <option value="">Select</option>
+<option value="Shortlisted">Shortlisted</option>
 <option value="Selected">Selected</option>
+<option value="Can be Consider">Can be Consider</option>
 <option value="Rejected">Rejected</option>
 <option value="Hold">Hold</option>
 
@@ -491,14 +493,14 @@ Round 1 Result
 <RatingSelect value={candidate.round1.presentation}/>
 </div>
 
-<div>
-<p className="font-medium">Recommendation</p>
-<p>{candidate.round1.recommendation}</p>
+<div className="flex gap-4">
+<p className="font-medium">Recommendation:</p>
+<p className="font-semibold">{candidate.round1.recommendation}</p>
 </div>
 
-<div>
-<p className="font-medium">Remarks</p>
-<p>{candidate.round1.remarks}</p>
+<div className="flex gap-4">
+<p className="font-medium">Remarks:</p>
+<p className="font-semibold">{candidate.round1.remarks}</p>
 </div>
 
 </div>
@@ -581,7 +583,9 @@ className="border rounded-lg p-3 w-full"
 >
 
 <option value="">Select</option>
+<option value="Shortlisted">Shortlisted</option>
 <option value="Selected">Selected</option>
+<option value="Can be Consider">Can be Consider</option>
 <option value="Rejected">Rejected</option>
 <option value="Hold">Hold</option>
 
@@ -653,14 +657,14 @@ Round 2 Result
 <RatingSelect value={candidate.round2.presentation}/>
 </div>
 
-<div>
-<p className="font-medium">Recommendation</p>
-<p>{candidate.round2.recommendation}</p>
+<div className="flex gap-4">
+<p className="font-medium">Recommendation:</p>
+<p className="font-semibold">{candidate.round2.recommendation}</p>
 </div>
 
-<div>
-<p className="font-medium">Remarks</p>
-<p>{candidate.round2.remarks}</p>
+<div className="flex gap-4">
+<p className="font-medium">Remarks:</p>
+<p className="font-semibold">{candidate.round2.remarks}</p>
 </div>
 
 </div>

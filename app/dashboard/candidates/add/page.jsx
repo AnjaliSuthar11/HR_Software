@@ -796,6 +796,7 @@ export default function CandidateForm() {
     salarySlip: "",
     currentlyWorking: "",
     joiningDate: "",
+    criminalRecord:"",
     reference: "",
   });
 
@@ -856,6 +857,7 @@ const handleSubmit = async (e) => {
         salarySlip: "",
         currentlyWorking: "",
         joiningDate: "",
+        criminalRecord:"",
         reference: "",
       });
     }
@@ -1084,8 +1086,49 @@ const handleSubmit = async (e) => {
     />
   </div>
 </div>
+<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
 
-          {/* Employment */}
+  {/* Experience Radio */}
+
+  <div>
+    <h3 className="text-xl font-semibold border-b pb-3 mb-6">
+              Do you have Experience
+            </h3>
+
+    <div className="flex gap-6">
+
+      <label className="flex items-center gap-2">
+        <input
+          type="radio"
+          name="experience"
+          value="Yes"
+          checked={formData.experience === "Yes"}
+          onChange={handleChange}
+        />
+        {/* Experienced */} Yes
+      </label>
+
+      <label className="flex items-center gap-2">
+        <input
+          type="radio"
+          name="experience"
+          value="No"
+          checked={formData.experience === "No"}
+          onChange={handleChange}
+        />
+        Fresher
+      </label>
+
+    </div>
+  </div>
+
+</div>
+
+{/* Employment */}
+{
+formData.experience === "Yes" && (
+
+<div className=" mt-6">
 
           <div>
             <h3 className="text-xl font-semibold border-b pb-3 mb-6">
@@ -1121,7 +1164,7 @@ const handleSubmit = async (e) => {
                 />
               </div>
 
-              <div>
+              {/* <div>
                 <label className="block mb-2 font-medium">
                   Experience
                 </label>
@@ -1137,7 +1180,7 @@ const handleSubmit = async (e) => {
                   <option>No</option>
                   <option>Other</option>
                 </select>
-              </div>
+              </div> */}
 
               <div>
                 <label className="block mb-2 font-medium">
@@ -1155,7 +1198,7 @@ const handleSubmit = async (e) => {
 
               <div>
                 <label className="block mb-2 font-medium">
-                  Last Salary
+                  Last Salary (per month)
                 </label>
 
                 <input
@@ -1169,7 +1212,7 @@ const handleSubmit = async (e) => {
 
               <div>
                 <label className="block mb-2 font-medium">
-                  Last In-Hand Salary
+                  Last In-Hand Salary (per month)
                 </label>
 
                 <input
@@ -1217,9 +1260,15 @@ const handleSubmit = async (e) => {
                 </select>
               </div>
 
+              
+            </div>
+          </div>
+</div>)}
+{/* Joining date */}
+
               <div>
                 <label className="block mb-2 font-medium">
-                  Joining Date
+                  When can you join
                 </label>
 
                 <input
@@ -1229,6 +1278,24 @@ const handleSubmit = async (e) => {
                   onChange={handleChange}
                   className="w-full border rounded-lg p-3"
                 />
+              </div>
+
+              {/* criminal record */}
+                  <div>
+                <label className="block mb-2 font-medium">
+                 Do you have any criminal record?
+                </label>
+
+                <select
+                  name="criminalRecord"
+                  value={formData.criminalRecord}
+                  onChange={handleChange}
+                  className="w-full border rounded-lg p-3"
+                >
+                  <option value="">Select</option>
+                  <option>Yes</option>
+                  <option>No</option>
+                </select>
               </div>
 
               <div className="md:col-span-2 lg:col-span-3">
@@ -1244,8 +1311,6 @@ const handleSubmit = async (e) => {
                   className="w-full border rounded-lg p-3"
                 />
               </div>
-            </div>
-          </div>
 
           <button
             type="submit"

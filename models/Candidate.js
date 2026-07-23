@@ -38,6 +38,8 @@ const interviewRoundSchema = new mongoose.Schema(
     type:String,
     enum:[
       "Selected",
+      "Shortlisted",
+      "Can be Consider",
       "Rejected",
       "Hold",
       ""
@@ -137,13 +139,20 @@ profileImage:{
       default: undefined,
     },
 
+    
     currentlyWorking: {
       type: String,
       enum: ["Yes", "No", "Other"],
       default: undefined,
     },
 
+    criminalRecord: {
+      type: String,
+      enum: ["Yes", "No"],
+      default: undefined,
+    },
     joiningDate: String,
+
 
     reference: String,
 
@@ -171,7 +180,7 @@ profileImage:{
     finalStatus: {
       type: String,
       enum: [
-     
+        "New",
         "Round 1",
         "Round 2",
         "Selected",

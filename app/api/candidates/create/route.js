@@ -38,6 +38,7 @@ export async function POST(req) {
       currentlyWorking: body.currentlyWorking || undefined,
 
       joiningDate: body.joiningDate,
+      criminalRecord: body.criminalRecord,
       reference: body.reference,
 
       finalStatus: "New",
