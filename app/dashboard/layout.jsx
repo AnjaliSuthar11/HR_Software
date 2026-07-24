@@ -1,8 +1,10 @@
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
+import { SearchProvider } from "@/context/SearchContext";
 
 export default function DashboardLayout({ children }) {
   return (
+      <SearchProvider>
     <div className="flex h-screen bg-[#F4F7FB]">
 
   <Sidebar />
@@ -18,5 +20,6 @@ export default function DashboardLayout({ children }) {
   </div>
 
 </div>
+</SearchProvider>
   );
 }

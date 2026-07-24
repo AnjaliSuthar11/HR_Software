@@ -5,12 +5,15 @@ import axios from "axios";
 import Link from "next/link";
 import { Phone, MessageCircle, Mail, Eye, UserPlus } from "lucide-react";
 import { useRouter } from "next/navigation";
+ import { useSearch } from "@/context/SearchContext";
 
 export default function CandidatesPage() {
   const [candidates, setCandidates] = useState([]);
-    const [search, setSearch] = useState("");
+
+
+const { search } = useSearch();
   
-  const filteredCandidates = candidates.filter((candidate) =>
+ const filteredCandidates = candidates.filter((candidate) =>
   candidate.fullName
     ?.toLowerCase()
     .includes(search.toLowerCase())

@@ -25,11 +25,6 @@ const menus = [
     icon: Users,
   },
   {
-    name: "Interviews",
-    href: "/dashboard/interviews",
-    icon: CalendarDays,
-  },
-  {
     name: "Employees",
     href: "/dashboard/employees",
     icon: UserCheck,

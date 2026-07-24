@@ -1,8 +1,10 @@
 "use client";
 
+import { useSearch } from "@/context/SearchContext";
 import { Bell, Search } from "lucide-react";
 
 export default function Header() {
+  const {search,setSearch} = useSearch("")
   return (
     <header className="h-20 bg-white border-b flex items-center justify-between px-8">
 
@@ -15,11 +17,13 @@ export default function Header() {
           className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
         />
 
-        <input
-          type="text"
-          placeholder="Search candidates, employees..."
-          className="w-full pl-12 pr-4 py-3 rounded-xl border outline-none focus:ring-2 focus:ring-blue-500"
-        />
+       <input
+  type="text"
+  placeholder="Search candidate or employee..."
+  value={search}
+  onChange={(e) => setSearch(e.target.value)}
+  className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 bg-white outline-none focus:ring-2 focus:ring-blue-500"
+/>
 
       </div>
 
