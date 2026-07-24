@@ -126,7 +126,7 @@ profileImage:{
 
     experience: {
       type: String,
-      enum: ["Yes", "No", "Other"],
+      enum: ["Yes", "No",],
       default: undefined,
     },
 
@@ -139,6 +139,18 @@ profileImage:{
     salarySlip: {
       type: String,
       enum: ["Yes", "No", "Other"],
+      default: undefined,
+    },
+
+    experienceLetter: {
+      type: String,
+      enum: ["Yes", "No"],
+      default: undefined,
+    },
+
+    noticePeriod: {
+      type: String,
+      enum: ["Yes", "No"],
       default: undefined,
     },
 

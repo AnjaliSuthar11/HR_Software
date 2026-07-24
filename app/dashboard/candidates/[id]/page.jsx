@@ -22,6 +22,13 @@ import {
   MessageCircle,
   CircleUserRound,
   Clock,
+  Dock,
+  LetterText,
+  Clock1,
+  PersonStanding,
+  Workflow,
+  WorkflowIcon,
+  ShieldCheck,
 } from "lucide-react";
 
 export default function CandidateDetails({ params }) {
@@ -73,9 +80,9 @@ export default function CandidateDetails({ params }) {
 
   const [candidate, setCandidate] = useState(null);
 
-  useEffect(() => {
-    fetchCandidate();
-  }, []);
+  // useEffect(() => {
+  //   fetchCandidate();
+  // }, []);
 
   const handleRound1Change = (e) => {
     const { name, value } = e.target;
@@ -155,11 +162,11 @@ export default function CandidateDetails({ params }) {
         notes,
         offeredJoiningDate,
       });
-console.log({
-  finalStatus,
-  notes,
-  offeredJoiningDate,
-});
+      console.log({
+        finalStatus,
+        notes,
+        offeredJoiningDate,
+      });
       toast.success("Final Decision Saved");
       // alert("Final Decision Saved");
 
@@ -200,7 +207,7 @@ console.log({
                 </h1>
 
                 <p className="text-gray-500 mt-1">
-                  {candidate.highestQualification}
+                  {candidate.previousDesignation}
                 </p>
 
                 <div className="flex items-center gap-5 mt-4 text-gray-600">
@@ -245,118 +252,246 @@ console.log({
 
         {/* Body */}
 
-        <div className="p-8">
-          <h2 className="text-xl font-semibold text-gray-800 mb-6">
-            Candidate Information
-          </h2>
+       <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
 
-          <div className="grid lg:grid-cols-2 gap-5">
-            <InfoCard
-              icon={<User size={18} />}
-              label="Full Name"
-              value={candidate.fullName}
-            />
+  <div className="flex items-center justify-between mb-8 border-b pb-5">
+    <div>
+      <h2 className="text-2xl font-bold text-gray-900">
+        Candidate Profile
+      </h2>
+      <p className="text-gray-500 text-sm mt-1">
+        Complete candidate information and employment details.
+      </p>
+    </div>
 
-            <InfoCard
-              icon={<Users size={18} />}
-              label="Gender"
-              value={candidate.gender}
-            />
+    <div className="px-4 py-2 rounded-full bg-blue-50 text-blue-700 text-sm font-semibold">
+      {candidate.experience === "Yes" ? "Experienced" : "Fresher"}
+    </div>
+  </div>
 
-            <InfoCard
-              icon={<CalendarDays size={18} />}
-              label="Date of Birth"
-              value={
-                candidate.dateOfBirth
-                  ? new Date(candidate.dateOfBirth).toLocaleDateString()
-                  : "-"
-              }
-            />
+  {/* PERSONAL DETAILS */}
 
-            <InfoCard
-              icon={<BadgeCheck size={18} />}
-              label="Marital Status"
-              value={candidate.maritalStatus}
-            />
+  <section className="mb-10">
 
-            <InfoCard
-              icon={<MapPin size={18} />}
-              label="Address"
-              value={candidate.address}
-            />
+    <h3 className="text-lg font-semibold text-gray-800 mb-5">
+      Personal Information
+    </h3>
 
-            <InfoCard
-              icon={<GraduationCap size={18} />}
-              label="Qualification"
-              value={candidate.highestQualification}
-            />
+    <div className="flex flex-wrap gap-5">
 
-            <InfoCard
-              icon={<CircleUserRound size={18} />}
-              label="University"
-              value={candidate.university}
-            />
+      <InfoCard
+        icon={<User size={18}/>}
+        label="Full Name"
+        value={candidate.fullName}
+      />
 
-            <InfoCard
-              icon={<CalendarDays size={18} />}
-              label="Passing Year"
-              value={candidate.passingYear}
-            />
+      <InfoCard
+        icon={<Users size={18}/>}
+        label="Gender"
+        value={candidate.gender}
+      />
 
-            <InfoCard
-              icon={<BadgeCheck size={18} />}
-              label="Percentage"
-              value={candidate.percentage}
-            />
+      <InfoCard
+        icon={<CalendarDays size={18}/>}
+        label="Date of Birth"
+        value={
+          candidate.dateOfBirth
+            ? new Date(candidate.dateOfBirth).toLocaleDateString()
+            : "-"
+        }
+      />
 
-            <InfoCard
-              icon={<Laptop size={18} />}
-              label="Software Skills"
-              value={candidate.softwareKnowledge?.join(", ")}
-            />
+      <InfoCard
+        icon={<BadgeCheck size={18}/>}
+        label="Marital Status"
+        value={candidate.maritalStatus}
+      />
 
-            <InfoCard
-              icon={<Building2 size={18} />}
-              label="Previous Company"
-              value={candidate.previousCompany}
-            />
+      <InfoCard
+        icon={<MapPin size={18}/>}
+        label="Address"
+        value={candidate.address}
+      />
 
-            <InfoCard
-              icon={<BriefcaseBusiness size={18} />}
-              label="Designation"
-              value={candidate.previousDesignation}
-            />
+    </div>
 
-            <InfoCard
-              icon={<Clock size={18} />}
-              label="Can Join On"
-              value={
-                candidate.preferredJoiningDate
-                  ? new Date(candidate.preferredJoiningDate).toLocaleDateString(
-                      "en-IN",
-                      {
-                        day: "2-digit",
-                        month: "short",
-                        year: "numeric",
-                      }
-                    )
-                  : "Not Assigned"
-              }
-            />
+  </section>
 
-            <InfoCard
-              icon={<Users size={18} />}
-              label="Experience"
-              value={candidate.experienceYears + " Years"}
-            />
 
-            <InfoCard
-              icon={<IndianRupee size={18} />}
-              label="Last Salary"
-              value={`₹ ${candidate.lastSalary}`}
-            />
-          </div>
+  {/* EDUCATION */}
+
+  <section className="mb-10">
+
+    <h3 className="text-lg font-semibold text-gray-800 mb-5">
+      Education
+    </h3>
+
+    <div className="flex flex-wrap gap-5">
+
+      <InfoCard
+        icon={<GraduationCap size={18}/>}
+        label="Qualification"
+        value={candidate.highestQualification}
+      />
+
+      <InfoCard
+        icon={<CircleUserRound size={18}/>}
+        label="University"
+        value={candidate.university}
+      />
+
+      <InfoCard
+        icon={<CalendarDays size={18}/>}
+        label="Passing Year"
+        value={candidate.passingYear}
+      />
+
+      <InfoCard
+        icon={<BadgeCheck size={18}/>}
+        label="Percentage"
+        value={candidate.percentage}
+      />
+
+      <InfoCard
+        icon={<Laptop size={18}/>}
+        label="Software Skills"
+        value={candidate.softwareKnowledge?.join(", ")}
+      />
+
+    </div>
+
+  </section>
+
+
+  {/* EMPLOYMENT */}
+
+  <section className="mb-10">
+
+    <h3 className="text-lg font-semibold text-gray-800 mb-5">
+      Employment Details
+    </h3>
+
+    {candidate.experience === "Yes" ? (
+
+      <div className="flex flex-wrap gap-5">
+
+        <InfoCard
+          icon={<WorkflowIcon size={18}/>}
+          label="Experience"
+          value="Experienced"
+        />
+
+        <InfoCard
+          icon={<Users size={18}/>}
+          label="Years"
+          value={`${candidate.experienceYears} Years`}
+        />
+
+        <InfoCard
+          icon={<Building2 size={18}/>}
+          label="Company"
+          value={candidate.previousCompany}
+        />
+
+        <InfoCard
+          icon={<BriefcaseBusiness size={18}/>}
+          label="Designation"
+          value={candidate.previousDesignation}
+        />
+
+        <InfoCard
+          icon={<IndianRupee size={18}/>}
+          label="Last Salary"
+          value={`₹ ${candidate.lastSalary}`}
+        />
+
+        <InfoCard
+          icon={<IndianRupee size={18}/>}
+          label="In-Hand Salary"
+          value={`₹ ${candidate.lastInHandSalary}`}
+        />
+
+        <InfoCard
+          icon={<Dock size={18}/>}
+          label="Salary Slip"
+          value={candidate.salarySlip}
+        />
+
+        <InfoCard
+          icon={<LetterText size={18}/>}
+          label="Experience Letter"
+          value={candidate.experienceLetter}
+        />
+
+        <InfoCard
+          icon={<Workflow size={18}/>}
+          label="Currently Working"
+          value={candidate.currentlyWorking}
+        />
+
+        <InfoCard
+          icon={<Clock1 size={18}/>}
+          label="Notice Period"
+          value={candidate.noticePeriod}
+        />
+
+      </div>
+
+    ) : (
+
+      <div className="bg-blue-50 border border-blue-100 rounded-xl px-6 py-5 flex items-center gap-4">
+
+        <BriefcaseBusiness
+          className="text-blue-600"
+          size={32}
+        />
+
+        <div>
+
+          <h4 className="font-semibold text-blue-900">
+            Fresher Candidate
+          </h4>
+
+          <p className="text-sm text-blue-700 mt-1">
+            No previous work experience available.
+          </p>
+
         </div>
+
+      </div>
+
+    )}
+
+  </section>
+
+
+  {/* OTHER */}
+
+  <section>
+
+    <h3 className="text-lg font-semibold text-gray-800 mb-5">
+      Additional Details
+    </h3>
+
+    <div className="flex flex-wrap gap-5">
+
+      <InfoCard
+        icon={<PersonStanding size={18}/>}
+        label="Reference"
+        value={candidate.reference}
+      />
+
+      <InfoCard
+        icon={<ShieldCheck size={18}/>}
+        label="Criminal Record"
+        value={candidate.criminalRecord}
+      />
+
+    </div>
+
+  </section>
+
+</div>
       </div>
 
       {/* ================= ROUND 1 ================= */}
@@ -603,125 +738,118 @@ console.log({
 
       {/* ================= FINAL DECISION ================= */}
 
-     {/* ================= FINAL DECISION ================= */}
+      {/* ================= FINAL DECISION ================= */}
 
-{candidate.round2 &&
-(candidate.finalStatus === "New" ||
- candidate.finalStatus === "On Hold") && (
+      {candidate.round2 &&
+        (candidate.finalStatus === "New" ||
+          candidate.finalStatus === "On Hold") && (
+          <div className="mt-8 bg-white shadow rounded-xl p-6">
+            <h2 className="text-2xl font-bold mb-5">Final Decision</h2>
 
-<div className="mt-8 bg-white shadow rounded-xl p-6">
+            <select
+              value={finalStatus}
+              onChange={(e) => setFinalStatus(e.target.value)}
+              className="border p-3 rounded-lg w-full mb-4"
+            >
+              <option value="">Select Status</option>
+              <option value="Selected">Selected</option>
+              <option value="Rejected">Rejected</option>
+              <option value="On Hold">On Hold</option>
+            </select>
 
-  <h2 className="text-2xl font-bold mb-5">
-    Final Decision
-  </h2>
+            {finalStatus === "Selected" && (
+              <>
+                <label className="block text-sm font-medium mb-2">
+                  Offered Joining Date
+                </label>
 
-  <select
-    value={finalStatus}
-    onChange={(e)=>setFinalStatus(e.target.value)}
-    className="border p-3 rounded-lg w-full mb-4"
-  >
-    <option value="">Select Status</option>
-    <option value="Selected">Selected</option>
-    <option value="Rejected">Rejected</option>
-    <option value="On Hold">On Hold</option>
-  </select>
+                <input
+                  type="date"
+                  value={offeredJoiningDate}
+                  onChange={(e) => setofferedJoiningDate(e.target.value)}
+                  className="w-full border rounded-lg p-3 mb-4"
+                />
+              </>
+            )}
 
-  {finalStatus==="Selected" && (
-    <>
-      <label className="block text-sm font-medium mb-2">
-        Offered Joining Date
-      </label>
+            <textarea
+              placeholder="HR Notes"
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              className="border p-3 rounded-lg w-full mb-4"
+            />
 
-      <input
-        type="date"
-        value={offeredJoiningDate}
-        onChange={(e)=>setofferedJoiningDate(e.target.value)}
-        className="w-full border rounded-lg p-3 mb-4"
-      />
-    </>
-  )}
+            <button
+              onClick={updateStatus}
+              className="bg-blue-600 text-white px-6 py-3 rounded-lg"
+            >
+              Save Final Decision
+            </button>
+          </div>
+        )}
+      {/* ================= FINAL DECISION RESULT ================= */}
+      {candidate.finalStatus &&
+        candidate.finalStatus !== "New" &&
+        candidate.finalStatus !== "On Hold" && (
+          <div className="mt-8 bg-green-50 border border-green-200 rounded-xl p-6">
+            <h2 className="text-2xl font-bold mb-6">Final Decision</h2>
 
-  <textarea
-    placeholder="HR Notes"
-    value={notes}
-    onChange={(e)=>setNotes(e.target.value)}
-    className="border p-3 rounded-lg w-full mb-4"
-  />
+            <div className="grid md:grid-cols-3 gap-6">
+              <div>
+                <p className="text-gray-500 text-sm">Status</p>
 
-  <button
-    onClick={updateStatus}
-    className="bg-blue-600 text-white px-6 py-3 rounded-lg"
-  >
-    Save Final Decision
-  </button>
+                <p className="font-semibold text-lg">{candidate.finalStatus}</p>
+              </div>
 
-</div>
+              {candidate.finalStatus === "Selected" && (
+                <div>
+                  <p className="text-gray-500 text-sm">Offered Joining Date</p>
 
-)}
-{/* ================= FINAL DECISION RESULT ================= */}
-{candidate.finalStatus &&
-candidate.finalStatus !== "New" &&
-candidate.finalStatus !== "On Hold" && (
+                  <p className="font-semibold text-lg">
+                    {candidate.offeredJoiningDate
+                      ? new Date(
+                          candidate.offeredJoiningDate
+                        ).toLocaleDateString("en-IN")
+                      : "-"}
+                  </p>
+                </div>
+              )}
 
-<div className="mt-8 bg-green-50 border border-green-200 rounded-xl p-6">
+              <div>
+                <p className="text-gray-500 text-sm">HR Notes</p>
 
-  <h2 className="text-2xl font-bold mb-6">
-    Final Decision
-  </h2>
-
-  <div className="grid md:grid-cols-3 gap-6">
-
-    <div>
-      <p className="text-gray-500 text-sm">
-        Status
-      </p>
-
-      <p className="font-semibold text-lg">
-        {candidate.finalStatus}
-      </p>
-    </div>
-
-    {candidate.finalStatus==="Selected" && (
-      <div>
-        <p className="text-gray-500 text-sm">
-          Offered Joining Date
-        </p>
-
-        <p className="font-semibold text-lg">
-          {candidate.offeredJoiningDate
-            ? new Date(candidate.offeredJoiningDate).toLocaleDateString("en-IN")
-            : "-"}
-        </p>
-      </div>
-    )}
-
-    <div>
-      <p className="text-gray-500 text-sm">
-        HR Notes
-      </p>
-
-      <p className="font-semibold">
-        {candidate.notes || "-"}
-      </p>
-    </div>
-
-  </div>
-
-</div>
-
-)}
+                <p className="font-semibold">{candidate.notes || "-"}</p>
+              </div>
+            </div>
+          </div>
+        )}
     </div>
   );
 }
 function InfoCard({ icon, label, value }) {
   return (
-    <div className="border rounded-xl p-5 hover:shadow-md transition">
-      <div className="flex items-center gap-3 text-blue-600 mb-3">
-        {icon}
-        <span className="font-medium text-gray-700">{label}</span>
+    <div className="w-[280px] rounded-xl border border-gray-200 bg-gray-50 hover:bg-white hover:border-blue-200 hover:shadow-md transition-all duration-200 p-4">
+
+      <div className="flex items-center gap-3">
+
+        <div className="w-10 h-10 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center">
+          {icon}
+        </div>
+
+        <div className="flex-1">
+
+          <p className="text-xs uppercase tracking-wide text-gray-500">
+            {label}
+          </p>
+
+          <p className="mt-1 font-semibold text-gray-900 break-words">
+            {value || "-"}
+          </p>
+
+        </div>
+
       </div>
 
-      <p className="text-gray-900 font-semibold break-words">{value || "-"}</p>
     </div>
   );
 }

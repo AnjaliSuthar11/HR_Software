@@ -39,6 +39,8 @@ export async function POST(req) {
 
       preferredJoiningDate: body.preferredJoiningDate,
       criminalRecord: body.criminalRecord,
+      noticePeriod: body.noticePeriod,
+      experienceLetter: body.experienceLetter,
       reference: body.reference,
 
       finalStatus: "New",

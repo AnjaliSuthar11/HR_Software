@@ -31,6 +31,8 @@ export default function CandidateForm() {
     lastInHandSalary: "",
     salarySlip: "",
     currentlyWorking: "",
+    noticePeriod:"",
+    experienceLetter:"",
     preferredJoiningDate: "",
     criminalRecord:"",
     reference: "",
@@ -92,6 +94,8 @@ const handleSubmit = async (e) => {
         lastInHandSalary: "",
         salarySlip: "",
         currentlyWorking: "",
+        noticePeriod:"",
+        experienceLetter:"",
         preferredJoiningDate: "",
         criminalRecord:"",
         reference: "",
@@ -493,6 +497,40 @@ formData.experience === "Yes" && (
                   <option>Yes</option>
                   <option>No</option>
                   <option>Other</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block mb-2 font-medium">
+                 Do you have experience Letter
+                </label>
+
+                <select
+                  name="experienceLetter"
+                  value={formData.experienceLetter}
+                  onChange={handleChange}
+                  className="w-full border rounded-lg p-3"
+                >
+                  <option value="">Select</option>
+                  <option>Yes</option>
+                  <option>No</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block mb-2 font-medium">
+                 Are you on notice period
+                </label>
+
+                <select
+                  name="noticePeriod"
+                  value={formData.noticePeriod}
+                  onChange={handleChange}
+                  className="w-full border rounded-lg p-3"
+                >
+                  <option value="">Select</option>
+                  <option>Yes</option>
+                  <option>No</option>
                 </select>
               </div>
 
