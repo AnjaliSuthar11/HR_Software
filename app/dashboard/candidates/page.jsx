@@ -8,6 +8,14 @@ import { useRouter } from "next/navigation";
 
 export default function CandidatesPage() {
   const [candidates, setCandidates] = useState([]);
+    const [search, setSearch] = useState("");
+  
+  const filteredCandidates = candidates.filter((candidate) =>
+  candidate.fullName
+    ?.toLowerCase()
+    .includes(search.toLowerCase())
+);
+
 const router = useRouter()
   useEffect(() => {
     loadCandidates();
@@ -40,7 +48,7 @@ const router = useRouter()
       </div>
 
       <div className="space-y-5">
-  {candidates.map((candidate) => (
+  {filteredCandidates.map((candidate) => (
    <div
   key={candidate._id}
   onClick={() => router.push(`/dashboard/candidates/${candidate._id}`)}

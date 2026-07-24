@@ -1,15 +1,13 @@
-import { ArrowUpRight } from "lucide-react";
-
 export default function DashboardCard({
   title,
   value,
-  color,
+  subTitle,
   icon: Icon,
 }) {
   return (
-    <div className="bg-white rounded-2xl p-5 shadow-sm border">
+    <div className="bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-xl transition">
 
-      <div className="flex justify-between">
+      <div className="flex justify-between items-start">
 
         <div>
 
@@ -21,23 +19,20 @@ export default function DashboardCard({
             {value}
           </h2>
 
+          <p className="text-green-600 text-sm mt-3">
+            {subTitle}
+          </p>
+
         </div>
 
-        <div
-          className={`w-12 h-12 rounded-xl flex items-center justify-center ${color}`}
-        >
-          <Icon className="text-white" size={22} />
+        <div className="w-14 h-14 rounded-xl bg-blue-50 flex items-center justify-center">
+
+          <Icon
+            size={26}
+            className="text-blue-700"
+          />
+
         </div>
-
-      </div>
-
-      <div className="flex items-center mt-5 text-green-600">
-
-        <ArrowUpRight size={18} />
-
-        <span className="text-sm ml-2">
-          Updated Today
-        </span>
 
       </div>
 

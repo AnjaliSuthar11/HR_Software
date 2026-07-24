@@ -241,11 +241,13 @@ export default function CandidateDetails({ params }) {
               </a>
 
               <a
-                href={`mailto:${candidate.email}`}
-                className="flex items-center gap-2 px-5 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-              >
-                <Mail size={18} />
-              </a>
+  href={`https://mail.google.com/mail/?view=cm&fs=1&to=${candidate.email}`}
+  target="_blank"
+  rel="noopener noreferrer"
+  className="flex items-center justify-center w-11 h-11 rounded-lg bg-blue-600 text-white hover:bg-blue-700"
+>
+  <Mail size={18} />
+</a>
             </div>
           </div>
         </div>

@@ -21,7 +21,7 @@ export default function RecruitmentChart() {
 
     return (
 
-        <div className="bg-white rounded-2xl p-6 shadow border">
+        <div className="bg-white rounded-2xl p-6 shadow ">
 
             <h2 className="font-semibold mb-6">
                 Recruitment Funnel

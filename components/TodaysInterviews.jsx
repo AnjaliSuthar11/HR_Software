@@ -17,7 +17,7 @@ export default function TodaysInterviews(){
 
     return(
 
-        <div className="bg-white rounded-2xl p-6 shadow border">
+        <div className="bg-white rounded-2xl p-6 shadow">
 
             <h2 className="font-semibold mb-5">
                 Today's Interviews

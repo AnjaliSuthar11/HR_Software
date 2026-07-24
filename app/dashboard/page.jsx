@@ -1,86 +1,107 @@
+import {
+  Users,
+  UserCheck,
+  CalendarDays,
+  BriefcaseBusiness,
+  UserPlus,
+} from "lucide-react";
+
+import Link from "next/link";
+
 import DashboardCard from "@/components/DashboardCard";
 import RecruitmentChart from "@/components/RecruitmentChart";
 import TodaysInterviews from "@/components/TodaysInterviews";
+import HiringPipeline from "@/components/HiringPipeline";
+import RecentCandidates from "@/components/RecentCandidates";
 
-import {
-Users,
-CalendarDays,
-UserCheck,
-Clock3,
-BriefcaseBusiness,
-ClipboardList
-} from "lucide-react";
+export default function Dashboard() {
+  return (
+    <div className="space-y-8">
 
-export default function Dashboard(){
+      {/* Header */}
 
-    return(
+      <div className="flex justify-between items-center">
 
-<div>
+        <div>
 
-<h1 className="text-3xl font-bold mb-8">
-Dashboard
-</h1>
+          <p className="text-gray-500">
+            Welcome Back
+          </p>
 
-<div className="grid lg:grid-cols-3 md:grid-cols-2 gap-6">
+          <h1 className="text-3xl font-bold text-gray-900">
+            Recruitment Dashboard
+          </h1>
 
-<DashboardCard
-title="Candidates"
-value="7"
-icon={Users}
-color="bg-blue-500"
-/>
+        </div>
 
-<DashboardCard
-title="Interviews"
-value="2"
-icon={CalendarDays}
-color="bg-purple-500"
-/>
+        <Link
+          href="/dashboard/candidates/add"
+          className="bg-[#1E3A8A] text-white px-5 py-3 rounded-xl flex items-center gap-2 hover:bg-[#1d4ed8]"
+        >
+          <UserPlus size={18}/>
+          Add Candidate
+        </Link>
 
-<DashboardCard
-title="Employees"
-value="5"
-icon={UserCheck}
-color="bg-green-500"
-/>
+      </div>
 
-<DashboardCard
-title="Present Today"
-value="3"
-icon={Clock3}
-color="bg-orange-500"
-/>
+      {/* Top Cards */}
 
-<DashboardCard
-title="Pending Followups"
-value="3"
-icon={ClipboardList}
-color="bg-red-500"
-/>
+      <div className="grid xl:grid-cols-4 md:grid-cols-2 gap-6">
 
-<DashboardCard
-title="Open Positions"
-value="6"
-icon={BriefcaseBusiness}
-color="bg-indigo-500"
-/>
+        <DashboardCard
+          title="Candidates"
+          value="126"
+          subTitle="+12 this month"
+          icon={Users}
+        />
 
-</div>
+        <DashboardCard
+          title="Today's Interviews"
+          value="18"
+          subTitle="6 Pending"
+          icon={CalendarDays}
+        />
 
-<div className="grid lg:grid-cols-3 gap-6 mt-8">
+        <DashboardCard
+          title="Employees"
+          value="54"
+          subTitle="24 Hired"
+          icon={UserCheck}
+        />
 
-<div className="lg:col-span-2">
+        <DashboardCard
+          title="Open Positions"
+          value="8"
+          subTitle="Hiring"
+          icon={BriefcaseBusiness}
+        />
 
-<RecruitmentChart/>
+      </div>
 
-</div>
+      {/* Middle */}
 
-<TodaysInterviews/>
+      <div className="grid lg:grid-cols-3 gap-6">
 
-</div>
+        <div className="lg:col-span-2">
 
-</div>
+          <RecruitmentChart/>
 
-)
+        </div>
 
+        <HiringPipeline/>
+
+      </div>
+
+      {/* Bottom */}
+
+      <div className="grid lg:grid-cols-2 gap-6">
+
+        <TodaysInterviews/>
+
+        <RecentCandidates/>
+
+      </div>
+
+    </div>
+  );
 }
