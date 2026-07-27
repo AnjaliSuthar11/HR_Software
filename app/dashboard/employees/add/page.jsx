@@ -988,27 +988,116 @@ export default function AddEmployee() {
 
         {/* Bank */}
 
-        <div>
+     <div className="bg-white rounded-3xl shadow-lg border border-gray-200 overflow-hidden">
 
-          <h2 className="font-bold text-xl mb-4">
-            Bank Details
-          </h2>
+  {/* Header */}
 
-          <div className="grid md:grid-cols-3 gap-4">
+  <div className="bg-gradient-to-r from-blue-700 to-indigo-700 px-8 py-6">
+    <p className="text-blue-100 mt-1">
+      Enter the employee's bank account information for salary processing.
+    </p>
 
-            <input name="bankName" placeholder="Bank Name" value={formData.bankDetails.bankName} onChange={handleBankChange} className="border p-3 rounded"/>
+  </div>
 
-            <input name="accountName" placeholder="Account Holder" value={formData.bankDetails.accountName} onChange={handleBankChange} className="border p-3 rounded"/>
+  <div className="p-8">
 
-            <input name="accountNumber" placeholder="Account Number" value={formData.bankDetails.accountNumber} onChange={handleBankChange} className="border p-3 rounded"/>
+    <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
 
-            <input name="ifscCode" placeholder="IFSC" value={formData.bankDetails.ifscCode} onChange={handleBankChange} className="border p-3 rounded"/>
+      {/* Bank Name */}
 
-            <input name="branch" placeholder="Branch" value={formData.bankDetails.branch} onChange={handleBankChange} className="border p-3 rounded"/>
+      <div>
 
-          </div>
+        <label className="block text-sm font-semibold text-gray-700 mb-2">
+          Bank Name
+        </label>
 
-        </div>
+        <input
+          name="bankName"
+          placeholder="State Bank of India"
+          value={formData.bankDetails.bankName}
+          onChange={handleBankChange}
+          className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none"
+        />
+
+      </div>
+
+      {/* Account Holder */}
+
+      <div>
+
+        <label className="block text-sm font-semibold text-gray-700 mb-2">
+          Account Holder Name
+        </label>
+
+        <input
+          name="accountName"
+          placeholder="Account Holder Name"
+          value={formData.bankDetails.accountName}
+          onChange={handleBankChange}
+          className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none"
+        />
+
+      </div>
+
+      {/* Account Number */}
+
+      <div>
+
+        <label className="block text-sm font-semibold text-gray-700 mb-2">
+          Account Number
+        </label>
+
+        <input
+          name="accountNumber"
+          placeholder="Account Number"
+          value={formData.bankDetails.accountNumber}
+          onChange={handleBankChange}
+          className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none"
+        />
+
+      </div>
+
+      {/* IFSC Code */}
+
+      <div>
+
+        <label className="block text-sm font-semibold text-gray-700 mb-2">
+          IFSC Code
+        </label>
+
+        <input
+          name="ifscCode"
+          placeholder="SBIN0001234"
+          value={formData.bankDetails.ifscCode}
+          onChange={handleBankChange}
+          className="w-full border border-gray-300 rounded-xl p-3 uppercase focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none"
+        />
+
+      </div>
+
+      {/* Branch */}
+
+      <div>
+
+        <label className="block text-sm font-semibold text-gray-700 mb-2">
+          Branch Name
+        </label>
+
+        <input
+          name="branch"
+          placeholder="Mumbai Main Branch"
+          value={formData.bankDetails.branch}
+          onChange={handleBankChange}
+          className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none"
+        />
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
 
         {/* Status */}
 
