@@ -90,7 +90,7 @@ export default function EmployeeDocumentsPage() {
       </div>
     );
   }
-
+// console.log(employee);
   const documents = [
     {
       label: "Employee Photo",
