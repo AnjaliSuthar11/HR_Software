@@ -1100,34 +1100,71 @@ export default function AddEmployee() {
 </div>
 
         {/* Status */}
+<div className="bg-white rounded-3xl shadow-lg border border-gray-200 overflow-hidden">
 
-        <div className="grid md:grid-cols-2 gap-4">
+  {/* Header */}
 
-          <input
-            type="date"
-            name="joiningDate"
-            value={formData.joiningDate}
-            onChange={handleChange}
-            className="border p-3 rounded"
-          />
+  <div className="bg-gradient-to-r from-orange-500 to-red-500 px-8 py-6">
 
-          <select
-            name="employeeStatus"
-            value={formData.employeeStatus}
-            onChange={handleChange}
-            className="border p-3 rounded"
-          >
-            <option>Active</option>
-            <option>Inactive</option>
-            <option>Resigned</option>
-            <option>Terminated</option>
-          </select>
+    <p className="text-orange-100 mt-1">
+      Specify the employee's joining date and current employment status.
+    </p>
 
-        </div>
+  </div>
+
+  <div className="p-8">
+
+    <div className="grid md:grid-cols-2 gap-6">
+
+      {/* Joining Date */}
+
+      <div>
+
+        <label className="block text-sm font-semibold text-gray-700 mb-2">
+          Joining Date
+        </label>
+
+        <input
+          type="date"
+          name="joiningDate"
+          value={formData.joiningDate}
+          onChange={handleChange}
+          className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
+        />
+
+      </div>
+
+      {/* Employee Status */}
+
+      <div>
+
+        <label className="block text-sm font-semibold text-gray-700 mb-2">
+          Employee Status
+        </label>
+
+        <select
+          name="employeeStatus"
+          value={formData.employeeStatus}
+          onChange={handleChange}
+          className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
+        >
+          <option value="Active">🟢 Active</option>
+          <option value="Inactive">🟡 Inactive</option>
+          <option value="Resigned">🔵 Resigned</option>
+          <option value="Terminated">🔴 Terminated</option>
+        </select>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
 
         <button
           type="submit"
-          className="bg-black text-white px-8 py-3 rounded"
+          className="bg-black text-white px-8 py-3 rounded-full"
         >
           Save Employee
         </button>
