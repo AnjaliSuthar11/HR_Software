@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
-import { Phone, MessageCircle, Mail, Eye, UserPlus } from "lucide-react";
+import { Phone, MessageCircle, Mail, Eye, UserPlus, LinkIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
  import { useSearch } from "@/context/SearchContext";
 
@@ -40,6 +40,7 @@ const router = useRouter()
     <div className="p-8">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">Candidates</h1>
+<div className="flex gap-2">
 
         <Link
           href="/dashboard/candidates/add"
@@ -48,6 +49,15 @@ const router = useRouter()
           <UserPlus size={20} />
           Add Candidate
         </Link>
+      <Link
+  href="/dashboard/candidates/share-link"
+  className="flex items-center gap-2 bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700"
+>
+  <LinkIcon size={20} />
+  Share the Link
+</Link>
+
+    </div>
       </div>
 
       <div className="space-y-5">

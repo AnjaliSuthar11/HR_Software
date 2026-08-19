@@ -53,11 +53,10 @@ export default function CandidateForm() {
 const handleSubmit = async (e) => {
   e.preventDefault();
 
-  console.log("HANDLE SUBMIT CALLED");
-
   try {
     const payload = {
       ...formData,
+
       softwareKnowledge: formData.softwareKnowledge
         ? formData.softwareKnowledge
             .split(",")
@@ -66,7 +65,6 @@ const handleSubmit = async (e) => {
         : [],
     };
 
-    
     // Fresher → remove experience-specific fields
     if (formData.experience === "No") {
       delete payload.previousCompany;
@@ -80,48 +78,23 @@ const handleSubmit = async (e) => {
       delete payload.noticePeriod;
     }
 
-
-    const { data } = await axios.post("/api/candidates/create", payload);
-
-    console.log(data);
+    const { data } = await axios.post(
+      "/api/candidates/create",
+      payload
+    );
 
     if (data.success) {
       toast.success(data.message);
 
-      setFormData({
-        fullName: "",
-        gender: "",
-        dateOfBirth: "",
-        maritalStatus: "",
-        mobile: "",
-        email: "",
-        address: "",
-        highestQualification: "",
-        university: "",
-        passingYear: "",
-        percentage: "",
-        softwareKnowledge: "",
-        previousCompany: "",
-        previousDesignation: "",
-        experience: "",
-        experienceYears: "",
-        lastSalary: "",
-        lastInHandSalary: "",
-        salarySlip: "",
-        currentlyWorking: "",
-        noticePeriod:"",
-        experienceLetter:"",
-        preferredJoiningDate: "",
-        criminalRecord:"",
-        reference: "",
-      });
+      router.push("/dashboard/candidates");
     }
-    router.push("/dashboard/candidates")
+
   } catch (error) {
     console.error(error);
 
     toast.error(
-      error.response?.data?.message || "Something went wrong"
+      error.response?.data?.message ||
+      "Something went wrong"
     );
   }
 };
