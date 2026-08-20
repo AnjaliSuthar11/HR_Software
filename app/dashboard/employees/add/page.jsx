@@ -1,11 +1,14 @@
 "use client";
 
-import { useState } from "react";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function AddEmployee() {
   const router = useRouter();
+const searchParams = useSearchParams();
+
+const candidateId = searchParams.get("candidateId");
 
   const [formData, setFormData] = useState({
     employeeCode: "",
@@ -78,6 +81,117 @@ export default function AddEmployee() {
     employeeStatus: "Active",
   });
 
+  useEffect(() => {
+  if (!candidateId) return;
+
+  const loadCandidate = async () => {
+    try {
+      console.log("Loading candidate:", candidateId);
+
+      const { data } = await axios.get(
+        `/api/candidates/${candidateId}`
+      );
+
+      console.log("Candidate API response:", data);
+
+      if (data.success && data.candidate) {
+        const candidate = data.candidate;
+
+        setFormData((prev) => ({
+          ...prev,
+
+          // =========================
+          // PERSONAL DETAILS
+          // =========================
+
+          employeeFullName: candidate.fullName || "",
+          mobileNo: candidate.mobile || "",
+          emailId: candidate.email || "",
+          address: candidate.address || "",
+          gender: candidate.gender || "",
+          maritalStatus: candidate.maritalStatus || "",
+
+          dateOfBirth: candidate.dateOfBirth
+            ? candidate.dateOfBirth.split("T")[0]
+            : "",
+
+          // =========================
+          // EDUCATION
+          // =========================
+
+          highestQualification:
+            candidate.highestQualification || "",
+
+          // =========================
+          // SOFTWARE
+          // =========================
+
+          softwareKnowledge: Array.isArray(
+            candidate.softwareKnowledge
+          )
+            ? candidate.softwareKnowledge.join(", ")
+            : candidate.softwareKnowledge || "",
+
+          // =========================
+          // JOINING DATE
+          // =========================
+
+          joiningDate: candidate.offeredJoiningDate
+            ? candidate.offeredJoiningDate.split("T")[0]
+            : candidate.preferredJoiningDate
+            ? candidate.preferredJoiningDate.split("T")[0]
+            : "",
+
+          // =========================
+          // PREVIOUS EMPLOYMENT
+          // =========================
+
+          previousEmployment:
+            candidate.experience === "Yes"
+              ? [
+                  {
+                    companyName:
+                      candidate.previousCompany || "",
+
+                    place: "",
+
+                    joinDate: "",
+
+                    leftDate: "",
+
+                    designation:
+                      candidate.previousDesignation || "",
+
+                    annualSalary:
+                      candidate.lastSalary || "",
+
+                    reasonForLeaving: "",
+                  },
+                ]
+              : [
+                  {
+                    companyName: "",
+                    place: "",
+                    joinDate: "",
+                    leftDate: "",
+                    designation: "",
+                    annualSalary: "",
+                    reasonForLeaving: "",
+                  },
+                ],
+        }));
+      }
+    } catch (error) {
+      console.error(
+        "Failed to load candidate:",
+        error.response?.data || error
+      );
+    }
+  };
+
+  loadCandidate();
+}, [candidateId]);
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -122,7 +236,7 @@ export default function AddEmployee() {
     });
   };
 
- const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
   e.preventDefault();
 
   try {
@@ -177,18 +291,31 @@ export default function AddEmployee() {
         formData.bankDetails.branch
           ? formData.bankDetails
           : undefined,
+
+      // VERY IMPORTANT
+      candidateId: candidateId || undefined,
     };
 
-    console.log(payload);
+    console.log("Employee payload:", payload);
 
-    const res = await axios.post("/api/employee/create", payload);
+    const res = await axios.post(
+      "/api/employee/create",
+      payload
+    );
 
     alert(res.data.message);
 
     router.push("/dashboard/employees");
+
   } catch (err) {
-    console.log(err.response?.data || err);
-    alert(err.response?.data?.message || "Something went wrong");
+    console.log(
+      err.response?.data || err
+    );
+
+    alert(
+      err.response?.data?.message ||
+      "Something went wrong"
+    );
   }
 };
 

@@ -26,9 +26,10 @@ export async function GET(req, { params }) {
       success: true,
       employee,
     });
+
   } catch (error) {
     console.log(error);
-
+ 
     return NextResponse.json(
       {
         success: false,

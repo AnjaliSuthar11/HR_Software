@@ -220,6 +220,26 @@ offeredJoiningDate: {
       default: "",
     },
 
+    registrationToken: {
+  type: String,
+  default: null,
+},
+
+registrationTokenUsed: {
+  type: Boolean,
+  default: false,
+},
+convertedToEmployee: {
+  type: Boolean,
+  default: false,
+},
+
+employeeId: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: "Employee",
+  default: null,
+},
+
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Company",

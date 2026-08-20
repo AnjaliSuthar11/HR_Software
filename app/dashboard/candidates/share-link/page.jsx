@@ -1,191 +1,409 @@
 "use client";
 
 import { useState } from "react";
-import { Copy, Check, Link as LinkIcon, ArrowLeft } from "lucide-react";
-import Link from "next/link";
+import {
+  Link as LinkIcon,
+  Copy,
+  Check,
+  RefreshCw,
+} from "lucide-react";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 export default function ShareCandidateLink() {
+  const [link, setLink] = useState("");
   const [copied, setCopied] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const formLink =
-    typeof window !== "undefined"
-      ? `${window.location.origin}/candidate-form`
-      : "";
+  // ================================
+  // GENERATE UNIQUE LINK
+  // ================================
 
-const handleCopy = async () => {
-  try {
-    // Modern Clipboard API
-    if (
-      navigator.clipboard &&
-      typeof navigator.clipboard.writeText === "function"
-    ) {
-      await navigator.clipboard.writeText(formLink);
-    } else {
-      // Fallback for browsers/environments
-      const textarea = document.createElement("textarea");
-
-      textarea.value = formLink;
-
-      textarea.style.position = "fixed";
-      textarea.style.left = "-9999px";
-      textarea.style.top = "0";
-
-      document.body.appendChild(textarea);
-
-      textarea.focus();
-      textarea.select();
-
-      document.execCommand("copy");
-
-      document.body.removeChild(textarea);
-    }
-
-    setCopied(true);
-
-    setTimeout(() => {
+  const generateLink = async () => {
+    try {
+      setLoading(true);
       setCopied(false);
-    }, 2000);
 
-  } catch (error) {
-    console.error("Failed to copy link", error);
+      const { data } = await axios.post(
+        "/api/candidates/generate-link"
+      );
 
-    // Last fallback: select the input so HR can manually copy
-    const input = document.getElementById("candidate-form-link");
+      console.log("Generate link response:", data);
 
-    if (input) {
-      input.focus();
-      input.select();
+      if (!data.success) {
+        toast.error(
+          data.message || "Failed to generate registration link"
+        );
+        return;
+      }
+
+      // IMPORTANT:
+      // candidate-registration must match your folder:
+      //
+      // app/
+      //   candidate-registration/
+      //      [token]/
+      //         page.jsx
+
+      const generatedLink =
+        `${window.location.origin}/candidates-registration/${data.token}`;
+
+      setLink(generatedLink);
+
+      toast.success("Unique registration link generated");
+
+    } catch (error) {
+      console.error("Generate link error:", error);
+
+      toast.error(
+        error.response?.data?.message ||
+        "Failed to generate link"
+      );
+
+    } finally {
+      setLoading(false);
     }
-  }
-};
+  };
+
+  // ================================
+  // COPY LINK
+  // ================================
+
+  const handleCopy = async () => {
+    try {
+      if (!link) {
+        toast.error("No registration link available");
+        return;
+      }
+
+      // Modern Clipboard API
+      if (
+        navigator.clipboard &&
+        window.isSecureContext
+      ) {
+        await navigator.clipboard.writeText(link);
+      } else {
+        // Fallback for local HTTP
+        const textarea =
+          document.createElement("textarea");
+
+        textarea.value = link;
+
+        textarea.style.position = "fixed";
+        textarea.style.left = "-9999px";
+        textarea.style.top = "0";
+
+        document.body.appendChild(textarea);
+
+        textarea.focus();
+        textarea.select();
+
+        const successful =
+          document.execCommand("copy");
+
+        document.body.removeChild(textarea);
+
+        if (!successful) {
+          throw new Error("Copy command failed");
+        }
+      }
+
+      setCopied(true);
+
+      toast.success("Link copied successfully!");
+
+      // Change button back after 2 seconds
+      setTimeout(() => {
+        setCopied(false);
+      }, 2000);
+
+    } catch (error) {
+      console.error(
+        "Failed to copy link:",
+        error
+      );
+
+      toast.error(
+        "Unable to copy. Please copy the link manually."
+      );
+    }
+  };
+
+  // ================================
+  // GENERATE ANOTHER LINK
+  // ================================
+
+  const handleGenerateAnother = () => {
+    setLink("");
+    setCopied(false);
+
+    // Generate immediately
+    generateLink();
+  };
 
   return (
-    <div className="min-h-screen p-8 bg-gray-50">
+    <div className="min-h-screen p-8">
 
-      {/* Header */}
       <div className="max-w-3xl mx-auto">
 
-        <Link
-          href="/dashboard/candidates"
-          className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-8"
-        >
-          <ArrowLeft size={18} />
-          Back to Candidates
-        </Link>
+        {/* ================= HEADER ================= */}
 
-        {/* Card */}
-        <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-8">
+        <div className="mb-8">
 
-          {/* Icon */}
-          <div className="w-14 h-14 rounded-xl bg-blue-50 flex items-center justify-center mb-6">
-            <LinkIcon
-              size={28}
-              className="text-blue-600"
-            />
+          <div className="flex items-center gap-3 mb-3">
+
+            <div className="w-11 h-11 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+
+              <LinkIcon size={22} />
+
+            </div>
+
+            <h1 className="text-3xl font-bold text-gray-900">
+              Candidate Registration Link
+            </h1>
+
           </div>
 
-          {/* Heading */}
-          <h1 className="text-2xl font-bold text-gray-900">
-            Share Candidate Registration Link
-          </h1>
-
-          <p className="text-gray-500 mt-2 mb-8">
-            Share this link with the candidate. They can open the form
-            and submit their details without accessing the HR dashboard.
+          <p className="text-gray-500">
+            Generate a unique registration link and
+            share it with the candidate.
           </p>
 
-          {/* Link box */}
-          <div className="border border-gray-200 rounded-xl p-4 bg-gray-50">
+        </div>
 
-            <p className="text-sm font-medium text-gray-500 mb-2">
-              Candidate Form Link
-            </p>
 
-            <div className="flex flex-col sm:flex-row gap-3">
+        {/* ================= CARD ================= */}
 
-             <input
-  id="candidate-form-link"
-  type="text"
-  value={formLink}
-  readOnly
-  className="flex-1 bg-white border border-gray-200 rounded-lg px-4 py-3 text-gray-700 outline-none"
-/>
+        <div className="bg-white border border-gray-200 rounded-2xl p-8 shadow-sm">
+
+          {/* CARD HEADER */}
+
+          <div className="flex items-center gap-4 mb-8">
+
+            <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+
+              <LinkIcon size={24} />
+
+            </div>
+
+            <div>
+
+              <h2 className="text-xl font-semibold text-gray-900">
+                Generate Registration Link
+              </h2>
+
+              <p className="text-sm text-gray-500 mt-1">
+                This link is created for one candidate.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          {/* ================= GENERATE BUTTON ================= */}
+
+          {!link && (
+
+            <button
+              type="button"
+              onClick={generateLink}
+              disabled={loading}
+              className="
+                w-full
+                bg-blue-600
+                hover:bg-blue-700
+                disabled:bg-blue-400
+                text-white
+                py-3.5
+                rounded-xl
+                font-semibold
+                flex
+                items-center
+                justify-center
+                gap-2
+                transition
+              "
+            >
+
+              {loading ? (
+                <>
+
+                  <RefreshCw
+                    size={18}
+                    className="animate-spin"
+                  />
+
+                  Generating...
+
+                </>
+              ) : (
+                <>
+
+                  <LinkIcon size={18} />
+
+                  Generate Unique Link
+
+                </>
+              )}
+
+            </button>
+
+          )}
+
+
+          {/* ================= GENERATED LINK ================= */}
+
+          {link && (
+
+            <div>
+
+              {/* LINK BOX */}
+
+              <div className="bg-gray-50 border border-gray-200 rounded-xl p-5">
+
+                <p className="text-sm font-semibold text-gray-700 mb-3">
+                  Registration Link
+                </p>
+
+                <div className="flex flex-col sm:flex-row gap-3">
+
+                  <input
+                    type="text"
+                    value={link}
+                    readOnly
+                    className="
+                      flex-1
+                      border
+                      border-gray-300
+                      rounded-lg
+                      px-4
+                      py-3
+                      bg-white
+                      text-sm
+                      text-gray-700
+                      outline-none
+                      focus:border-blue-500
+                    "
+                  />
+
+                  <button
+                    type="button"
+                    onClick={handleCopy}
+                    className="
+                      px-5
+                      py-3
+                      bg-gray-900
+                      hover:bg-black
+                      text-white
+                      rounded-lg
+                      flex
+                      items-center
+                      justify-center
+                      gap-2
+                      transition
+                    "
+                  >
+
+                    {copied ? (
+                      <>
+
+                        <Check size={18} />
+
+                        Copied
+
+                      </>
+                    ) : (
+                      <>
+
+                        <Copy size={18} />
+
+                        Copy
+
+                      </>
+                    )}
+
+                  </button>
+
+                </div>
+
+              </div>
+
+
+              {/* ================= INFORMATION ================= */}
+
+              <div className="mt-6 p-5 bg-blue-50 border border-blue-100 rounded-xl">
+
+                <div className="flex gap-3">
+
+                  <div className="mt-0.5">
+
+                    <LinkIcon
+                      size={18}
+                      className="text-blue-600"
+                    />
+
+                  </div>
+
+                  <div>
+
+                    <p className="text-sm font-semibold text-blue-900">
+                      Share this link with the candidate
+                    </p>
+
+                    <p className="text-sm text-blue-800 mt-2 leading-6">
+                      The candidate can open this link
+                      without logging into the HR dashboard
+                      and complete the registration form.
+                    </p>
+
+                    <p className="text-sm text-blue-800 mt-2 leading-6 font-medium">
+                      Once the candidate submits the form,
+                      this registration link will become
+                      inactive.
+                    </p>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              {/* ================= ANOTHER LINK ================= */}
 
               <button
-                onClick={handleCopy}
-                className={`flex items-center justify-center gap-2 px-5 py-3 rounded-lg text-white font-medium transition ${
-                  copied
-                    ? "bg-green-600"
-                    : "bg-blue-600 hover:bg-blue-700"
-                }`}
+                type="button"
+                onClick={handleGenerateAnother}
+                disabled={loading}
+                className="
+                  mt-6
+                  text-sm
+                  text-blue-600
+                  hover:text-blue-700
+                  font-semibold
+                  flex
+                  items-center
+                  gap-2
+                "
               >
-                {copied ? (
-                  <>
-                    <Check size={18} />
-                    Copied
-                  </>
-                ) : (
-                  <>
-                    <Copy size={18} />
-                    Copy Link
-                  </>
-                )}
+
+                <RefreshCw
+                  size={16}
+                  className={
+                    loading
+                      ? "animate-spin"
+                      : ""
+                  }
+                />
+
+                Generate Another Link
+
               </button>
 
             </div>
 
-          </div>
-
-          {/* Information */}
-          <div className="mt-8 border-t border-gray-100 pt-6">
-
-            <h2 className="font-semibold text-gray-900 mb-3">
-              How it works
-            </h2>
-
-            <div className="space-y-3 text-sm text-gray-600">
-
-              <div className="flex gap-3">
-                <span className="font-semibold text-blue-600">
-                  1.
-                </span>
-                <p>
-                  Copy the candidate registration link.
-                </p>
-              </div>
-
-              <div className="flex gap-3">
-                <span className="font-semibold text-blue-600">
-                  2.
-                </span>
-                <p>
-                  Send the link to the candidate through WhatsApp,
-                  email, or any other method.
-                </p>
-              </div>
-
-              <div className="flex gap-3">
-                <span className="font-semibold text-blue-600">
-                  3.
-                </span>
-                <p>
-                  The candidate fills and submits the registration form.
-                </p>
-              </div>
-
-              <div className="flex gap-3">
-                <span className="font-semibold text-blue-600">
-                  4.
-                </span>
-                <p>
-                  The candidate will automatically appear in your
-                  Candidates dashboard.
-                </p>
-              </div>
-
-            </div>
-
-          </div>
+          )}
 
         </div>
 

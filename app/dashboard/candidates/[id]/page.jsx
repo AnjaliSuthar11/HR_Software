@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import RatingSelect from "@/components/RatingSelect";
 import { toast } from "react-toastify";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   User,
@@ -816,6 +817,15 @@ export default function CandidateDetails({ params }) {
                   </p>
                 </div>
               )}
+              {candidate.finalStatus === "Selected" &&
+ !candidate.convertedToEmployee && (
+  <Link
+  href={`/dashboard/employees/add?candidateId=${candidate._id}`}
+  className="bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-700"
+>
+  Convert to Employee
+</Link>
+)}
 
               <div>
                 <p className="text-gray-500 text-sm">HR Notes</p>

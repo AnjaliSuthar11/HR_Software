@@ -274,8 +274,7 @@ const router = useRouter()
       {/* Bottom */}
 
       <div className="mt-8 flex justify-end gap-3">
-
-        <a
+        {/* <a
           href={`tel:${candidate.mobile}`}
           className="w-11 h-11 rounded-xl border border-gray-200 hover:bg-gray-100 flex items-center justify-center"
         >
@@ -302,8 +301,10 @@ const router = useRouter()
           className="w-11 h-11 rounded-xl bg-gray-900 hover:bg-black text-white flex items-center justify-center"
         >
           <Eye size={18} />
-        </Link>
-
+        </Link> */}
+ <span className="ml-auto text-sm text-gray-500">
+    {new Date(candidate.createdAt).toLocaleString("en-IN")}
+  </span> 
       </div>
 
     </div>
