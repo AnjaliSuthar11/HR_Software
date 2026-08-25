@@ -63,3 +63,5 @@ export default function Home() {
     </div>
   );
 }
+
+// leave option at sidebar in dashboard

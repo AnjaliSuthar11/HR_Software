@@ -42,13 +42,13 @@ const router = useRouter()
         <h1 className="text-3xl font-bold">Candidates</h1>
 <div className="flex gap-2">
 
-        <Link
+        {/* <Link
           href="/dashboard/candidates/add"
           className="flex items-center gap-2 bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700"
         >
           <UserPlus size={20} />
           Add Candidate
-        </Link>
+        </Link> */}
       <Link
   href="/dashboard/candidates/share-link"
   className="flex items-center gap-2 bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700"

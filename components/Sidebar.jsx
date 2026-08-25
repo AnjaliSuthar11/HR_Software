@@ -11,7 +11,11 @@ import {
   BarChart3,
   Settings,
   Briefcase,
+  CrossIcon,
+  X,
 } from "lucide-react";
+import { useState } from "react";
+
 
 const menus = [
   {
@@ -27,6 +31,11 @@ const menus = [
   {
     name: "Employees",
     href: "/dashboard/employees",
+    icon: UserCheck,
+  },
+  {
+    name: "Leave",
+    href: "/dashboard/Leave",
     icon: UserCheck,
   },
   {
@@ -49,8 +58,10 @@ const menus = [
 export default function Sidebar() {
   const pathname = usePathname();
 
+
   return (
-    <aside className="fixed left-0 top-0 w-64 h-screen bg-[#0F1E2D] text-white flex flex-col">
+    <aside className={`fixed left-0 top-0 w-64 h-screen bg-[#0F1E2D] text-white flex flex-col`}>
+
 
       {/* Logo */}
       <div className="px-6 py-7 border-b border-slate-700">

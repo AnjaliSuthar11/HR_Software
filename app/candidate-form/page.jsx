@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 export default function CandidateForm() {
     const router = useRouter()

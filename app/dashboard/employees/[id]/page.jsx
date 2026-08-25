@@ -29,6 +29,9 @@ export default function EmployeeProfile() {
 
   useEffect(() => {
     getEmployee();
+    console.log("EMPLOYEE:", employee);
+console.log("EXPERIENCE LETTER:", employee?.experienceLetter);
+console.log("SALARY SLIP:", employee?.salarySlip);
   }, []);
 
   const getEmployee = async () => {
@@ -1068,6 +1071,7 @@ console.log(employee);
 
 </div>
 
+
         {/* DOCUMENTS */}
 
        <div className="bg-white rounded-3xl shadow-lg border border-gray-200 overflow-hidden mb-10">
@@ -1112,160 +1116,155 @@ console.log(employee);
 
   {/* Documents */}
 
-  <div className="p-8">
+<div className="p-8">
 
-    <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+  <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
 
-      {[
-        {
-          title: "Employee Photo",
-          url: employee.employeePhoto,
-          icon: User,
-        },
-        {
-          title: "PAN Card",
-          url: employee.panCardDocument,
-          icon: IdCard,
-        },
-        {
-          title: "Aadhar Card",
-          url: employee.aadharCardDocument,
-          icon: IdCard,
-        },
-        {
-          title: "Highest Qualification",
-          url: employee.highestEducationDocument,
-          icon: GraduationCap,
-        },
-        {
-          title: "Experience Letter",
-          url: employee.experienceLetter,
-          icon: Briefcase,
-        },
-        {
-          title: "Salary Slip",
-          url: employee.salarySlip,
-          icon: Wallet,
-        },
-      ].map((doc, index) => {
+    {[
+      {
+        title: "Employee Photo",
+        url: employee.employeePhoto,
+        icon: User,
+      },
+      {
+        title: "PAN Card",
+        url: employee.panCardDocument,
+        icon: IdCard,
+      },
+      {
+        title: "Aadhar Card",
+        url: employee.aadharCardDocument,
+        icon: IdCard,
+      },
+      {
+        title: "Highest Qualification",
+        url: employee.highestEducationDocument,
+        icon: GraduationCap,
+      },
+      {
+        title: "Experience Letter",
+        url: employee.experienceLetter,
+        icon: Briefcase,
+      },
+      {
+        title: "Salary Slip",
+        url: employee.salarySlip,
+        icon: Wallet,
+      },
+    ].map((doc, index) => {
 
-        const Icon = doc.icon;
+      const Icon = doc.icon;
 
-        return (
+      return (
+        <div
+          key={index}
+          className="border border-gray-200 rounded-2xl p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+        >
 
-          <div
-            key={index}
-            className="border border-gray-200 rounded-2xl p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
-          >
+          {/* Top */}
 
-            {/* Top */}
+          <div className="flex items-start justify-between mb-6">
 
-            <div className="flex items-start justify-between mb-6">
+            <div className="flex items-center gap-4">
 
-              <div className="flex items-center gap-4">
+              <div className="w-14 h-14 rounded-2xl bg-gray-100 flex items-center justify-center">
 
-                <div className="w-14 h-14 rounded-2xl bg-gray-100 flex items-center justify-center">
+                <Icon className="w-7 h-7 text-gray-700" />
 
-                  <Icon className="w-7 h-7 text-gray-700" />
+              </div>
 
-                </div>
+              <div>
 
-                <div>
+                <h3 className="font-bold text-lg text-gray-900">
+                  {doc.title}
+                </h3>
 
-                  <h3 className="font-bold text-lg text-gray-900">
-                    {doc.title}
-                  </h3>
+                {doc.url ? (
+                  <div className="flex items-center gap-2 mt-2">
 
-                  {doc.url ? (
+                    <CheckCircle className="w-4 h-4 text-green-600" />
 
-                    <div className="flex items-center gap-2 mt-2">
+                    <span className="text-green-600 text-sm font-medium">
+                      Uploaded
+                    </span>
 
-                      <CheckCircle className="w-4 h-4 text-green-600" />
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2 mt-2">
 
-                      <span className="text-green-600 text-sm font-medium">
-                        Uploaded
-                      </span>
+                    <XCircle className="w-4 h-4 text-red-500" />
 
-                    </div>
+                    <span className="text-red-500 text-sm font-medium">
+                      Not Uploaded
+                    </span>
 
-                  ) : (
-
-                    <div className="flex items-center gap-2 mt-2">
-
-                      <XCircle className="w-4 h-4 text-red-500" />
-
-                      <span className="text-red-500 text-sm font-medium">
-                        Not Uploaded
-                      </span>
-
-                    </div>
-
-                  )}
-
-                </div>
+                  </div>
+                )}
 
               </div>
 
             </div>
 
-            {/* Buttons */}
+          </div>
 
-            {doc.url ? (
+          {/* Buttons */}
 
-              <div className="space-y-3">
+          {doc.url ? (
 
-                <a
-                  href={doc.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl transition font-medium"
-                >
+            <div className="space-y-3">
 
-                  <Eye className="w-5 h-5" />
+              <a
+                href={doc.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl transition font-medium"
+              >
 
-                  View Document
+                <Eye className="w-5 h-5" />
 
-                </a>
+                View Document
 
-                <Link
-                  href={`/dashboard/employees/${employee._id}/documents`}
-                  className="w-full flex items-center justify-center gap-2 border border-gray-300 hover:bg-gray-100 text-gray-700 py-3 rounded-xl transition font-medium"
-                >
-
-                  <Pencil className="w-5 h-5" />
-
-                  Update Document
-
-                </Link>
-
-              </div>
-
-            ) : (
+              </a>
 
               <Link
                 href={`/dashboard/employees/${employee._id}/documents`}
-                className="w-full flex items-center justify-center gap-2 bg-black hover:bg-gray-800 text-white py-3 rounded-xl transition font-medium"
+                className="w-full flex items-center justify-center gap-2 border border-gray-300 hover:bg-gray-100 text-gray-700 py-3 rounded-xl transition font-medium"
               >
 
-                <Upload className="w-5 h-5" />
+                <Pencil className="w-5 h-5" />
 
-                Upload Document
+                Update Document
 
               </Link>
 
-            )}
+            </div>
 
-          </div>
+          ) : (
 
-        );
+            <Link
+              href={`/dashboard/employees/${employee._id}/documents`}
+              className="w-full flex items-center justify-center gap-2 bg-black hover:bg-gray-800 text-white py-3 rounded-xl transition font-medium"
+            >
 
-      })}
+              <Upload className="w-5 h-5" />
 
-    </div>
+              Upload Document
+
+            </Link>
+
+          )}
+
+        </div>
+      );
+
+    })}
 
   </div>
 
 </div>
+
+</div>
+
 
 
 <div className="grid md:grid-cols-4 gap-6 mb-8">

@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 import { SearchProvider } from "@/context/SearchContext";
+import { Toaster } from "react-hot-toast";
 
 export default function DashboardLayout({ children }) {
   return (
@@ -15,6 +16,7 @@ export default function DashboardLayout({ children }) {
 
     <main className="flex-1 overflow-y-auto p-8">
       {children}
+       <Toaster position="top-right" />
     </main>
 
   </div>

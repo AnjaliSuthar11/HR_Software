@@ -3,6 +3,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function AddEmployee() {
   const router = useRouter();
@@ -37,8 +38,8 @@ const candidateId = searchParams.get("candidateId");
     panCardDocument: "",
     aadharCardDocument: "",
     highestEducationDocument: "",
-    experienceLetter: "",
-    salarySlip: "",
+     experienceLetter: "",
+        salarySlip: "",
 
     familyDetails: [
       {
@@ -57,6 +58,7 @@ const candidateId = searchParams.get("candidateId");
         leftDate: "",
         designation: "",
         annualSalary: "",
+       
         reasonForLeaving: "",
       },
     ],
@@ -120,8 +122,10 @@ const candidateId = searchParams.get("candidateId");
           // =========================
 
           highestQualification:
-            candidate.highestQualification || "",
+  candidate.highestQualification || "",
 
+experienceLetter: "",
+salarySlip: "",
           // =========================
           // SOFTWARE
           // =========================
@@ -303,7 +307,7 @@ const handleSubmit = async (e) => {
       payload
     );
 
-    alert(res.data.message);
+    toast.success(res.data.message);
 
     router.push("/dashboard/employees");
 
@@ -868,6 +872,167 @@ const handleSubmit = async (e) => {
   </div>
 
 </div>
+
+
+
+
+{/* Emergency Contacts */}
+
+<div className="bg-white rounded-3xl shadow-lg border border-gray-200 overflow-hidden">
+
+  {/* Header */}
+
+  <div className="bg-gradient-to-r from-red-600 to-pink-600 px-8 py-6">
+    <p className="text-red-100 mt-1">
+      Add emergency contact information for the employee.
+    </p>
+  </div>
+
+  <div className="p-8 space-y-6">
+
+    <h2 className="text-2xl font-bold">
+      Emergency Contacts
+    </h2>
+
+    {formData.emergencyContacts.map((item, index) => (
+
+      <div
+        key={index}
+        className="bg-gray-50 border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all"
+      >
+
+        {/* Contact Header */}
+
+        <div className="flex items-center justify-between mb-6">
+
+          <h3 className="text-lg font-semibold text-gray-800">
+            Emergency Contact #{index + 1}
+          </h3>
+
+          {formData.emergencyContacts.length > 1 && (
+            <button
+              type="button"
+              onClick={() =>
+                removeRow("emergencyContacts", index)
+              }
+              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition"
+            >
+              Remove
+            </button>
+          )}
+
+        </div>
+
+        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
+
+          {/* Name */}
+
+          <div>
+
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              Full Name
+            </label>
+
+            <input
+              placeholder="Enter Name"
+              value={item.name}
+              onChange={(e) =>
+                handleArrayChange(
+                  index,
+                  "name",
+                  e.target.value,
+                  "emergencyContacts"
+                )
+              }
+              className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none"
+            />
+
+          </div>
+
+          {/* Relationship */}
+
+          <div>
+
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              Relationship
+            </label>
+
+            <input
+              placeholder="Father / Mother / Brother / Spouse"
+              value={item.relationship}
+              onChange={(e) =>
+                handleArrayChange(
+                  index,
+                  "relationship",
+                  e.target.value,
+                  "emergencyContacts"
+                )
+              }
+              className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none"
+            />
+
+          </div>
+
+          {/* Contact Number */}
+
+          <div>
+
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              Contact Number
+            </label>
+
+            <input
+              type="tel"
+              placeholder="9876543210"
+              value={item.contactNo}
+              onChange={(e) =>
+                handleArrayChange(
+                  index,
+                  "contactNo",
+                  e.target.value,
+                  "emergencyContacts"
+                )
+              }
+              className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none"
+            />
+
+          </div>
+
+        </div>
+
+      </div>
+
+    ))}
+
+    {/* Add Contact Button */}
+
+    <div className="flex justify-end">
+
+      <button
+        type="button"
+        onClick={() =>
+          addRow("emergencyContacts", {
+            name: "",
+            relationship: "",
+            contactNo: "",
+          })
+        }
+        className="bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white px-8 py-3 rounded-xl font-semibold shadow-lg transition-all"
+      >
+        + Add Emergency Contact
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+
         {/* Previous Employment */}
 
      <div className="bg-white rounded-3xl shadow-lg border border-gray-200 overflow-hidden">
@@ -1055,6 +1220,44 @@ const handleSubmit = async (e) => {
             />
 
           </div>
+
+
+          {/* experienceLetter */}
+{/* 
+          <div>
+
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+             Experience Letter
+            </label>
+
+            <input
+              placeholder="Annual Salary"
+              value={formData.experienceLetter}
+             readOnly
+              className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-emerald-500 outline-none"
+            />
+
+          </div> */}
+
+
+          {/* salary slip */}
+
+          {/* <div>
+
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+            Salary Slip
+            </label>
+
+            <input
+              placeholder="Annual Salary"
+              value={formData.salarySlip}
+              readOnly
+              className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-emerald-500 outline-none"
+            />
+
+          </div> */}
+
+      
 
           {/* Reason */}
 

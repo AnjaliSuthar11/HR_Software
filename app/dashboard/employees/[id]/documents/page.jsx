@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
 import Image from "next/image";
-
+import toast from "react-hot-toast";
 export default function EmployeeDocumentsPage() {
   const { id } = useParams();
   const router = useRouter();
@@ -64,7 +64,7 @@ export default function EmployeeDocumentsPage() {
         data
       );
 
-      alert(res.data.message);
+      toast.success(res.data.message);
 
       getEmployee();
     } catch (err) {
@@ -96,31 +96,37 @@ export default function EmployeeDocumentsPage() {
       label: "Employee Photo",
       field: "employeePhoto",
       value: employee.employeePhoto,
+      required:true,
     },
     {
       label: "PAN Card",
       field: "panCardDocument",
       value: employee.panCardDocument,
+      required:true,
     },
     {
       label: "Aadhar Card",
       field: "aadharCardDocument",
       value: employee.aadharCardDocument,
+      required:true,
     },
     {
       label: "Highest Qualification",
       field: "highestEducationDocument",
       value: employee.highestEducationDocument,
+      required:true,
     },
     {
       label: "Experience Letter",
       field: "experienceLetter",
       value: employee.experienceLetter,
+      required:false
     },
     {
       label: "Salary Slip",
       field: "salarySlip",
       value: employee.salarySlip,
+      required:false
     },
   ];
 
@@ -266,9 +272,12 @@ export default function EmployeeDocumentsPage() {
 
               <div>
 
-                <h3 className="font-semibold text-lg">
-                  {doc.label}
-                </h3>
+               <h3 className="font-semibold text-lg">
+  {doc.label}
+  {doc.required && (
+    <span className="text-red-500 ml-1">*</span>
+  )}
+</h3>
 
                 {doc.value ? (
                   <a
