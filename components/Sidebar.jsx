@@ -35,7 +35,7 @@ const menus = [
   },
   {
     name: "Leave",
-    href: "/dashboard/Leave",
+    href: "/dashboard/leave",
     icon: UserCheck,
   },
   {
@@ -44,8 +44,8 @@ const menus = [
     icon: Clock3,
   },
   {
-    name: "Reports",
-    href: "/dashboard/reports",
+    name: "Salary",
+    href: "/dashboard/salary",
     icon: BarChart3,
   },
   {

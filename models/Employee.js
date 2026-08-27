@@ -51,6 +51,20 @@ const EmployeeSchema = new mongoose.Schema(
       lowercase: true,
       trim: true,
     },
+    
+    // Company login credentials
+    companyLoginEmail: {
+      type: String,
+      lowercase: true,
+      trim: true,
+      unique: true,
+      sparse: true,
+    },
+
+    companyLoginPassword: {
+      type: String,
+      default: "",
+    },
 
     nationality: {
       type: String,
@@ -84,16 +98,7 @@ const EmployeeSchema = new mongoose.Schema(
 
     bloodGroup: {
       type: String,
-      enum: [
-        "A+",
-        "A-",
-        "B+",
-        "B-",
-        "AB+",
-        "AB-",
-        "O+",
-        "O-",
-      ],
+      enum: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
     },
 
     healthProblem: {
