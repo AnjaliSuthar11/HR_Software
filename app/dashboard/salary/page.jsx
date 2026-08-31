@@ -1,36 +1,27 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 
 export default function SalaryPage() {
-  const [employees, setEmployees] =
-    useState([]);
+  const [employees, setEmployees] = useState([]);
+  const [employeeId, setEmployeeId] = useState("");
 
-  const [employeeId, setEmployeeId] =
-    useState("");
+  const [month, setMonth] = useState(
+    new Date().getMonth() + 1
+  );
 
-  const [month, setMonth] =
-    useState(
-      new Date().getMonth() + 1
-    );
-
-  const [year, setYear] =
-    useState(
-      new Date().getFullYear()
-    );
+  const [year, setYear] = useState(
+    new Date().getFullYear()
+  );
 
   const [monthlySalary, setMonthlySalary] =
     useState("");
 
-  const [attendance, setAttendance] =
-    useState([]);
+  const [attendance, setAttendance] = useState([]);
+  const [leaves, setLeaves] = useState([]);
 
-  const [leaves, setLeaves] =
-    useState([]);
-
-  const [salary, setSalary] =
-    useState(null);
+  const [salary, setSalary] = useState(null);
 
   const [loadingEmployees, setLoadingEmployees] =
     useState(true);
@@ -43,27 +34,37 @@ export default function SalaryPage() {
 
 
   // ==================================================
-  // MONTH
+  // MONTH INFORMATION
   // ==================================================
 
-  const daysInMonth =
-    new Date(
-      Number(year),
-      Number(month),
-      0
-    ).getDate();
+  const daysInMonth = new Date(
+    Number(year),
+    Number(month),
+    0
+  ).getDate();
 
-  const monthName =
-    new Date(
-      Number(year),
-      Number(month) - 1,
-      1
-    ).toLocaleString(
-      "en-IN",
-      {
-        month: "long",
-      }
-    );
+  const monthName = new Date(
+    Number(year),
+    Number(month) - 1,
+    1
+  ).toLocaleString("en-IN", {
+    month: "long",
+  });
+
+
+  // ==================================================
+  // DATE KEY
+  // ==================================================
+
+  const getDateKey = (date) => {
+    const d = new Date(date);
+
+    return `${d.getFullYear()}-${String(
+      d.getMonth() + 1
+    ).padStart(2, "0")}-${String(
+      d.getDate()
+    ).padStart(2, "0")}`;
+  };
 
 
   // ==================================================
@@ -74,134 +75,92 @@ export default function SalaryPage() {
     loadEmployees();
   }, []);
 
+  const loadEmployees = async () => {
+    try {
+      setLoadingEmployees(true);
 
-  const loadEmployees =
-    async () => {
-      try {
-        setLoadingEmployees(
-          true
-        );
+      const response = await axios.get(
+        "/api/employee/list"
+      );
 
-        const response =
-          await axios.get(
-            "/api/employee/list"
-          );
+      setEmployees(
+        response.data?.employees || []
+      );
+    } catch (error) {
+      console.error(
+        "Employee loading error:",
+        error
+      );
 
-        setEmployees(
-          response.data
-            .employees || []
-        );
-
-      } catch (error) {
-
-        console.error(
-          "Employee loading error:",
-          error
-        );
-
-        alert(
+      alert(
+        error.response?.data?.message ||
           "Unable to load employees"
-        );
-
-      } finally {
-
-        setLoadingEmployees(
-          false
-        );
-      }
-    };
+      );
+    } finally {
+      setLoadingEmployees(false);
+    }
+  };
 
 
   // ==================================================
-  // DATE KEY
+  // LOAD ATTENDANCE + LEAVES
   // ==================================================
 
-  const getDateKey =
-    (date) => {
-      const d =
-        new Date(date);
+  const loadPayrollData = async () => {
+    if (!employeeId) {
+      setAttendance([]);
+      setLeaves([]);
+      setSalary(null);
+      return;
+    }
 
-      return `${d.getFullYear()}-${String(
-        d.getMonth() + 1
-      ).padStart(2, "0")}-${String(
-        d.getDate()
-      ).padStart(2, "0")}`;
-    };
+    try {
+      setLoadingData(true);
+      setSalary(null);
 
+      const [
+        attendanceResponse,
+        leaveResponse,
+      ] = await Promise.all([
+        axios.get(
+          `/api/attendance?employeeId=${employeeId}&month=${month}&year=${year}`
+        ),
 
-  // ==================================================
-  // LOAD ATTENDANCE + LEAVE
-  // ==================================================
+        axios.get(
+          `/api/employee/leave?employeeId=${employeeId}`
+        ),
+      ]);
 
-  const loadPayrollData =
-    async () => {
+      setAttendance(
+        attendanceResponse.data?.attendance || []
+      );
 
-      if (!employeeId) {
+      setLeaves(
+        leaveResponse.data?.leaves || []
+      );
 
-        setAttendance([]);
-        setLeaves([]);
-        setSalary(null);
+    } catch (error) {
+      console.error(
+        "Payroll data error:",
+        error
+      );
 
-        return;
-      }
+      setAttendance([]);
+      setLeaves([]);
+      setSalary(null);
 
-      try {
-
-        setLoadingData(true);
-
-        setSalary(null);
-
-
-        const [
-          attendanceResponse,
-          leaveResponse,
-        ] =
-          await Promise.all([
-            axios.get(
-              `/api/attendance?employeeId=${employeeId}&month=${month}&year=${year}`
-            ),
-
-            axios.get(
-              `/api/employee/leave?employeeId=${employeeId}`
-            ),
-          ]);
-
-
-        setAttendance(
-          attendanceResponse.data
-            .attendance || []
-        );
-
-        setLeaves(
-          leaveResponse.data
-            .leaves || []
-        );
-
-      } catch (error) {
-
-        console.error(
-          "Payroll data error:",
-          error
-        );
-
-        setAttendance([]);
-        setLeaves([]);
-
-        alert(
-          error.response?.data
-            ?.message ||
-            "Unable to load attendance and leave data"
-        );
-
-      } finally {
-
-        setLoadingData(false);
-      }
-    };
+      alert(
+        error.response?.data?.message ||
+          "Unable to load payroll data"
+      );
+    } finally {
+      setLoadingData(false);
+    }
+  };
 
 
   // ==================================================
-  // RELOAD DATA
+  // LOAD WHEN SELECTION CHANGES
   // ==================================================
 
   useEffect(() => {
@@ -217,311 +176,458 @@ export default function SalaryPage() {
   // ATTENDANCE MAP
   // ==================================================
 
-  const attendanceMap = {};
+  const attendanceMap = useMemo(() => {
+    const map = {};
 
-  attendance.forEach(
-    (record) => {
+    attendance.forEach((record) => {
+      map[getDateKey(record.date)] =
+        record;
+    });
 
-      attendanceMap[
-        getDateKey(
-          record.date
-        )
-      ] = record;
-
-    }
-  );
+    return map;
+  }, [attendance]);
 
 
   // ==================================================
-  // GET APPROVED LEAVE
+  // APPROVED LEAVES FOR THIS MONTH
   // ==================================================
 
-  const getLeaveForDate =
-    (date) => {
+  const approvedLeaves = useMemo(() => {
+    const firstDate = new Date(
+      Number(year),
+      Number(month) - 1,
+      1
+    );
 
-      const currentKey =
-        getDateKey(date);
+    const nextDate = new Date(
+      Number(year),
+      Number(month),
+      1
+    );
 
-      return leaves.find(
-        (leave) => {
+    return leaves
+      .filter(
+        (leave) =>
+          leave.status === "Approved"
+      )
+      .filter((leave) => {
+        const from =
+          new Date(leave.fromDate);
+
+        const to =
+          new Date(leave.toDate);
+
+        return (
+          from < nextDate &&
+          to >= firstDate
+        );
+      })
+      .sort(
+        (a, b) =>
+          new Date(a.fromDate) -
+          new Date(b.fromDate)
+      );
+  }, [
+    leaves,
+    month,
+    year,
+  ]);
+
+
+  // ==================================================
+  // CREATE LEAVE MAP
+  // ==================================================
+  //
+  // IMPORTANT:
+  //
+  // We only consider a leave for payroll when
+  // the corresponding attendance row is ABSENT.
+  //
+  // First CL OR SL absence in month = PAID
+  // Later CL / SL = LOP
+  // LOP = LOP
+  // ==================================================
+
+  const leaveTreatmentMap = useMemo(() => {
+    const map = {};
+
+    let paidLeaveUsed = 0;
+
+    approvedLeaves.forEach((leave) => {
+      const start =
+        new Date(leave.fromDate);
+
+      const end =
+        new Date(leave.toDate);
+
+      start.setHours(
+        0,
+        0,
+        0,
+        0
+      );
+
+      end.setHours(
+        0,
+        0,
+        0,
+        0
+      );
+
+      const current =
+        new Date(start);
+
+      while (
+        current <= end
+      ) {
+        const currentMonth =
+          current.getMonth() + 1;
+
+        const currentYear =
+          current.getFullYear();
+
+        if (
+          currentMonth ===
+            Number(month) &&
+          currentYear ===
+            Number(year)
+        ) {
+          const key =
+            getDateKey(current);
+
+          const attendanceRecord =
+            attendanceMap[key];
+
+          /*
+            Leave should only affect payroll
+            when machine attendance says Absent.
+          */
 
           if (
-            leave.status !==
-            "Approved"
+            attendanceRecord?.status ===
+            "Absent"
           ) {
-            return false;
+
+            // ==========================================
+            // CL / SL
+            // ==========================================
+
+            if (
+              leave.leaveType === "CL" ||
+              leave.leaveType === "SL"
+            ) {
+
+              const requestedDays =
+                leave.duration ===
+                "Half Day"
+                  ? 0.5
+                  : 1;
+
+
+              // ----------------------------------------
+              // FIRST PAID LEAVE
+              // ----------------------------------------
+
+              if (
+                paidLeaveUsed < 1
+              ) {
+
+                const remainingPaid =
+                  1 -
+                  paidLeaveUsed;
+
+                const paidDays =
+                  Math.min(
+                    requestedDays,
+                    remainingPaid
+                  );
+
+                const lopDays =
+                  requestedDays -
+                  paidDays;
+
+                paidLeaveUsed +=
+                  paidDays;
+
+
+                map[key] = {
+                  leaveId:
+                    leave._id,
+
+                  leaveType:
+                    leave.leaveType,
+
+                  leaveName:
+                    leave.leaveType ===
+                    "CL"
+                      ? "Casual Leave"
+                      : "Sick Leave",
+
+                  payment:
+                    "Paid",
+
+                  paidDays,
+
+                  lopDays,
+                };
+
+              } else {
+
+                // --------------------------------------
+                // PAID LEAVE ALREADY USED
+                // --------------------------------------
+
+                map[key] = {
+                  leaveId:
+                    leave._id,
+
+                  leaveType:
+                    leave.leaveType,
+
+                  leaveName:
+                    leave.leaveType ===
+                    "CL"
+                      ? "Casual Leave"
+                      : "Sick Leave",
+
+                  payment:
+                    "LOP",
+
+                  paidDays: 0,
+
+                  lopDays:
+                    requestedDays,
+                };
+              }
+            }
+
+
+            // ==========================================
+            // DIRECT LOP
+            // ==========================================
+
+            if (
+              leave.leaveType ===
+              "LOP"
+            ) {
+
+              const lopDays =
+                leave.duration ===
+                "Half Day"
+                  ? 0.5
+                  : 1;
+
+              map[key] = {
+                leaveId:
+                  leave._id,
+
+                leaveType:
+                  "LOP",
+
+                leaveName:
+                  "Loss of Pay",
+
+                payment:
+                  "LOP",
+
+                paidDays: 0,
+
+                lopDays,
+              };
+            }
           }
-
-          const fromKey =
-            getDateKey(
-              leave.fromDate
-            );
-
-          const toKey =
-            getDateKey(
-              leave.toDate
-            );
-
-          return (
-            currentKey >=
-              fromKey &&
-            currentKey <=
-              toKey
-          );
-
         }
-      );
-    };
+
+        current.setDate(
+          current.getDate() + 1
+        );
+      }
+    });
+
+    return map;
+
+  }, [
+    approvedLeaves,
+    attendanceMap,
+    month,
+    year,
+  ]);
 
 
   // ==================================================
   // COMPLETE MONTH TABLE
   // ==================================================
 
-  const tableRows = [];
+  const tableRows = useMemo(() => {
+    const rows = [];
 
-  for (
-    let day = 1;
-    day <= daysInMonth;
-    day++
-  ) {
-
-    const date =
-      new Date(
-        Number(year),
-        Number(month) - 1,
-        day
-      );
-
-    date.setHours(
-      0,
-      0,
-      0,
-      0
-    );
-
-
-    const key =
-      getDateKey(date);
-
-
-    const record =
-      attendanceMap[key];
-
-
-    const leave =
-      getLeaveForDate(
-        date
-      );
-
-
-    const isSunday =
-      date.getDay() === 0;
-
-
-    // ==================================================
-    // SUNDAY
-    // ==================================================
-
-    if (isSunday) {
-
-      tableRows.push({
-        date,
-
-        weekday:
-          date.toLocaleDateString(
-            "en-IN",
-            {
-              weekday:
-                "long",
-            }
-          ),
-
-        inTime: "",
-
-        outTime: "",
-
-        workingHours: 0,
-
-        lateMark: false,
-
-        lateMinutes: 0,
-
-        leaveType: "",
-
-        leaveName: "",
-
-        leavePayment: "",
-
-        status: "Holiday",
-
-      });
-
-      continue;
-    }
-
-
-    // ==================================================
-    // NORMAL WORKING DAY
-    // ==================================================
-
-    const status =
-      record?.status ||
-      "Present";
-
-
-    const inTime =
-      record?.inTime || "";
-
-
-    const outTime =
-      record?.outTime ||
-      "";
-
-
-    const workingHours =
-      Number(
-        record?.workingHours ||
-          0
-      );
-
-
-    const lateMark =
-      record?.lateMark ||
-      false;
-
-
-    const lateMinutes =
-      Number(
-        record?.lateMinutes ||
-          0
-      );
-
-
-    // ==================================================
-    // LEAVE
-    // ==================================================
-
-    let leaveType = "";
-
-    let leaveName = "";
-
-    let leavePayment = "";
-
-
-    /*
-      Important:
-
-      Only Absence checks leave.
-    */
-
-    if (
-      status === "Absent" &&
-      leave
+    for (
+      let day = 1;
+      day <= daysInMonth;
+      day++
     ) {
 
-      leaveType =
-        leave.leaveType;
+      const date =
+        new Date(
+          Number(year),
+          Number(month) - 1,
+          day
+        );
 
+      date.setHours(
+        0,
+        0,
+        0,
+        0
+      );
 
-      if (
-        leave.leaveType ===
-        "CL"
-      ) {
+      const key =
+        getDateKey(date);
 
-        leaveName =
-          "Casual Leave";
+      const record =
+        attendanceMap[key];
 
-        leavePayment =
-          "Paid";
+      const leaveInfo =
+        leaveTreatmentMap[key];
 
-      }
-
-
-      if (
-        leave.leaveType ===
-        "SL"
-      ) {
-
-        leaveName =
-          "Sick Leave";
-
-        leavePayment =
-          "Paid";
-
-      }
-
-
-      if (
-        leave.leaveType ===
-        "LOP"
-      ) {
-
-        leaveName =
-          "Loss of Pay";
-
-        leavePayment =
-          "LOP";
-
-      }
-    }
-
-
-    // ==================================================
-    // ADD ROW
-    // ==================================================
-
-    tableRows.push({
-
-      date,
-
-      weekday:
+      const weekday =
         date.toLocaleDateString(
           "en-IN",
           {
             weekday:
               "long",
           }
-        ),
+        );
 
-      inTime,
 
-      outTime,
+      // ==============================================
+      // SUNDAY
+      // ==============================================
 
-      workingHours,
+      if (
+        date.getDay() === 0
+      ) {
 
-      lateMark,
+        rows.push({
+          date,
+          weekday,
 
-      lateMinutes,
+          inTime: "",
+          outTime: "",
+          workingHours: 0,
 
-      leaveType,
+          lateMark: false,
+          lateMinutes: 0,
 
-      leaveName,
+          leaveType: "",
+          leaveName: "",
+          leavePayment: "",
 
-      leavePayment,
+          status:
+            "Holiday",
+        });
 
-      status,
+        continue;
+      }
 
-    });
-  }
+
+      // ==============================================
+      // NORMAL DAY
+      // ==============================================
+
+      const status =
+        record?.status ||
+        "Present";
+
+      const inTime =
+        record?.inTime || "";
+
+      const outTime =
+        record?.outTime || "";
+
+      const workingHours =
+        Number(
+          record?.workingHours ||
+            0
+        );
+
+      const lateMark =
+        record?.lateMark === true;
+
+      const lateMinutes =
+        Number(
+          record?.lateMinutes ||
+            0
+        );
+
+
+      // ==============================================
+      // LEAVE
+      // ==============================================
+
+      let leaveType = "";
+      let leaveName = "";
+      let leavePayment = "";
+
+      if (
+        status === "Absent" &&
+        leaveInfo
+      ) {
+
+        leaveType =
+          leaveInfo.leaveType;
+
+        leaveName =
+          leaveInfo.leaveName;
+
+        leavePayment =
+          leaveInfo.payment;
+      }
+
+
+      rows.push({
+        date,
+        weekday,
+
+        inTime,
+        outTime,
+        workingHours,
+
+        lateMark,
+        lateMinutes,
+
+        leaveType,
+        leaveName,
+        leavePayment,
+
+        status,
+      });
+    }
+
+    return rows;
+
+  }, [
+    daysInMonth,
+    year,
+    month,
+    attendanceMap,
+    leaveTreatmentMap,
+  ]);
 
 
   // ==================================================
   // SUMMARY
   // ==================================================
 
-  const calendarDays =
+  const totalDays =
     tableRows.length;
 
 
-  // As requested:
-  // working days includes Sunday/holiday.
-
   const workingDays =
-    calendarDays;
+    totalDays;
 
 
-  const sundayDays =
+  const holidayDays =
     tableRows.filter(
       (row) =>
         row.status ===
@@ -537,13 +643,173 @@ export default function SalaryPage() {
     ).length;
 
 
-  const absentDays =
+  const absenceRows =
     tableRows.filter(
       (row) =>
         row.status ===
         "Absent"
+    );
+
+
+  // ==================================================
+  // PAID CL
+  // ==================================================
+
+  const paidClDays =
+    absenceRows.filter(
+      (row) =>
+        row.leaveType ===
+          "CL" &&
+        row.leavePayment ===
+          "Paid"
+    ).reduce(
+      (total, row) => {
+
+        const leave =
+          approvedLeaves.find(
+            (item) =>
+              item._id ===
+              getLeaveId(
+                row,
+                approvedLeaves
+              )
+          );
+
+        return (
+          total +
+          (
+            leave?.duration ===
+            "Half Day"
+              ? 0.5
+              : 1
+          )
+        );
+
+      },
+      0
+    );
+
+
+  // ==================================================
+  // PAID SL
+  // ==================================================
+
+  const paidSlDays =
+    absenceRows.filter(
+      (row) =>
+        row.leaveType ===
+          "SL" &&
+        row.leavePayment ===
+          "Paid"
+    ).reduce(
+      (total, row) => {
+
+        const leave =
+          approvedLeaves.find(
+            (item) =>
+              item._id ===
+              getLeaveId(
+                row,
+                approvedLeaves
+              )
+          );
+
+        return (
+          total +
+          (
+            leave?.duration ===
+            "Half Day"
+              ? 0.5
+              : 1
+          )
+        );
+
+      },
+      0
+    );
+
+
+  // ==================================================
+  // LOP
+  // ==================================================
+
+  const lopDays =
+    absenceRows.filter(
+      (row) =>
+        row.leavePayment ===
+        "LOP"
+    ).reduce(
+      (total, row) => {
+
+        const leave =
+          approvedLeaves.find(
+            (item) =>
+              item._id ===
+              getLeaveId(
+                row,
+                approvedLeaves
+              )
+          );
+
+        return (
+          total +
+          (
+            leave?.duration ===
+            "Half Day"
+              ? 0.5
+              : 1
+          )
+        );
+
+      },
+      0
+    );
+
+
+  // ==================================================
+  // UNPAID ABSENCE
+  // ==================================================
+
+  const unpaidAbsenceDays =
+    absenceRows.filter(
+      (row) =>
+        !row.leaveType
     ).length;
 
+
+  // ==================================================
+  // PAID LEAVE
+  // ==================================================
+
+  const paidLeaveDays =
+    paidClDays +
+    paidSlDays;
+
+
+  // ==================================================
+  // TOTAL DEDUCTIBLE
+  // ==================================================
+
+  const deductibleDays =
+    lopDays +
+    unpaidAbsenceDays;
+
+
+  // ==================================================
+  // PAID DAYS
+  // ==================================================
+
+  const paidDays =
+    Math.max(
+      totalDays -
+        deductibleDays,
+      0
+    );
+
+
+  // ==================================================
+  // LATE
+  // ==================================================
 
   const lateMarks =
     tableRows.filter(
@@ -555,10 +821,7 @@ export default function SalaryPage() {
 
   const totalLateMinutes =
     tableRows.reduce(
-      (
-        total,
-        row
-      ) =>
+      (total, row) =>
         total +
         Number(
           row.lateMinutes ||
@@ -569,105 +832,6 @@ export default function SalaryPage() {
 
 
   // ==================================================
-  // CL
-  // ==================================================
-
-  const clDays =
-    tableRows
-      .filter(
-        (row) =>
-          row.leaveType ===
-          "CL"
-      )
-      .reduce(
-        (
-          total,
-          row
-        ) =>
-          total +
-          (
-            row.leave?.duration ===
-            "Half Day"
-              ? 0.5
-              : 1
-          ),
-        0
-      );
-
-
-  // ==================================================
-  // SL
-  // ==================================================
-
-  const slDays =
-    tableRows
-      .filter(
-        (row) =>
-          row.leaveType ===
-          "SL"
-      )
-      .reduce(
-        (
-          total,
-          row
-        ) =>
-          total +
-          (
-            row.leave?.duration ===
-            "Half Day"
-              ? 0.5
-              : 1
-          ),
-        0
-      );
-
-
-  // ==================================================
-  // LOP
-  // ==================================================
-
-  const lopDays =
-    tableRows
-      .filter(
-        (row) =>
-          row.leaveType ===
-          "LOP"
-      )
-      .reduce(
-        (
-          total,
-          row
-        ) =>
-          total +
-          (
-            row.leave?.duration ===
-            "Half Day"
-              ? 0.5
-              : 1
-          ),
-        0
-      );
-
-
-  const paidLeaveDays =
-    clDays +
-    slDays;
-
-
-  // ==================================================
-  // UNPAID ABSENCE
-  // ==================================================
-
-  const unpaidAbsenceDays =
-    tableRows.filter(
-      (row) =>
-        row.status ===
-          "Absent" &&
-        !row.leaveType
-    ).length;
-
-
-  // ==================================================
   // CALCULATE SALARY
   // ==================================================
 
@@ -675,21 +839,17 @@ export default function SalaryPage() {
     async () => {
 
       if (!employeeId) {
-
         alert(
           "Please select employee"
         );
-
         return;
       }
 
 
       if (!monthlySalary) {
-
         alert(
           "Please enter monthly salary"
         );
-
         return;
       }
 
@@ -698,11 +858,9 @@ export default function SalaryPage() {
         attendance.length ===
         0
       ) {
-
         alert(
           "No attendance found for this employee and month"
         );
-
         return;
       }
 
@@ -738,17 +896,76 @@ export default function SalaryPage() {
           response.data.success
         ) {
 
-          /*
-            IMPORTANT:
+          const perDaySalary =
+            Number(
+              monthlySalary
+            ) /
+            totalDays;
 
-            Use the FRESH calculation,
-            not an old salary value.
+
+          const totalDeduction =
+            deductibleDays *
+            perDaySalary;
+
+
+          const netSalary =
+            Math.max(
+              Number(
+                monthlySalary
+              ) -
+                totalDeduction,
+              0
+            );
+
+
+          /*
+            Use our current page calculation
+            so the result always matches the
+            table visible to HR.
           */
 
           setSalary({
-            ...response.data.salary,
 
-            ...response.data.calculation,
+            ...(response.data.salary ||
+              {}),
+
+            totalDays,
+
+            workingDays,
+
+            holidayDays,
+
+            presentDays,
+
+            paidDays,
+
+            absenceDays:
+              deductibleDays,
+
+            paidLeaveDays,
+
+            casualLeaveDays:
+              paidClDays,
+
+            sickLeaveDays:
+              paidSlDays,
+
+            lopDays,
+
+            unpaidAbsenceDays,
+
+            lateMarks,
+
+            totalLateMinutes,
+
+            perDaySalary,
+
+            totalDeduction,
+
+            lopDeduction:
+              totalDeduction,
+
+            netSalary,
           });
 
         } else {
@@ -786,26 +1003,23 @@ export default function SalaryPage() {
   // MONEY
   // ==================================================
 
-  const money =
-    (value) =>
-      new Intl.NumberFormat(
-        "en-IN",
-        {
-          style:
-            "currency",
+  const money = (value) => {
+    return new Intl.NumberFormat(
+      "en-IN",
+      {
+        style: "currency",
+        currency: "INR",
+        maximumFractionDigits: 2,
+      }
+    ).format(
+      Number(value || 0)
+    );
+  };
 
-          currency:
-            "INR",
 
-          maximumFractionDigits:
-            2,
-        }
-      ).format(
-        Number(
-          value || 0
-        )
-      );
-
+  // ==================================================
+  // SELECTED EMPLOYEE
+  // ==================================================
 
   const selectedEmployee =
     employees.find(
@@ -822,10 +1036,9 @@ export default function SalaryPage() {
   return (
     <div className="min-h-screen bg-slate-50 p-6 lg:p-8">
 
-
-      {/* ==============================================
+      {/* ==================================================
           HEADER
-      ============================================== */}
+      ================================================== */}
 
       <div className="mb-8">
 
@@ -834,15 +1047,15 @@ export default function SalaryPage() {
         </h1>
 
         <p className="text-gray-500 mt-2">
-          Review attendance and leave information before calculating salary.
+          Review attendance and leave details before calculating salary.
         </p>
 
       </div>
 
 
-      {/* ==============================================
-          SELECTION
-      ============================================== */}
+      {/* ==================================================
+          PAYROLL DETAILS
+      ================================================== */}
 
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-6">
 
@@ -863,9 +1076,7 @@ export default function SalaryPage() {
             </label>
 
             <select
-              value={
-                employeeId
-              }
+              value={employeeId}
               onChange={(e) => {
 
                 setEmployeeId(
@@ -884,18 +1095,15 @@ export default function SalaryPage() {
             >
 
               <option value="">
-
-                {loadingEmployees
-                  ? "Loading employees..."
-                  : "Select Employee"}
-
+                {
+                  loadingEmployees
+                    ? "Loading employees..."
+                    : "Select Employee"
+                }
               </option>
 
-
               {employees.map(
-                (
-                  employee
-                ) => (
+                (employee) => (
 
                   <option
                     key={
@@ -1018,7 +1226,7 @@ export default function SalaryPage() {
           </div>
 
 
-          {/* MONTHLY SALARY */}
+          {/* SALARY */}
 
           <div>
 
@@ -1054,13 +1262,13 @@ export default function SalaryPage() {
       </div>
 
 
-      {/* ==============================================
+      {/* ==================================================
           LOADING
-      ============================================== */}
+      ================================================== */}
 
       {loadingData && (
 
-        <div className="bg-white rounded-2xl border p-10 text-center mb-6">
+        <div className="bg-white rounded-2xl border border-gray-100 p-10 text-center mb-6">
 
           <div className="w-10 h-10 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4" />
 
@@ -1073,9 +1281,9 @@ export default function SalaryPage() {
       )}
 
 
-      {/* ==============================================
+      {/* ==================================================
           EMPLOYEE HEADER
-      ============================================== */}
+      ================================================== */}
 
       {!loadingData &&
         selectedEmployee && (
@@ -1102,133 +1310,134 @@ export default function SalaryPage() {
             </p>
 
           </div>
+
         )}
 
 
-      {/* ==============================================
+      {/* ==================================================
           SUMMARY
-      ============================================== */}
+      ================================================== */}
 
       {!loadingData &&
         selectedEmployee &&
         tableRows.length > 0 && (
 
-          <>
+          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4 mb-6">
 
-            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4 mb-4">
+            <SummaryBox
+              label="Total Days"
+              value={
+                totalDays
+              }
+            />
 
-              <SummaryCard
-                label="Calendar Days"
-                value={
-                  calendarDays
-                }
-              />
+            <SummaryBox
+              label="Working Days"
+              value={
+                workingDays
+              }
+            />
 
-              <SummaryCard
-                label="Working Days"
-                value={
-                  workingDays
-                }
-              />
+            <SummaryBox
+              label="Sunday / Holiday"
+              value={
+                holidayDays
+              }
+            />
 
-              <SummaryCard
-                label="Sunday / Holiday"
-                value={
-                  sundayDays
-                }
-              />
+            <SummaryBox
+              label="Present"
+              value={
+                presentDays
+              }
+            />
 
-              <SummaryCard
-                label="Present"
-                value={
-                  presentDays
-                }
-              />
+            <SummaryBox
+              label="Absence / Deducted"
+              value={
+                deductibleDays
+              }
+            />
 
-              <SummaryCard
-                label="Absent"
-                value={
-                  absentDays
-                }
-              />
+            <SummaryBox
+              label="Late Marks"
+              value={
+                lateMarks
+              }
+            />
 
-              <SummaryCard
-                label="Late Marks"
-                value={
-                  lateMarks
-                }
-              />
+          </div>
 
-            </div>
-
-
-            {/* LEAVE SUMMARY */}
-
-            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 mb-6">
-
-              <h3 className="font-bold text-gray-900 mb-4">
-                Leave Summary
-              </h3>
-
-              <div className="flex flex-wrap gap-6 text-sm">
-
-                <div>
-                  Casual Leave:{" "}
-                  <strong className="text-green-600">
-                    {clDays} Days
-                  </strong>
-                </div>
-
-                <div>
-                  Sick Leave:{" "}
-                  <strong className="text-blue-600">
-                    {slDays} Days
-                  </strong>
-                </div>
-
-                <div>
-                  Paid Leave:{" "}
-                  <strong className="text-green-600">
-                    {paidLeaveDays} Days
-                  </strong>
-                </div>
-
-                <div>
-                  LOP:{" "}
-                  <strong className="text-red-600">
-                    {lopDays} Days
-                  </strong>
-                </div>
-
-                <div>
-                  Unpaid Absence:{" "}
-                  <strong className="text-orange-600">
-                    {
-                      unpaidAbsenceDays
-                    } Days
-                  </strong>
-                </div>
-
-                <div>
-                  Late Minutes:{" "}
-                  <strong className="text-orange-600">
-                    {
-                      totalLateMinutes
-                    } min
-                  </strong>
-                </div>
-
-              </div>
-
-            </div>
-
-          </>
         )}
 
 
-      {/* ==============================================
-          TABLE
-      ============================================== */}
+      {/* ==================================================
+          LEAVE SUMMARY
+      ================================================== */}
+
+      {!loadingData &&
+        selectedEmployee &&
+        tableRows.length > 0 && (
+
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 mb-6">
+
+            <h3 className="font-bold text-gray-900 mb-4">
+              Leave Summary
+            </h3>
+
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+
+
+              <LeaveSummaryBox
+                title="Paid CL"
+                value={
+                  paidClDays
+                }
+                subtitle="First paid leave"
+                type="green"
+              />
+
+
+              <LeaveSummaryBox
+                title="Paid SL"
+                value={
+                  paidSlDays
+                }
+                subtitle="First paid leave"
+                type="blue"
+              />
+
+
+              <LeaveSummaryBox
+                title="LOP"
+                value={
+                  lopDays
+                }
+                subtitle="Salary deducted"
+                type="red"
+              />
+
+
+              <LeaveSummaryBox
+                title="Unpaid Absence"
+                value={
+                  unpaidAbsenceDays
+                }
+                subtitle="Salary deducted"
+                type="orange"
+              />
+
+            </div>
+
+          </div>
+
+        )}
+
+
+      {/* ==================================================
+          ATTENDANCE TABLE
+      ================================================== */}
 
       {!loadingData &&
         selectedEmployee &&
@@ -1236,15 +1445,15 @@ export default function SalaryPage() {
 
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-6">
 
-            <div className="px-6 py-5 border-b">
+            <div className="px-6 py-5 border-b border-gray-100">
 
-              <h2 className="text-lg font-bold">
+              <h2 className="text-lg font-bold text-gray-900">
                 Attendance & Leave Details
               </h2>
 
               <p className="text-sm text-gray-500 mt-1">
-                {monthName}{" "}
-                {year}
+                Complete {monthName}{" "}
+                {year} attendance
               </p>
 
             </div>
@@ -1258,39 +1467,39 @@ export default function SalaryPage() {
 
                   <tr>
 
-                    <th className="px-5 py-4 text-left text-xs uppercase text-gray-500">
+                    <th className="px-5 py-4 text-left text-xs font-semibold uppercase text-gray-500 whitespace-nowrap">
                       Date
                     </th>
 
-                    <th className="px-5 py-4 text-left text-xs uppercase text-gray-500">
+                    <th className="px-5 py-4 text-left text-xs font-semibold uppercase text-gray-500">
                       Weekday
                     </th>
 
-                    <th className="px-5 py-4 text-left text-xs uppercase text-gray-500">
+                    <th className="px-5 py-4 text-left text-xs font-semibold uppercase text-gray-500">
                       In
                     </th>
 
-                    <th className="px-5 py-4 text-left text-xs uppercase text-gray-500">
+                    <th className="px-5 py-4 text-left text-xs font-semibold uppercase text-gray-500">
                       Out
                     </th>
 
-                    <th className="px-5 py-4 text-left text-xs uppercase text-gray-500">
+                    <th className="px-5 py-4 text-left text-xs font-semibold uppercase text-gray-500">
                       Working Hours
                     </th>
 
-                    <th className="px-5 py-4 text-left text-xs uppercase text-gray-500">
+                    <th className="px-5 py-4 text-left text-xs font-semibold uppercase text-gray-500">
                       Late
                     </th>
 
-                    <th className="px-5 py-4 text-left text-xs uppercase text-gray-500">
+                    <th className="px-5 py-4 text-left text-xs font-semibold uppercase text-gray-500">
                       Leave
                     </th>
 
-                    <th className="px-5 py-4 text-left text-xs uppercase text-gray-500">
-                      Payment
+                    <th className="px-5 py-4 text-left text-xs font-semibold uppercase text-gray-500">
+                      Payroll
                     </th>
 
-                    <th className="px-5 py-4 text-left text-xs uppercase text-gray-500">
+                    <th className="px-5 py-4 text-left text-xs font-semibold uppercase text-gray-500">
                       Status
                     </th>
 
@@ -1299,7 +1508,7 @@ export default function SalaryPage() {
                 </thead>
 
 
-                <tbody className="divide-y">
+                <tbody className="divide-y divide-gray-100">
 
                   {tableRows.map(
                     (row) => (
@@ -1308,13 +1517,17 @@ export default function SalaryPage() {
                         key={getDateKey(
                           row.date
                         )}
-                        className="hover:bg-gray-50"
+                        className={
+                          row.status ===
+                          "Holiday"
+                            ? "bg-purple-50"
+                            : "hover:bg-gray-50"
+                        }
                       >
 
                         {/* DATE */}
 
                         <td className="px-5 py-4 text-sm font-semibold whitespace-nowrap">
-
                           {row.date.toLocaleDateString(
                             "en-IN",
                             {
@@ -1323,13 +1536,12 @@ export default function SalaryPage() {
                               year: "numeric",
                             }
                           )}
-
                         </td>
 
 
                         {/* WEEKDAY */}
 
-                        <td className="px-5 py-4 text-sm text-gray-600">
+                        <td className="px-5 py-4 text-sm text-gray-600 whitespace-nowrap">
                           {row.weekday}
                         </td>
 
@@ -1337,23 +1549,32 @@ export default function SalaryPage() {
                         {/* IN */}
 
                         <td className="px-5 py-4 text-sm">
-                          {row.inTime ||
-                            "-"}
+                          {row.status ===
+                          "Holiday"
+                            ? "-"
+                            : row.inTime ||
+                              "-"}
                         </td>
 
 
                         {/* OUT */}
 
                         <td className="px-5 py-4 text-sm">
-                          {row.outTime ||
-                            "-"}
+                          {row.status ===
+                          "Holiday"
+                            ? "-"
+                            : row.outTime ||
+                              "-"}
                         </td>
 
 
                         {/* HOURS */}
 
                         <td className="px-5 py-4 text-sm">
-                          {row.workingHours
+                          {row.status ===
+                          "Holiday"
+                            ? "-"
+                            : row.workingHours
                             ? `${row.workingHours} hrs`
                             : "-"}
                         </td>
@@ -1441,15 +1662,22 @@ export default function SalaryPage() {
                         </td>
 
 
-                        {/* PAYMENT */}
+                        {/* PAYROLL */}
 
                         <td className="px-5 py-4">
 
-                          {row.leavePayment ===
-                          "Paid" ? (
+                          {row.status ===
+                          "Holiday" ? (
+
+                            <span className="inline-flex rounded-full bg-purple-100 px-3 py-1 text-xs font-semibold text-purple-700">
+                              Paid Holiday
+                            </span>
+
+                          ) : row.leavePayment ===
+                            "Paid" ? (
 
                             <span className="inline-flex rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
-                              Paid
+                              Paid Leave
                             </span>
 
                           ) : row.leavePayment ===
@@ -1463,20 +1691,13 @@ export default function SalaryPage() {
                             "Absent" ? (
 
                             <span className="inline-flex rounded-full bg-orange-100 px-3 py-1 text-xs font-semibold text-orange-700">
-                              Unpaid
-                            </span>
-
-                          ) : row.status ===
-                            "Holiday" ? (
-
-                            <span className="inline-flex rounded-full bg-purple-100 px-3 py-1 text-xs font-semibold text-purple-700">
-                              Holiday
+                              Unpaid Absence
                             </span>
 
                           ) : (
 
                             <span className="text-gray-400">
-                              -
+                              Paid
                             </span>
 
                           )}
@@ -1508,28 +1729,30 @@ export default function SalaryPage() {
             </div>
 
           </div>
+
         )}
 
 
-      {/* ==============================================
-          CALCULATE BUTTON
-      ============================================== */}
+      {/* ==================================================
+          CALCULATE SALARY BUTTON
+      ================================================== */}
 
       {!loadingData &&
+        selectedEmployee &&
         attendance.length > 0 && (
 
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-6">
 
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
 
               <div>
 
-                <h3 className="font-bold text-gray-900">
+                <h3 className="text-lg font-bold text-gray-900">
                   Calculate Salary
                 </h3>
 
                 <p className="text-sm text-gray-500 mt-1">
-                  Review all attendance and leave details before calculating.
+                  Check the complete table before generating the final salary.
                 </p>
 
               </div>
@@ -1542,11 +1765,11 @@ export default function SalaryPage() {
                 disabled={
                   calculating
                 }
-                className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-xl font-semibold disabled:opacity-50"
+                className="bg-green-600 hover:bg-green-700 text-white px-8 py-3.5 rounded-xl font-semibold shadow-sm disabled:opacity-50"
               >
 
                 {calculating
-                  ? "Calculating..."
+                  ? "Calculating Salary..."
                   : "Calculate Salary"}
 
               </button>
@@ -1554,21 +1777,24 @@ export default function SalaryPage() {
             </div>
 
           </div>
+
         )}
 
 
-      {/* ==============================================
+      {/* ==================================================
           FINAL SALARY
-      ============================================== */}
+      ================================================== */}
 
       {salary && (
 
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-8">
 
+          {/* HEADER */}
+
           <div className="bg-gradient-to-r from-green-600 to-emerald-600 p-7 text-white">
 
             <p className="text-green-100 text-sm">
-              Final Salary Calculation
+              Final Salary
             </p>
 
             <h2 className="text-4xl font-bold mt-2">
@@ -1587,291 +1813,123 @@ export default function SalaryPage() {
 
           <div className="p-6">
 
-            {/* ==========================================
-                ATTENDANCE
-            ========================================== */}
+            {/* SIMPLE SUMMARY */}
 
-            <h3 className="text-lg font-bold mb-4">
-              Attendance Summary
-            </h3>
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
 
-            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4 mb-8">
+              <ResultBox
+                label="Monthly Salary"
+                value={money(
+                  salary.monthlySalary
+                )}
+              />
 
-              <ResultCard
-                label="Calendar Days"
+              <ResultBox
+                label="Total Days"
                 value={
-                  salary.workingDays
+                  salary.totalDays
                 }
               />
 
-              <ResultCard
-                label="Sunday / Holiday"
+              <ResultBox
+                label="Paid Days"
                 value={
-                  salary.holidayDays ||
-                  0
+                  salary.paidDays
                 }
               />
 
-              <ResultCard
-                label="Present Days"
+              <ResultBox
+                label="Absence Days"
                 value={
-                  salary.presentDays
+                  salary.absenceDays
                 }
               />
 
-              <ResultCard
-                label="Absent Days"
-                value={
-                  salary.absentDays
-                }
-              />
-
-              <ResultCard
-                label="Late Marks"
-                value={
-                  salary.lateMarks ||
-                  0
-                }
-              />
-
-              <ResultCard
-                label="Late Minutes"
-                value={`${
-                  salary.totalLateMinutes ||
-                  0
-                } min`}
+              <ResultBox
+                label="Per Day Salary"
+                value={money(
+                  salary.perDaySalary
+                )}
               />
 
             </div>
 
 
-            {/* ==========================================
-                LEAVES
-            ========================================== */}
+            {/* CALCULATION */}
 
-            <h3 className="text-lg font-bold mb-4">
-              Leave Summary
-            </h3>
+            <div className="rounded-2xl bg-gray-50 border border-gray-100 p-6">
 
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
 
-              <LeaveCard
-                title="Casual Leave"
-                value={
-                  salary.casualLeaveDays ||
-                  0
-                }
-                subtitle="Paid • No Deduction"
-                className="green"
+              <CalculationRow
+                label="Monthly Salary"
+                value={money(
+                  salary.monthlySalary
+                )}
               />
 
-              <LeaveCard
-                title="Sick Leave"
+
+              <CalculationRow
+                label="Total Days"
                 value={
-                  salary.sickLeaveDays ||
-                  0
+                  `${salary.totalDays} Days`
                 }
-                subtitle="Paid • No Deduction"
-                className="blue"
               />
 
-              <LeaveCard
-                title="LOP"
+
+              <CalculationRow
+                label="Paid Days"
                 value={
-                  salary.lopDays ||
-                  0
+                  `${salary.paidDays} Days`
                 }
-                subtitle="Salary Deduction"
-                className="red"
+                valueClass="text-green-600"
               />
 
-              <LeaveCard
-                title="Unpaid Absence"
+
+              <CalculationRow
+                label="Absence Days"
                 value={
-                  salary.unpaidAbsenceDays ||
-                  0
+                  `${salary.absenceDays} Days`
                 }
-                subtitle="Salary Deduction"
-                className="orange"
+                valueClass="text-red-600"
               />
 
-            </div>
 
-
-            {/* ==========================================
-                SALARY CALCULATION
-            ========================================== */}
-
-            <div className="rounded-2xl bg-gray-50 p-6">
-
-              <h3 className="text-lg font-bold mb-5">
-                Salary Calculation
-              </h3>
-
-
-              {/* MONTHLY */}
-
-              <div className="flex items-center justify-between border-b py-4">
-
-                <span className="text-gray-500">
-                  Monthly Salary
-                </span>
-
-                <span className="font-bold">
-                  {money(
-                    salary.monthlySalary
-                  )}
-                </span>
-
-              </div>
-
-
-              {/* PER DAY */}
-
-              <div className="flex items-center justify-between border-b py-4">
-
-                <div>
-
-                  <span className="text-gray-500">
-                    Per Day Salary
-                  </span>
-
-                  <p className="text-xs text-gray-400 mt-1">
-                    Monthly Salary ÷ Working Days
-                  </p>
-
-                </div>
-
-                <span className="font-bold">
-                  {money(
-                    salary.perDaySalary
-                  )}
-                </span>
-
-              </div>
-
-
-              {/* PAID CL */}
-
-              <div className="flex justify-between border-b py-4">
-
-                <span className="text-gray-500">
-                  Casual Leave
-                </span>
-
-                <span className="font-semibold text-green-600">
-                  {
-                    salary.casualLeaveDays ||
-                    0
-                  }{" "}
-                  Days • Paid
-                </span>
-
-              </div>
-
-
-              {/* PAID SL */}
-
-              <div className="flex justify-between border-b py-4">
-
-                <span className="text-gray-500">
-                  Sick Leave
-                </span>
-
-                <span className="font-semibold text-blue-600">
-                  {
-                    salary.sickLeaveDays ||
-                    0
-                  }{" "}
-                  Days • Paid
-                </span>
-
-              </div>
-
-
-              {/* LOP */}
-
-              <div className="flex justify-between border-b py-4">
-
-                <span className="text-gray-500">
-                  LOP Days
-                </span>
-
-                <span className="font-semibold text-red-600">
-                  {
-                    salary.lopDays ||
-                    0
-                  }{" "}
-                  Days
-                </span>
-
-              </div>
-
-
-              {/* UNPAID */}
-
-              <div className="flex justify-between border-b py-4">
-
-                <span className="text-gray-500">
-                  Unpaid Absence
-                </span>
-
-                <span className="font-semibold text-orange-600">
-                  {
-                    salary.unpaidAbsenceDays ||
-                    0
-                  }{" "}
-                  Days
-                </span>
-
-              </div>
-
-
-              {/* LATE */}
-
-              <div className="flex justify-between border-b py-4">
-
-                <span className="text-gray-500">
-                  Late Marks
-                </span>
-
-                <span className="font-semibold text-orange-600">
-                  {
-                    salary.lateMarks ||
-                    0
-                  }
-                </span>
-
-              </div>
+              <CalculationRow
+                label="Per Day Salary"
+                value={money(
+                  salary.perDaySalary
+                )}
+              />
 
 
               {/* DEDUCTION */}
 
-              <div className="flex items-center justify-between border-b py-5">
+              <div className="flex items-center justify-between border-b border-gray-200 py-5">
 
                 <div>
 
-                  <span className="font-bold text-gray-700">
+                  <p className="font-bold text-gray-700">
                     Total Deduction
-                  </span>
+                  </p>
 
                   <p className="text-xs text-gray-400 mt-1">
-                    (LOP + Unpaid Absence) × Per Day Salary
+                    Absence Days × Per Day Salary
                   </p>
 
                 </div>
 
-                <span className="text-xl font-bold text-red-600">
+
+                <p className="text-xl font-bold text-red-600">
                   -{" "}
                   {money(
-                    salary.lopDeduction
+                    salary.totalDeduction
                   )}
-                </span>
+                </p>
 
               </div>
 
 
-              {/* NET */}
+              {/* NET SALARY */}
 
               <div className="mt-6 rounded-2xl bg-green-100 border border-green-200 p-6">
 
@@ -1904,6 +1962,7 @@ export default function SalaryPage() {
           </div>
 
         </div>
+
       )}
 
     </div>
@@ -1912,10 +1971,71 @@ export default function SalaryPage() {
 
 
 // ======================================================
-// SUMMARY CARD
+// FIND LEAVE ID FOR ROW
 // ======================================================
 
-function SummaryCard({
+function getLeaveId(
+  row,
+  leaves
+) {
+  const rowKey =
+    formatDateKey(row.date);
+
+  const leave =
+    leaves.find(
+      (item) => {
+
+        if (
+          item.status !==
+          "Approved"
+        ) {
+          return false;
+        }
+
+        const from =
+          formatDateKey(
+            item.fromDate
+          );
+
+        const to =
+          formatDateKey(
+            item.toDate
+          );
+
+        return (
+          row.leaveType ===
+            item.leaveType &&
+          rowKey >= from &&
+          rowKey <= to
+        );
+      }
+    );
+
+  return leave?._id;
+}
+
+
+// ======================================================
+// DATE KEY
+// ======================================================
+
+function formatDateKey(date) {
+  const d =
+    new Date(date);
+
+  return `${d.getFullYear()}-${String(
+    d.getMonth() + 1
+  ).padStart(2, "0")}-${String(
+    d.getDate()
+  ).padStart(2, "0")}`;
+}
+
+
+// ======================================================
+// SUMMARY BOX
+// ======================================================
+
+function SummaryBox({
   label,
   value,
 }) {
@@ -1926,7 +2046,7 @@ function SummaryCard({
         {label}
       </p>
 
-      <p className="text-2xl font-bold mt-2 text-gray-900">
+      <p className="text-2xl font-bold text-gray-900 mt-2">
         {value}
       </p>
 
@@ -1936,40 +2056,16 @@ function SummaryCard({
 
 
 // ======================================================
-// RESULT CARD
+// LEAVE SUMMARY BOX
 // ======================================================
 
-function ResultCard({
-  label,
-  value,
-}) {
-  return (
-    <div className="rounded-xl bg-gray-50 p-4">
-
-      <p className="text-xs text-gray-400">
-        {label}
-      </p>
-
-      <p className="text-lg font-bold mt-2">
-        {value}
-      </p>
-
-    </div>
-  );
-}
-
-
-// ======================================================
-// LEAVE CARD
-// ======================================================
-
-function LeaveCard({
+function LeaveSummaryBox({
   title,
   value,
   subtitle,
-  className,
+  type,
 }) {
-  const styles = {
+  const classes = {
     green:
       "bg-green-50 border-green-100 text-green-700",
 
@@ -1985,20 +2081,21 @@ function LeaveCard({
 
   return (
     <div
-      className={`rounded-2xl border p-5 ${
-        styles[className]
-      }`}
+      className={`rounded-xl border p-4 ${classes[type]}`}
     >
 
-      <p className="text-sm">
+      <p className="text-xs">
         {title}
       </p>
 
-      <p className="text-2xl font-bold mt-2">
-        {value} Days
+      <p className="text-xl font-bold mt-1">
+        {value}{" "}
+        {value === 1
+          ? "Day"
+          : "Days"}
       </p>
 
-      <p className="text-xs mt-2">
+      <p className="text-xs mt-1">
         {subtitle}
       </p>
 
@@ -2008,7 +2105,59 @@ function LeaveCard({
 
 
 // ======================================================
-// STATUS BADGE
+// RESULT BOX
+// ======================================================
+
+function ResultBox({
+  label,
+  value,
+}) {
+  return (
+    <div className="rounded-xl bg-gray-50 border border-gray-100 p-4">
+
+      <p className="text-xs text-gray-400">
+        {label}
+      </p>
+
+      <p className="text-lg font-bold text-gray-900 mt-2">
+        {value}
+      </p>
+
+    </div>
+  );
+}
+
+
+// ======================================================
+// CALCULATION ROW
+// ======================================================
+
+function CalculationRow({
+  label,
+  value,
+  valueClass =
+    "text-gray-900",
+}) {
+  return (
+    <div className="flex items-center justify-between border-b border-gray-200 py-4">
+
+      <span className="text-gray-500">
+        {label}
+      </span>
+
+      <span
+        className={`font-semibold ${valueClass}`}
+      >
+        {value}
+      </span>
+
+    </div>
+  );
+}
+
+
+// ======================================================
+// STATUS
 // ======================================================
 
 function StatusBadge({
