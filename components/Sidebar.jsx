@@ -53,6 +53,11 @@ const menus = [
     href: "/dashboard/settings",
     icon: Settings,
   },
+  {
+    name: "Holiday",
+    href: "/dashboard/holidays",
+    icon: Settings,
+  },
 ];
 
 export default function Sidebar() {
