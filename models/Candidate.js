@@ -177,6 +177,19 @@ offeredJoiningDate: {
   default: null,
 },
 
+// ================= Job Application =================
+
+appliedPosition: {
+  type: String,
+  trim: true,
+  default: "",
+},
+
+department: {
+  type: String,
+  trim: true,
+  default: "",
+},
 
     reference: String,
 

@@ -43,7 +43,6 @@
 //   }
 // }
 
-
 import { connectDB } from "@/lib/mongodb";
 import Employee from "@/models/Employee";
 import { NextResponse } from "next/server";
@@ -54,9 +53,13 @@ export async function GET(req, { params }) {
 
     const { id } = await params;
 
-    const employee = await Employee.findById(id).select(
-      "-companyLoginPassword"
-    );
+    console.log("EMPLOYEE ID RECEIVED:", id);
+
+    const employee = await Employee.findById(id)
+      .select("-companyLoginPassword")
+      .lean();
+
+    console.log("EMPLOYEE FOUND:", employee);
 
     if (!employee) {
       return NextResponse.json(
@@ -74,7 +77,7 @@ export async function GET(req, { params }) {
     });
 
   } catch (error) {
-    console.error(error);
+    console.error("Employee GET API Error:", error);
 
     return NextResponse.json(
       {

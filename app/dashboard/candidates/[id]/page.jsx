@@ -252,6 +252,34 @@ export default function CandidateDetails({ params }) {
             </div>
           </div>
         </div>
+        <div className=" grid grid-cols-1 md:grid-cols-2 gap-5 p-5">
+
+  <div className="bg-blue-50 border border-blue-100 rounded-xl p-5">
+
+    <p className="text-xs uppercase tracking-wide text-blue-600 font-semibold">
+      Applied Position
+    </p>
+
+    <p className="text-lg font-bold text-gray-900 mt-1">
+      {candidate.appliedPosition}
+    </p>
+
+  </div>
+
+
+  <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-5">
+
+    <p className="text-xs uppercase tracking-wide text-indigo-600 font-semibold">
+      Department
+    </p>
+
+    <p className="text-lg font-bold text-gray-900 mt-1">
+      {candidate.department}
+    </p>
+
+  </div>
+
+</div>
 
         {/* Body */}
 

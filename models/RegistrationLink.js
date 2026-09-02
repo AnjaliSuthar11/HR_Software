@@ -23,6 +23,19 @@ const RegistrationLinkSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
+      // NEW
+      department: {
+        type: String,
+        default: "",
+        trim: true,
+      },
+
+      // NEW
+      appliedPosition: {
+        type: String,
+        default: "",
+        trim: true,
+      },
   },
   {
     timestamps: true,

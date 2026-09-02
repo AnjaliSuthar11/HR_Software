@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useParams } from "next/navigation";
@@ -14,7 +14,66 @@ export default function CandidateForm() {
 
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [jobInfo, setJobInfo] =
+  useState({
+    department: "",
+    appliedPosition: "",
+  });
 
+const [loadingJobInfo,setLoadingJobInfo] = useState(true);
+
+useEffect(() => {
+  if (!token) {
+    return;
+  }
+
+  const loadJobInfo =
+    async () => {
+      try {
+        setLoadingJobInfo(true);
+
+        const { data } =
+          await axios.get(
+            `/api/candidates/registration-link/${token}`
+          );
+
+        if (!data.success) {
+          toast.error(
+            data.message ||
+              "Invalid registration link"
+          );
+
+          return;
+        }
+
+        setJobInfo({
+          department:
+            data.department ||
+            "",
+
+          appliedPosition:
+            data.appliedPosition ||
+            "",
+        });
+
+      } catch (error) {
+        console.error(
+          error
+        );
+
+        toast.error(
+          error.response?.data
+            ?.message ||
+            "Unable to load job information"
+        );
+      } finally {
+        setLoadingJobInfo(false);
+      }
+    };
+
+  loadJobInfo();
+
+}, [token]);
   const [formData, setFormData] = useState({
     fullName: "",
     gender: "",
@@ -96,6 +155,8 @@ export default function CandidateForm() {
 
         // Send unique registration token
         registrationToken: token,
+        appliedPosition: jobInfo.appliedPosition,
+         department:jobInfo.department,
 
         softwareKnowledge: formData.softwareKnowledge
           ? formData.softwareKnowledge
@@ -202,6 +263,40 @@ export default function CandidateForm() {
           </p>
 
         </div>
+        <div className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-5">
+
+  <div className="bg-blue-50 border border-blue-100 rounded-xl p-5">
+
+    <p className="text-xs uppercase tracking-wide text-blue-600 font-semibold">
+      Applied Position
+    </p>
+
+    <p className="text-lg font-bold text-gray-900 mt-1">
+      {loadingJobInfo
+        ? "Loading..."
+        : jobInfo.appliedPosition ||
+          "-"}
+    </p>
+
+  </div>
+
+
+  <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-5">
+
+    <p className="text-xs uppercase tracking-wide text-indigo-600 font-semibold">
+      Department
+    </p>
+
+    <p className="text-lg font-bold text-gray-900 mt-1">
+      {loadingJobInfo
+        ? "Loading..."
+        : jobInfo.department ||
+          "-"}
+    </p>
+
+  </div>
+
+</div>
 
         {/* FORM */}
 

@@ -9,8 +9,11 @@ export async function POST(req) {
 
     const body = await req.json();
 
+    console.log("========== CREATE CANDIDATE ==========");
+    console.log("Registration Token:", body.registrationToken);
+
     // ==========================================
-    // CHECK REGISTRATION TOKEN
+    // CHECK TOKEN
     // ==========================================
 
     if (!body.registrationToken) {
@@ -23,13 +26,16 @@ export async function POST(req) {
       );
     }
 
-    // Find token that has NOT been used
-    const registrationLink = await RegistrationLink.findOne({
-      token: body.registrationToken,
-      used: false,
-    });
+    // ==========================================
+    // FIND REGISTRATION LINK
+    // ==========================================
 
-    // Token doesn't exist or was already used
+    const registrationLink =
+      await RegistrationLink.findOne({
+        token: body.registrationToken,
+        used: false,
+      });
+
     if (!registrationLink) {
       return NextResponse.json(
         {
@@ -42,66 +48,180 @@ export async function POST(req) {
     }
 
     // ==========================================
-    // CHECK EXPIRATION
+    // EXPIRATION
     // ==========================================
 
     if (
       registrationLink.expiresAt &&
-      new Date() > registrationLink.expiresAt
+      new Date() >
+        registrationLink.expiresAt
     ) {
       return NextResponse.json(
         {
           success: false,
-          message: "This registration link has expired.",
+          message:
+            "This registration link has expired.",
         },
         { status: 410 }
       );
     }
 
     // ==========================================
+    // GET JOB INFORMATION FROM LINK
+    // ==========================================
+
+    const department =
+      registrationLink.department || "";
+
+    const appliedPosition =
+      registrationLink.appliedPosition || "";
+
+    console.log(
+      "RegistrationLink Department:",
+      department
+    );
+
+    console.log(
+      "RegistrationLink Applied Position:",
+      appliedPosition
+    );
+
+    // ==========================================
     // CREATE CANDIDATE
     // ==========================================
 
-    const candidate = await Candidate.create({
-      fullName: body.fullName,
-      gender: body.gender || undefined,
-      dateOfBirth: body.dateOfBirth || undefined,
-      maritalStatus: body.maritalStatus || undefined,
+    const candidate =
+      await Candidate.create({
+        fullName:
+          body.fullName,
 
-      mobile: body.mobile,
-      email: body.email,
-      address: body.address,
+        gender:
+          body.gender || undefined,
 
-      highestQualification: body.highestQualification,
-      university: body.university,
-      passingYear: body.passingYear,
-      percentage: body.percentage,
+        dateOfBirth:
+          body.dateOfBirth || undefined,
 
-      softwareKnowledge: body.softwareKnowledge || [],
+        maritalStatus:
+          body.maritalStatus || undefined,
 
-      previousCompany: body.previousCompany,
-      previousDesignation: body.previousDesignation,
+        mobile:
+          body.mobile,
 
-      experience: body.experience || undefined,
-      experienceYears: body.experienceYears,
+        email:
+          body.email,
 
-      lastSalary: body.lastSalary,
-      lastInHandSalary: body.lastInHandSalary,
+        address:
+          body.address || "",
 
-      salarySlip: body.salarySlip || undefined,
-      currentlyWorking: body.currentlyWorking || undefined,
+        highestQualification:
+          body.highestQualification || "",
 
-      preferredJoiningDate: body.preferredJoiningDate,
-      criminalRecord: body.criminalRecord,
-      noticePeriod: body.noticePeriod,
-      experienceLetter: body.experienceLetter,
-      reference: body.reference,
+        university:
+          body.university || "",
 
-      finalStatus: "New",
-    });
+        passingYear:
+          body.passingYear || "",
+
+        percentage:
+          body.percentage || "",
+
+        softwareKnowledge:
+          body.softwareKnowledge || [],
+
+        previousCompany:
+          body.previousCompany || "",
+
+        previousDesignation:
+          body.previousDesignation || "",
+
+        experience:
+          body.experience ||
+          undefined,
+
+        experienceYears:
+          body.experienceYears || "",
+
+        lastSalary:
+          body.lastSalary || "",
+
+        lastInHandSalary:
+          body.lastInHandSalary || "",
+
+        salarySlip:
+          body.salarySlip ||
+          undefined,
+
+        currentlyWorking:
+          body.currentlyWorking ||
+          undefined,
+
+        preferredJoiningDate:
+          body.preferredJoiningDate ||
+          null,
+
+        criminalRecord:
+          body.criminalRecord || "",
+
+        noticePeriod:
+          body.noticePeriod || undefined,
+
+        experienceLetter:
+          body.experienceLetter ||
+          undefined,
+
+        reference:
+          body.reference || "",
+
+        // ======================================
+        // IMPORTANT
+        // FROM REGISTRATION LINK
+        // ======================================
+
+        department:
+          department,
+
+        appliedPosition:
+          appliedPosition,
+
+        // ======================================
+        // DEFAULT
+        // ======================================
+
+        finalStatus:
+          "New",
+
+        registrationToken:
+          body.registrationToken,
+
+        registrationTokenUsed:
+          true,
+      });
 
     // ==========================================
-    // MARK REGISTRATION LINK AS USED
+    // VERIFY WHAT WAS SAVED
+    // ==========================================
+
+    console.log(
+      "========== CANDIDATE CREATED =========="
+    );
+
+    console.log(
+      "Candidate ID:",
+      candidate._id
+    );
+
+    console.log(
+      "Candidate Department:",
+      candidate.department
+    );
+
+    console.log(
+      "Candidate Position:",
+      candidate.appliedPosition
+    );
+
+    // ==========================================
+    // MARK LINK USED
     // ==========================================
 
     await RegistrationLink.findByIdAndUpdate(
@@ -118,18 +238,28 @@ export async function POST(req) {
 
     return NextResponse.json({
       success: true,
-      message: "Candidate Created Successfully",
+
+      message:
+        "Candidate Created Successfully",
+
       candidate,
     });
   } catch (error) {
-    console.error("Candidate creation error:", error);
+    console.error(
+      "Candidate creation error:",
+      error
+    );
 
     return NextResponse.json(
       {
         success: false,
-        message: error.message,
+        message:
+          error.message ||
+          "Unable to create candidate",
       },
-      { status: 500 }
+      {
+        status: 500,
+      }
     );
   }
 }

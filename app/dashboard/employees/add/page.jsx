@@ -15,6 +15,8 @@ const candidateId = searchParams.get("candidateId");
     employeeCode: "",
     employeeFullName: "",
     employeePhoto: "",
+     department: "",
+  designation: "",
 
     fatherName: "",
     address: "",
@@ -107,6 +109,11 @@ const candidateId = searchParams.get("candidateId");
           // =========================
 
           employeeFullName: candidate.fullName || "",
+          department:
+  candidate.department || "",
+
+designation:
+  candidate.appliedPosition || "",
           mobileNo: candidate.mobile || "",
           emailId: candidate.email || "",
           address: candidate.address || "",
@@ -300,7 +307,9 @@ const handleSubmit = async (e) => {
       candidateId: candidateId || undefined,
     };
 
-    console.log("Employee payload:", payload);
+    console.log("FULL EMPLOYEE PAYLOAD:", payload);
+console.log("DEPARTMENT SENT:", payload.department);
+console.log("DESIGNATION SENT:", payload.designation);
 
     const res = await axios.post(
       "/api/employee/create",
@@ -384,6 +393,42 @@ const handleSubmit = async (e) => {
         />
 
       </div>
+      {/* Department */}
+
+<div>
+
+  <label className="block text-sm font-semibold text-gray-700 mb-2">
+    Department
+  </label>
+
+  <input
+    name="department"
+    value={formData.department}
+    onChange={handleChange}
+    placeholder="Department"
+    className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+  />
+
+</div>
+
+
+{/* Designation */}
+
+<div>
+
+  <label className="block text-sm font-semibold text-gray-700 mb-2">
+    Designation
+  </label>
+
+  <input
+    name="designation"
+    value={formData.designation}
+    onChange={handleChange}
+    placeholder="Designation"
+    className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+  />
+
+</div>
 
       {/* Father Name */}
 

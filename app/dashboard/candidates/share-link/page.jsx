@@ -14,6 +14,11 @@ export default function ShareCandidateLink() {
   const [link, setLink] = useState("");
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [department, setDepartment] =
+  useState("");
+
+const [appliedPosition, setAppliedPosition] =
+  useState("");
 
   // ================================
   // GENERATE UNIQUE LINK
@@ -21,11 +26,30 @@ export default function ShareCandidateLink() {
 
   const generateLink = async () => {
     try {
-      setLoading(true);
+     
+if (!department) {
+  toast.error(
+    "Please select a department"
+  );
+  return;
+}
+
+if (!appliedPosition.trim()) {
+  toast.error(
+    "Please enter the applied position"
+  );
+  return;
+}
+
+ setLoading(true);
       setCopied(false);
 
+      
       const { data } = await axios.post(
-        "/api/candidates/generate-link"
+        "/api/candidates/generate-link",{
+    department,
+    appliedPosition,
+  }
       );
 
       console.log("Generate link response:", data);
@@ -200,7 +224,72 @@ export default function ShareCandidateLink() {
 
           </div>
 
+<div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
 
+  {/* DEPARTMENT */}
+
+  <div>
+    <label className="block text-sm font-semibold text-gray-700 mb-2">
+      Department
+    </label>
+
+    <select
+      value={department}
+      onChange={(e) =>
+        setDepartment(
+          e.target.value
+        )
+      }
+      className="w-full border border-gray-200 rounded-xl px-4 py-3 bg-white outline-none focus:border-blue-500"
+    >
+      <option value="">
+        Select Department
+      </option>
+
+      <option value="HR">
+        HR
+      </option>
+
+      <option value="Creative">
+        Creative
+      </option>
+
+      <option value="Technology">
+        Technology
+      </option>
+
+      <option value="Sales">
+        Sales
+      </option>
+
+      <option value="Marketing">
+        Marketing
+      </option>
+    </select>
+  </div>
+
+
+  {/* POSITION */}
+
+  <div>
+    <label className="block text-sm font-semibold text-gray-700 mb-2">
+      Applied Position
+    </label>
+
+    <input
+      type="text"
+      value={appliedPosition}
+      onChange={(e) =>
+        setAppliedPosition(
+          e.target.value
+        )
+      }
+      placeholder="Motion Graphic Designer"
+      className="w-full border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-blue-500"
+    />
+  </div>
+
+</div>
           {/* ================= GENERATE BUTTON ================= */}
 
           {!link && (
