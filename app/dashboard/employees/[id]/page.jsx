@@ -198,6 +198,7 @@ export default function EmployeeProfile() {
 
                 <div className="border rounded-2xl p-5 hover:shadow-md transition">
                   <p className="text-gray-400 text-sm mb-1">Joining Date</p>
+                  
 
                   <p className="font-semibold">
                     {employee.joiningDate
