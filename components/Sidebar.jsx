@@ -48,11 +48,11 @@ const menus = [
     href: "/dashboard/salary",
     icon: BarChart3,
   },
-  {
-    name: "Settings",
-    href: "/dashboard/settings",
-    icon: Settings,
-  },
+  // {
+  //   name: "Settings",
+  //   href: "/dashboard/settings",
+  //   icon: Settings,
+  // },
   {
     name: "Holiday",
     href: "/dashboard/holidays",

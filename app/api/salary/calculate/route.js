@@ -1,15 +1,13 @@
 // 2nd september new code for register salry and payroll and other 
 import { NextResponse } from "next/server";
 
-
-
 import Employee from "@/models/Employee";
 import Attendance from "@/models/Attendance";
 import Leave from "@/models/Leave";
 import Holiday from "@/models/Holiday";
 import Salary from "@/models/Salary";
-import { connectDB } from "@/lib/mongodb";
 
+import { connectDB } from "@/lib/mongodb";
 
 // ============================================================
 // DATE KEY
@@ -18,16 +16,14 @@ import { connectDB } from "@/lib/mongodb";
 function getDateKey(date) {
   const d = new Date(date);
 
-  return `${d.getFullYear()}-${String(
-    d.getMonth() + 1
-  ).padStart(2, "0")}-${String(
-    d.getDate()
-  ).padStart(2, "0")}`;
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(
+    2,
+    "0"
+  )}-${String(d.getDate()).padStart(2, "0")}`;
 }
 
-
 // ============================================================
-// 2ND / 4TH SATURDAY
+// SECOND SATURDAY
 // ============================================================
 
 function isSecondSaturday(date) {
@@ -37,6 +33,9 @@ function isSecondSaturday(date) {
   );
 }
 
+// ============================================================
+// FOURTH SATURDAY
+// ============================================================
 
 function isFourthSaturday(date) {
   return (
@@ -44,7 +43,6 @@ function isFourthSaturday(date) {
     Math.ceil(date.getDate() / 7) === 4
   );
 }
-
 
 // ============================================================
 // API
@@ -63,7 +61,6 @@ export async function POST(request) {
       monthlySalary,
     } = body;
 
-
     // ========================================================
     // VALIDATION
     // ========================================================
@@ -74,12 +71,9 @@ export async function POST(request) {
           success: false,
           message: "Employee is required",
         },
-        {
-          status: 400,
-        }
+        { status: 400 }
       );
     }
-
 
     if (!month || !year) {
       return NextResponse.json(
@@ -87,12 +81,9 @@ export async function POST(request) {
           success: false,
           message: "Month and year are required",
         },
-        {
-          status: 400,
-        }
+        { status: 400 }
       );
     }
-
 
     if (
       monthlySalary === undefined ||
@@ -104,26 +95,19 @@ export async function POST(request) {
           success: false,
           message: "Valid monthly salary is required",
         },
-        {
-          status: 400,
-        }
+        { status: 400 }
       );
     }
 
-
-    const salaryAmount =
-      Number(monthlySalary);
-
+    const salaryAmount = Number(monthlySalary);
+    const selectedMonth = Number(month);
+    const selectedYear = Number(year);
 
     // ========================================================
     // EMPLOYEE
     // ========================================================
 
-    const employee =
-      await Employee.findById(
-        employeeId
-      ).lean();
-
+    const employee = await Employee.findById(employeeId).lean();
 
     if (!employee) {
       return NextResponse.json(
@@ -131,147 +115,86 @@ export async function POST(request) {
           success: false,
           message: "Employee not found",
         },
-        {
-          status: 404,
-        }
+        { status: 404 }
       );
     }
-
 
     // ========================================================
     // TOTAL CALENDAR DAYS
     // ========================================================
 
-    const calendarDays =
-      new Date(
-        Number(year),
-        Number(month),
-        0
-      ).getDate();
-
-
-    const firstDay =
-      new Date(
-        Number(year),
-        Number(month) - 1,
-        1
-      );
-
-    firstDay.setHours(
-      0,
-      0,
-      0,
+    const calendarDays = new Date(
+      selectedYear,
+      selectedMonth,
       0
+    ).getDate();
+
+    const firstDay = new Date(
+      selectedYear,
+      selectedMonth - 1,
+      1
     );
 
+    firstDay.setHours(0, 0, 0, 0);
 
-    const lastDay =
-      new Date(
-        Number(year),
-        Number(month) - 1,
-        calendarDays
-      );
-
-    lastDay.setHours(
-      23,
-      59,
-      59,
-      999
+    const lastDay = new Date(
+      selectedYear,
+      selectedMonth - 1,
+      calendarDays
     );
 
+    lastDay.setHours(23, 59, 59, 999);
 
     // ========================================================
     // ATTENDANCE
     // ========================================================
 
-    const attendance =
-      await Attendance.find({
-        employeeId,
-
-        date: {
-          $gte: firstDay,
-          $lte: lastDay,
-        },
-      })
-        .sort({
-          date: 1,
-        })
-        .lean();
-
+    const attendance = await Attendance.find({
+      employeeId,
+      date: {
+        $gte: firstDay,
+        $lte: lastDay,
+      },
+    })
+      .sort({ date: 1 })
+      .lean();
 
     const attendanceMap = {};
 
-
-    attendance.forEach(
-      (record) => {
-        const key =
-          getDateKey(
-            record.date
-          );
-
-        attendanceMap[key] =
-          record;
-      }
-    );
-
+    attendance.forEach((record) => {
+      const key = getDateKey(record.date);
+      attendanceMap[key] = record;
+    });
 
     // ========================================================
     // APPROVED LEAVES
     // ========================================================
 
-    const approvedLeaves =
-      await Leave.find({
-        employeeId,
-
-        status:
-          "Approved",
-      })
-        .sort({
-          fromDate: 1,
-        })
-        .lean();
-
+    const approvedLeaves = await Leave.find({
+      employeeId,
+      status: "Approved",
+    })
+      .sort({ fromDate: 1 })
+      .lean();
 
     // ========================================================
     // HR HOLIDAYS
     // ========================================================
 
-    const holidays =
-      await Holiday.find({
-        date: {
-          $gte: new Date(
-            Number(year),
-            0,
-            1
-          ),
-
-          $lt: new Date(
-            Number(year) + 1,
-            0,
-            1
-          ),
-        },
-      }).lean();
-
+    const holidays = await Holiday.find({
+      date: {
+        $gte: new Date(selectedYear, 0, 1),
+        $lt: new Date(selectedYear + 1, 0, 1),
+      },
+    }).lean();
 
     const holidayMap = {};
 
-
     holidays
-      .filter(
-        (holiday) =>
-          holiday.paid !== false
-      )
-      .forEach(
-        (holiday) => {
-          holidayMap[
-            getDateKey(
-              holiday.date
-            )
-          ] = holiday;
-        }
-      );
-
+      .filter((holiday) => holiday.paid !== false)
+      .forEach((holiday) => {
+        holidayMap[getDateKey(holiday.date)] = holiday;
+      });
 
     // ========================================================
     // BIRTHDAY
@@ -279,239 +202,155 @@ export async function POST(request) {
 
     let birthdayKey = null;
 
+    if (employee.dateOfBirth) {
+      const dob = new Date(employee.dateOfBirth);
 
-    if (
-      employee.dateOfBirth
-    ) {
-      const dob =
-        new Date(
-          employee.dateOfBirth
-        );
-
-
-      const birthday =
-        new Date(
-          Number(year),
-          dob.getMonth(),
-          dob.getDate()
-        );
-
-
-      birthday.setHours(
-        0,
-        0,
-        0,
-        0
+      const birthday = new Date(
+        selectedYear,
+        dob.getMonth(),
+        dob.getDate()
       );
 
+      birthday.setHours(0, 0, 0, 0);
 
-      birthdayKey =
-        getDateKey(
-          birthday
-        );
+      birthdayKey = getDateKey(birthday);
     }
-
 
     // ========================================================
     // LEAVE TREATMENT
     //
-    // FIRST CL / SL IN MONTH = PAID
-    // NEXT CL / SL = LOP
-    // DIRECT LOP = LOP
+    // First CL / SL day in month = PAID
+    // Next CL / SL days = LOP
+    // Direct LOP = LOP
     //
-    // HOLIDAY ALWAYS WINS
+    // Holiday always wins
+    // Leave only applies when attendance = Absent
     // ========================================================
 
     const leaveTreatmentMap = {};
 
     let paidLeaveUsed = 0;
 
+    for (const leave of approvedLeaves) {
+      const start = new Date(leave.fromDate);
+      const end = new Date(leave.toDate);
 
-    for (
-      const leave of approvedLeaves
-    ) {
-      const start =
-        new Date(
-          leave.fromDate
-        );
+      start.setHours(0, 0, 0, 0);
+      end.setHours(0, 0, 0, 0);
 
-      const end =
-        new Date(
-          leave.toDate
-        );
+      const current = new Date(start);
 
+      while (current <= end) {
+        const key = getDateKey(current);
 
-      start.setHours(
-        0,
-        0,
-        0,
-        0
-      );
+        // Only selected month
+        if (
+          current >= firstDay &&
+          current <= lastDay
+        ) {
+          const sunday =
+            current.getDay() === 0;
 
-      end.setHours(
-        0,
-        0,
-        0,
-        0
-      );
+          const secondSaturday =
+            isSecondSaturday(current);
 
+          const fourthSaturday =
+            isFourthSaturday(current);
 
-      const current =
-        new Date(start);
+          const hrHoliday =
+            holidayMap[key];
 
+          const birthday =
+            birthdayKey === key;
 
-      while (
-        current <= end
-      ) {
-        const key =
-          getDateKey(
-            current
-          );
+          const isHoliday =
+            sunday ||
+            secondSaturday ||
+            fourthSaturday ||
+            !!hrHoliday ||
+            birthday;
 
+          // Holiday always wins
+          if (!isHoliday) {
+            const record =
+              attendanceMap[key];
 
-        const isSunday =
-          current.getDay() ===
-          0;
+            // Leave only applies to absent attendance
+            if (record?.status === "Absent") {
+              const requestedDays =
+                leave.duration === "Half Day"
+                  ? 0.5
+                  : 1;
 
-
-        const secondSaturday =
-          isSecondSaturday(
-            current
-          );
-
-
-        const fourthSaturday =
-          isFourthSaturday(
-            current
-          );
-
-
-        const hrHoliday =
-          holidayMap[key];
-
-
-        const isBirthday =
-          birthdayKey === key;
-
-
-        const isHoliday =
-          isSunday ||
-          secondSaturday ||
-          fourthSaturday ||
-          !!hrHoliday ||
-          isBirthday;
-
-
-        /*
-          HOLIDAY ALWAYS WINS.
-          Leave must NOT consume
-          paid leave on a holiday.
-        */
-
-        if (!isHoliday) {
-          const record =
-            attendanceMap[key];
-
-
-          /*
-            Leave only applies when
-            machine attendance says Absent.
-          */
-
-          if (
-            record?.status ===
-            "Absent"
-          ) {
-            const requestedDays =
-              leave.duration ===
-              "Half Day"
-                ? 0.5
-                : 1;
-
-
-            // ============================================
-            // CL / SL
-            // ============================================
-
-            if (
-              leave.leaveType ===
-                "CL" ||
-              leave.leaveType ===
-                "SL"
-            ) {
-              let paidDays = 0;
-
-              let lopDays = 0;
-
+              // ==================================================
+              // CL / SL
+              // ==================================================
 
               if (
-                paidLeaveUsed <
-                1
+                leave.leaveType === "CL" ||
+                leave.leaveType === "SL"
               ) {
-                const available =
-                  1 -
-                  paidLeaveUsed;
+                let paidDays = 0;
+                let lopDaysForLeave = 0;
 
+                if (paidLeaveUsed < 1) {
+                  const available =
+                    1 - paidLeaveUsed;
 
-                paidDays =
-                  Math.min(
+                  paidDays = Math.min(
                     requestedDays,
                     available
                   );
 
-
-                lopDays =
-                  Math.max(
-                    requestedDays -
-                      paidDays,
+                  lopDaysForLeave = Math.max(
+                    requestedDays - paidDays,
                     0
                   );
 
+                  paidLeaveUsed += paidDays;
+                } else {
+                  lopDaysForLeave =
+                    requestedDays;
+                }
 
-                paidLeaveUsed +=
-                  paidDays;
-              } else {
-                lopDays =
-                  requestedDays;
+                leaveTreatmentMap[key] = {
+                  leaveType:
+                    leave.leaveType,
+
+                  leaveName:
+                    leave.leaveType === "CL"
+                      ? "Casual Leave"
+                      : "Sick Leave",
+
+                  payment:
+                    lopDaysForLeave > 0
+                      ? "LOP"
+                      : "Paid",
+
+                  paidDays,
+                  lopDays:
+                    lopDaysForLeave,
+                };
               }
 
+              // ==================================================
+              // DIRECT LOP
+              // ==================================================
 
-              leaveTreatmentMap[
-                key
-              ] = {
-                leaveType:
-                  leave.leaveType,
-
-                paidDays,
-
-                lopDays,
-              };
-            }
-
-
-            // ============================================
-            // DIRECT LOP
-            // ============================================
-
-            if (
-              leave.leaveType ===
-              "LOP"
-            ) {
-              leaveTreatmentMap[
-                key
-              ] = {
-                leaveType:
-                  "LOP",
-
-                paidDays: 0,
-
-                lopDays:
-                  requestedDays,
-              };
+              if (
+                leave.leaveType === "LOP"
+              ) {
+                leaveTreatmentMap[key] = {
+                  leaveType: "LOP",
+                  leaveName: "Loss of Pay",
+                  payment: "LOP",
+                  paidDays: 0,
+                  lopDays: requestedDays,
+                };
+              }
             }
           }
         }
-
 
         current.setDate(
           current.getDate() + 1
@@ -519,32 +358,33 @@ export async function POST(request) {
       }
     }
 
-
     // ========================================================
     // COUNTERS
     // ========================================================
 
     let presentDays = 0;
-
     let holidayDays = 0;
 
     let casualLeaveDays = 0;
-
     let sickLeaveDays = 0;
-
     let paidLeaveDays = 0;
 
     let lopDays = 0;
-
     let unpaidAbsenceDays = 0;
 
     let lateMarks = 0;
-
     let totalLateMinutes = 0;
 
-
     // ========================================================
-    // DAY BY DAY
+    // DAY BY DAY CLASSIFICATION
+    //
+    // Every calendar date gets exactly ONE classification:
+    //
+    // Holiday
+    // Present
+    // Paid Leave
+    // LOP
+    // Unpaid Absence
     // ========================================================
 
     for (
@@ -552,57 +392,37 @@ export async function POST(request) {
       day <= calendarDays;
       day++
     ) {
-      const date =
-        new Date(
-          Number(year),
-          Number(month) - 1,
-          day
-        );
-
-
-      date.setHours(
-        0,
-        0,
-        0,
-        0
+      const date = new Date(
+        selectedYear,
+        selectedMonth - 1,
+        day
       );
 
+      date.setHours(0, 0, 0, 0);
 
-      const key =
-        getDateKey(date);
-
+      const key = getDateKey(date);
 
       const record =
         attendanceMap[key];
 
-
-      // ================================================
-      // HOLIDAYS
-      // ================================================
+      // ====================================================
+      // HOLIDAY
+      // ====================================================
 
       const sunday =
         date.getDay() === 0;
 
-
       const secondSaturday =
-        isSecondSaturday(
-          date
-        );
-
+        isSecondSaturday(date);
 
       const fourthSaturday =
-        isFourthSaturday(
-          date
-        );
-
+        isFourthSaturday(date);
 
       const hrHoliday =
         holidayMap[key];
 
-
       const birthday =
         birthdayKey === key;
-
 
       const isHoliday =
         sunday ||
@@ -611,163 +431,330 @@ export async function POST(request) {
         !!hrHoliday ||
         birthday;
 
-
-      if (
-        isHoliday
-      ) {
+      if (isHoliday) {
         holidayDays++;
-
         continue;
       }
 
-
-      // ================================================
+      // ====================================================
       // PRESENT
-      // ================================================
+      // ====================================================
 
       if (
-        record?.status ===
-        "Present"
+        record?.status === "Present"
       ) {
         presentDays++;
 
-
-        if (
-          record.lateMark ===
-          true
-        ) {
+        if (record.lateMark === true) {
           lateMarks++;
 
-
-          totalLateMinutes +=
-            Number(
-              record.lateMinutes ||
-                0
-            );
+          totalLateMinutes += Number(
+            record.lateMinutes || 0
+          );
         }
-
 
         continue;
       }
 
-
-      // ================================================
-      // LEAVE
-      // ================================================
+      // ====================================================
+      // APPROVED LEAVE
+      // ====================================================
 
       const leaveInfo =
-        leaveTreatmentMap[
-          key
-        ];
-
+        leaveTreatmentMap[key];
 
       if (leaveInfo) {
-        const paid =
-          Number(
-            leaveInfo.paidDays ||
-              0
-          );
+        const paid = Number(
+          leaveInfo.paidDays || 0
+        );
 
+        const lop = Number(
+          leaveInfo.lopDays || 0
+        );
 
-        const lop =
-          Number(
-            leaveInfo.lopDays ||
-              0
-          );
-
-
-        paidLeaveDays +=
-          paid;
-
-
-        lopDays +=
-          lop;
-
+        paidLeaveDays += paid;
+        lopDays += lop;
 
         if (
-          leaveInfo.leaveType ===
-          "CL"
+          leaveInfo.leaveType === "CL"
         ) {
-          casualLeaveDays +=
-            paid;
+          casualLeaveDays += paid;
         }
-
 
         if (
-          leaveInfo.leaveType ===
-          "SL"
+          leaveInfo.leaveType === "SL"
         ) {
-          sickLeaveDays +=
-            paid;
+          sickLeaveDays += paid;
         }
-
 
         continue;
       }
 
-
-      // ================================================
-      // NO ATTENDANCE + NO HOLIDAY + NO LEAVE
-      // ================================================
+      // ====================================================
+      // UNPAID ABSENCE
+      // ====================================================
 
       unpaidAbsenceDays++;
     }
 
+    // ========================================================
+    // CLASSIFICATION VALIDATION
+    // ========================================================
+
+    const classifiedDays =
+      presentDays +
+      holidayDays +
+      paidLeaveDays +
+      lopDays +
+      unpaidAbsenceDays;
+
+    console.log(
+      "========================================"
+    );
+
+    console.log(
+      "SALARY CALCULATION"
+    );
+
+    console.log(
+      "Employee:",
+      employee.employeeFullName
+    );
+
+    console.log(
+      "Month:",
+      selectedMonth,
+      selectedYear
+    );
+
+    console.log(
+      "Calendar Days:",
+      calendarDays
+    );
+
+    console.log(
+      "Present Days:",
+      presentDays
+    );
+
+    console.log(
+      "Holiday Days:",
+      holidayDays
+    );
+
+    console.log(
+      "Paid Leave Days:",
+      paidLeaveDays
+    );
+
+    console.log(
+      "LOP Days:",
+      lopDays
+    );
+
+    console.log(
+      "Unpaid Absence Days:",
+      unpaidAbsenceDays
+    );
+
+    console.log(
+      "Classified Days:",
+      classifiedDays
+    );
+
+    console.log(
+      "Classification Valid:",
+      classifiedDays === calendarDays
+    );
+
+    console.log(
+      "Late Marks:",
+      lateMarks
+    );
+
+    console.log(
+      "Total Late Minutes:",
+      totalLateMinutes
+    );
 
     // ========================================================
-    // PAYABLE DAYS
+    // STOP IF CLASSIFICATION IS IMPOSSIBLE
+    // ========================================================
+
+    if (
+      classifiedDays !== calendarDays
+    ) {
+      return NextResponse.json(
+        {
+          success: false,
+          message:
+            `Attendance classification error. ` +
+            `${classifiedDays} days classified ` +
+            `for a ${calendarDays}-day month.`,
+          details: {
+            calendarDays,
+            presentDays,
+            holidayDays,
+            paidLeaveDays,
+            lopDays,
+            unpaidAbsenceDays,
+            classifiedDays,
+          },
+        },
+        { status: 400 }
+      );
+    }
+
+    // ========================================================
+    // PER DAY SALARY
+    // ========================================================
+
+    const perDaySalary =
+      salaryAmount / calendarDays;
+
+    // ========================================================
+    // LATE DEDUCTION DAYS
     //
-    // PRESENT + HOLIDAY + PAID LEAVE
+    // 1-3 = 0
+    // 4th = 0.5
+    // 5th = 1
+    // 6th = 1.5
+    // 7th = 2
+    // etc.
     // ========================================================
 
-    const payableDays =
+    let lateDeductionDays = 0;
+
+    if (lateMarks <= 3) {
+      lateDeductionDays = 0;
+    } else if (lateMarks === 4) {
+      lateDeductionDays = 0.5;
+    } else {
+      lateDeductionDays =
+        1 +
+        (lateMarks - 5) * 0.5;
+    }
+
+    // ========================================================
+    // LATE DEDUCTION MONEY
+    // ========================================================
+
+    const lateDeduction =
+      lateDeductionDays *
+      perDaySalary;
+
+    // ========================================================
+    // BASE PAID DAYS
+    //
+    // Present + Holiday + Paid Leave
+    // ========================================================
+
+    const basePaidDays =
       presentDays +
       holidayDays +
       paidLeaveDays;
 
+    // ========================================================
+    // FINAL PAID DAYS
+    //
+    // Subtract late deduction days
+    // ========================================================
+
+    const payableDays = Math.max(
+      basePaidDays -
+        lateDeductionDays,
+      0
+    );
 
     // ========================================================
-    // DEDUCTED DAYS
+    // DEDUCTIBLE DAYS
     //
-    // LOP + UNPAID ABSENCE
+    // LOP + Unpaid Absence
+    //
+    // NOTE:
+    // Late deduction is NOT included here.
+    // It is calculated separately.
     // ========================================================
 
     const deductibleDays =
       lopDays +
       unpaidAbsenceDays;
 
-
     // ========================================================
-    // PER DAY SALARY
-    //
-    // MONTHLY SALARY / CALENDAR DAYS
+    // ABSENCE / LEAVE DEDUCTION
     // ========================================================
 
-    const perDaySalary =
-      salaryAmount /
-      calendarDays;
-
-
-    // ========================================================
-    // DEDUCTION
-    // ========================================================
-
-    const lopDeduction =
+    const absenceLeaveDeduction =
       deductibleDays *
       perDaySalary;
 
+    // ========================================================
+    // TOTAL DEDUCTION
+    //
+    // LOP + Unpaid Absence + Late Penalty
+    // ========================================================
+
+    const totalDeduction =
+      absenceLeaveDeduction +
+      lateDeduction;
 
     // ========================================================
     // NET SALARY
     // ========================================================
 
-    const netSalary =
-      Math.max(
-        salaryAmount -
-          lopDeduction,
-        0
-      );
+    const netSalary = Math.max(
+      salaryAmount -
+        totalDeduction,
+      0
+    );
 
+    // ========================================================
+    // LOG FINAL CALCULATION
+    // ========================================================
+
+    console.log(
+      "Late Deduction Days:",
+      lateDeductionDays
+    );
+
+    console.log(
+      "Per Day Salary:",
+      perDaySalary
+    );
+
+    console.log(
+      "Base Paid Days:",
+      basePaidDays
+    );
+
+    console.log(
+      "Final Paid Days:",
+      payableDays
+    );
+
+    console.log(
+      "Late Deduction:",
+      lateDeduction
+    );
+
+    console.log(
+      "Absence/Leave Deduction:",
+      absenceLeaveDeduction
+    );
+
+    console.log(
+      "Total Deduction:",
+      totalDeduction
+    );
+
+    console.log(
+      "Net Salary:",
+      netSalary
+    );
+
+    console.log(
+      "========================================"
+    );
 
     // ========================================================
     // SAVE SALARY
@@ -778,32 +765,22 @@ export async function POST(request) {
         {
           employeeId,
 
-          month:
-            Number(month),
+          month: selectedMonth,
 
-          year:
-            Number(year),
+          year: selectedYear,
         },
 
         {
           employeeId,
 
-          month:
-            Number(month),
+          month: selectedMonth,
 
-          year:
-            Number(year),
+          year: selectedYear,
 
           monthlySalary:
             salaryAmount,
 
-          /*
-            Your existing schema calls
-            this workingDays.
-            We are using it for the
-            total calendar days.
-          */
-
+          // Calendar days
           workingDays:
             calendarDays,
 
@@ -811,6 +788,7 @@ export async function POST(request) {
 
           presentDays,
 
+          // Existing schema field
           absentDays:
             unpaidAbsenceDays,
 
@@ -828,11 +806,19 @@ export async function POST(request) {
 
           totalLateMinutes,
 
+          // Late deduction
+          lateDeductionDays,
+
+          lateDeduction,
+
+          // Final paid days
           payableDays,
 
           perDaySalary,
 
-          lopDeduction,
+          // Complete deduction
+          lopDeduction:
+            totalDeduction,
 
           netSalary,
 
@@ -850,7 +836,6 @@ export async function POST(request) {
           setDefaultsOnInsert: true,
         }
       ).lean();
-
 
     // ========================================================
     // RESPONSE
@@ -876,8 +861,20 @@ export async function POST(request) {
 
         deductibleDays,
 
+        // Final paid days
         paidDays:
           payableDays,
+
+        // Late details
+        lateDeductionDays,
+
+        lateDeduction,
+
+        absenceLeaveDeduction,
+
+        totalDeduction,
+
+        netSalary,
       },
     });
   } catch (error) {
@@ -885,7 +882,6 @@ export async function POST(request) {
       "Salary calculation error:",
       error
     );
-
 
     return NextResponse.json(
       {
@@ -901,7 +897,6 @@ export async function POST(request) {
     );
   }
 }
-
 
 
 

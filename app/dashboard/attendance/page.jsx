@@ -3994,6 +3994,12 @@ export default function AttendanceManagement() {
                 workingDays
               }
             />
+            <SummaryBox
+              label="holiday Days"
+              value={
+                holidayDays
+              }
+            />
 
 
             <SummaryBox

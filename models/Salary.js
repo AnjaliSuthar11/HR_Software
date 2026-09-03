@@ -92,7 +92,15 @@ const SalarySchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+lateDeductionDays: {
+  type: Number,
+  default: 0,
+},
 
+lateDeduction: {
+  type: Number,
+  default: 0,
+},
 
     // ================================================
     // SALARY

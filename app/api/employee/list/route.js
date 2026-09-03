@@ -8,7 +8,7 @@ export async function GET() {
 
     const employees = await Employee.find()
       .select(
-        "employeeFullName employeeCode employeePhoto employeeStatus panCardDocument aadharCardDocument highestEducationDocument experienceLetter salarySlip"
+        "employeeFullName employeeCode employeePhoto employeeStatus department designation panCardDocument aadharCardDocument highestEducationDocument experienceLetter salarySlip"
       )
       .sort({ createdAt: -1 });
 
@@ -17,7 +17,7 @@ export async function GET() {
       employees,
     });
   } catch (error) {
-    console.log(error);
+    console.log("Employee List API Error:", error);
 
     return NextResponse.json(
       {
