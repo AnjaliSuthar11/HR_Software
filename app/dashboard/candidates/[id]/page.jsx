@@ -30,6 +30,7 @@ import {
   Workflow,
   WorkflowIcon,
   ShieldCheck,
+  ArrowLeft,
 } from "lucide-react";
 
 export default function CandidateDetails({ params }) {
@@ -186,8 +187,20 @@ export default function CandidateDetails({ params }) {
 
   return (
     <div className="p-8">
-      <h1 className="text-3xl font-bold">Candidate Details</h1>
+      <div className="flex  items-center gap-3">
 
+  
+       <Link
+              href="/dashboard/candidates"
+              className="mt-1 w-11 h-11 flex items-center justify-center bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition"
+            >
+              <ArrowLeft
+                size={20}
+                className="text-gray-600"
+              />
+            </Link>
+      <h1 className="text-3xl font-bold">Candidate Details</h1>
+    </div>
       <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden mt-8">
         {/* Header */}
 
