@@ -150,6 +150,7 @@ const handleSubmit = async (e) => {
                   type="text"
                   name="fullName"
                   value={formData.fullName}
+                  
                   onChange={handleChange}
                   className="w-full border rounded-lg p-3"
                   required
