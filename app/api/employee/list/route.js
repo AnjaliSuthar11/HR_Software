@@ -8,7 +8,7 @@ export async function GET() {
 
     const employees = await Employee.find()
       .select(
-        "employeeFullName employeeCode employeePhoto employeeStatus department designation panCardDocument aadharCardDocument highestEducationDocument experienceLetter salarySlip"
+        "employeeFullName employeeCode employeePhoto employeeStatus department designation emailId mobileNo panCardDocument aadharCardDocument highestEducationDocument experienceLetter salarySlip"
       )
       .sort({ createdAt: -1 });
 
