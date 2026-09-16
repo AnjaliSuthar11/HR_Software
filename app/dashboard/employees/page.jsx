@@ -1149,7 +1149,7 @@ export default function EmployeesDashboardPage() {
           value={loading ? "—" : stats.total}
           subtitle={`${stats.monthEmployees} joined this month`}
           icon={Users}
-          href="/dashboard/employees"
+          href="/dashboard/employees/view"
           tone="blue"
         />
 
@@ -1158,7 +1158,7 @@ export default function EmployeesDashboardPage() {
           value={loading ? "—" : stats.active}
           subtitle="Currently working employees"
           icon={UserCheck}
-          href="/dashboard/employees"
+          href="/dashboard/employees/view"
           tone="green"
         />
 
@@ -1167,7 +1167,7 @@ export default function EmployeesDashboardPage() {
           value={loading ? "—" : stats.total}
           subtitle={`${stats.inactive} inactive records`}
           icon={BriefcaseBusiness}
-          href="/dashboard/employees"
+          href="/dashboard/employees/inactive"
           tone="violet"
         />
 
@@ -1265,6 +1265,7 @@ export default function EmployeesDashboardPage() {
                       }}
                       title={`${item.count} employees in ${item.label}`}
                     />
+
                   </div>
 
                   <p className="mt-2 text-center text-xs font-medium text-slate-500">
