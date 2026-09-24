@@ -1,15 +1,15 @@
 "use client";
 
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
 
-export default function AddEmployee() {
+function AddEmployeeForm() {
   const router = useRouter();
-const searchParams = useSearchParams();
+  const searchParams = useSearchParams();
 
-const candidateId = searchParams.get("candidateId");
+  const candidateId = searchParams.get("candidateId");
 
   const [formData, setFormData] = useState({
     employeeCode: "",
@@ -1546,5 +1546,14 @@ console.log("DESIGNATION SENT:", payload.designation);
 
       </form>
     </div>
+  );
+}
+
+
+export default function AddEmployee() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AddEmployeeForm />
+    </Suspense>
   );
 }
