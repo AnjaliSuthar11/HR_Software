@@ -243,6 +243,15 @@ export default function EmployeeProfilePage() {
                 )
               }
             />
+            <SidebarButton
+              icon="📝"
+              label="Task"
+              onClick={() =>
+                router.push(
+                  "/employee/task"
+                )
+              }
+            />
 
           </div>
 

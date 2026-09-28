@@ -1,88 +1,209 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import {
+  CalendarDays,
+  ChevronLeft,
+  ChevronRight,
+  Cake,
+  Star,
+} from "lucide-react";
 
 export default function EmployeeDashboardPage() {
   const router = useRouter();
 
-  const [employee, setEmployee] =
-    useState(null);
+  // ==================================================
+  // STATE
+  // ==================================================
 
-  const [loading, setLoading] =
-    useState(true);
+  const [calendarDate, setCalendarDate] = useState(new Date());
+  const [holidays, setHolidays] = useState([]);
+  const [employee, setEmployee] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  // ==================================================
+  // CALENDAR VALUES
+  // ==================================================
+
+  const currentYear = calendarDate.getFullYear();
+  const currentMonth = calendarDate.getMonth();
+
+  const monthName = calendarDate.toLocaleString("default", {
+    month: "long",
+  });
+
+  const daysInMonth = new Date(
+    currentYear,
+    currentMonth + 1,
+    0
+  ).getDate();
+
+  const firstDay = new Date(
+    currentYear,
+    currentMonth,
+    1
+  ).getDay();
 
   // ==================================================
   // CHECK LOGIN
   // ==================================================
 
   useEffect(() => {
-    const loggedIn =
-      localStorage.getItem(
-        "employeeLoggedIn"
-      );
+    const loggedIn = localStorage.getItem("employeeLoggedIn");
 
-    const employeeData =
-      localStorage.getItem(
-        "employeeData"
-      );
+    const employeeData = localStorage.getItem("employeeData");
 
-    if (
-      loggedIn !== "true" ||
-      !employeeData
-    ) {
-      router.replace(
-        "/employee/login"
-      );
-
+    if (loggedIn !== "true" || !employeeData) {
+      router.replace("/employee/login");
       return;
     }
 
     try {
-      const parsedEmployee =
-        JSON.parse(
-          employeeData
-        );
+      const parsedEmployee = JSON.parse(employeeData);
 
-      setEmployee(
-        parsedEmployee
-      );
+      setEmployee(parsedEmployee);
     } catch (error) {
-      console.error(
-        "Employee data error:",
-        error
-      );
+      console.error("Employee data error:", error);
 
-      localStorage.clear();
+      localStorage.removeItem("employeeLoggedIn");
+      localStorage.removeItem("employeeId");
+      localStorage.removeItem("employeeData");
 
-      router.replace(
-        "/employee/login"
-      );
+      router.replace("/employee/login");
     } finally {
       setLoading(false);
     }
   }, [router]);
 
   // ==================================================
+  // LOAD HOLIDAYS
+  // ==================================================
+
+  useEffect(() => {
+    const loadHolidays = async () => {
+      try {
+        const res = await axios.get(
+          `/api/holiday?year=${currentYear}`
+        );
+
+        setHolidays(res.data?.holidays || []);
+      } catch (error) {
+        console.error("Failed to load holidays:", error);
+
+        setHolidays([]);
+      }
+    };
+
+    loadHolidays();
+  }, [currentYear]);
+
+  // ==================================================
+  // GET EMPLOYEE BIRTHDAY
+  // ==================================================
+
+  const employeeBirthdayEvents = useMemo(() => {
+    if (!employee?.dateOfBirth) {
+      return [];
+    }
+
+    const dob = new Date(employee.dateOfBirth);
+
+    if (Number.isNaN(dob.getTime())) {
+      return [];
+    }
+
+    const birthday = new Date(
+      currentYear,
+      dob.getUTCMonth(),
+      dob.getUTCDate()
+    );
+
+    return [
+      {
+        id: "my-birthday",
+        title: "My Birthday",
+        date: birthday,
+        type: "birthday",
+      },
+    ];
+  }, [employee, currentYear]);
+
+  // ==================================================
+  // CALENDAR EVENTS
+  // ==================================================
+
+  const calendarEvents = useMemo(() => {
+    const holidayEvents = holidays.map((holiday) => ({
+      id: `holiday-${holiday._id}`,
+      title: holiday.name || "Holiday",
+      date: new Date(holiday.date),
+      type: "holiday",
+      paid: holiday.paid,
+      description: holiday.description || "",
+    }));
+
+    return [
+      ...holidayEvents,
+      ...employeeBirthdayEvents,
+    ];
+  }, [holidays, employeeBirthdayEvents]);
+
+  // ==================================================
+  // EVENTS FOR DAY
+  // ==================================================
+
+  const getEventsForDay = (day) => {
+    return calendarEvents.filter((event) => {
+      const date = new Date(event.date);
+
+      return (
+        date.getFullYear() === currentYear &&
+        date.getMonth() === currentMonth &&
+        date.getDate() === day
+      );
+    });
+  };
+
+  // ==================================================
+  // MONTH NAVIGATION
+  // ==================================================
+
+  const previousMonth = () => {
+    setCalendarDate(
+      new Date(
+        currentYear,
+        currentMonth - 1,
+        1
+      )
+    );
+  };
+
+  const nextMonth = () => {
+    setCalendarDate(
+      new Date(
+        currentYear,
+        currentMonth + 1,
+        1
+      )
+    );
+  };
+
+  const goToToday = () => {
+    setCalendarDate(new Date());
+  };
+
+  // ==================================================
   // LOGOUT
   // ==================================================
 
   const handleLogout = () => {
-    localStorage.removeItem(
-      "employeeLoggedIn"
-    );
+    localStorage.removeItem("employeeLoggedIn");
+    localStorage.removeItem("employeeId");
+    localStorage.removeItem("employeeData");
 
-    localStorage.removeItem(
-      "employeeId"
-    );
-
-    localStorage.removeItem(
-      "employeeData"
-    );
-
-    router.replace(
-      "/employee/login"
-    );
+    router.replace("/employee/login");
   };
 
   // ==================================================
@@ -92,25 +213,24 @@ export default function EmployeeDashboardPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-
         <div className="text-center">
-
           <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-4 border-blue-200 border-t-blue-600" />
 
           <p className="text-gray-500">
             Loading dashboard...
           </p>
-
         </div>
-
       </div>
     );
   }
 
+  // ==================================================
+  // NO EMPLOYEE
+  // ==================================================
+
   if (!employee) {
     return null;
   }
-
   return (
     <div className="min-h-screen bg-slate-50">
 
@@ -122,11 +242,11 @@ export default function EmployeeDashboardPage() {
 
         {/* LOGO */}
 
-        <div className="border-b border-gray-100 px-6 py-6">
+         <div className="px-6 py-6 border-b border-gray-100">
 
           <div className="flex items-center gap-3">
 
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-600 text-xl text-white shadow-lg shadow-blue-200">
+            <div className="w-11 h-11 rounded-xl bg-blue-600 text-white flex items-center justify-center text-xl font-bold">
               E
             </div>
 
@@ -195,6 +315,18 @@ export default function EmployeeDashboardPage() {
             >
               <span>📅</span>
               Attendance
+            </button>
+            
+            <button
+              onClick={() =>
+                router.push(
+                  "/employee/task"
+                )
+              }
+              className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-medium text-gray-600 transition hover:bg-gray-100"
+            >
+              <span>📅</span>
+              Task
             </button>
 
           </div>
@@ -373,131 +505,7 @@ export default function EmployeeDashboardPage() {
               STAT CARDS
           ================================================== */}
 
-          <section className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
-
-            {/* Attendance */}
-
-            <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-
-              <div className="flex items-start justify-between">
-
-                <div>
-
-                  <p className="text-sm text-gray-500">
-                    Attendance
-                  </p>
-
-                  <h3 className="mt-2 text-3xl font-bold text-gray-900">
-                    --
-                  </h3>
-
-                  <p className="mt-2 text-xs text-gray-400">
-                    This month
-                  </p>
-
-                </div>
-
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-green-100 text-xl">
-                  📅
-                </div>
-
-              </div>
-
-            </div>
-
-            {/* Leave */}
-
-            <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-
-              <div className="flex items-start justify-between">
-
-                <div>
-
-                  <p className="text-sm text-gray-500">
-                    Leave Balance
-                  </p>
-
-                  <h3 className="mt-2 text-3xl font-bold text-gray-900">
-                    --
-                  </h3>
-
-                  <p className="mt-2 text-xs text-gray-400">
-                    Available leaves
-                  </p>
-
-                </div>
-
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-100 text-xl">
-                  🌴
-                </div>
-
-              </div>
-
-            </div>
-
-            {/* Pending */}
-
-            <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-
-              <div className="flex items-start justify-between">
-
-                <div>
-
-                  <p className="text-sm text-gray-500">
-                    Pending Leaves
-                  </p>
-
-                  <h3 className="mt-2 text-3xl font-bold text-gray-900">
-                    --
-                  </h3>
-
-                  <p className="mt-2 text-xs text-gray-400">
-                    Awaiting approval
-                  </p>
-
-                </div>
-
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-yellow-100 text-xl">
-                  ⏳
-                </div>
-
-              </div>
-
-            </div>
-
-            {/* Status */}
-
-            <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-
-              <div className="flex items-start justify-between">
-
-                <div>
-
-                  <p className="text-sm text-gray-500">
-                    Employee Status
-                  </p>
-
-                  <h3 className="mt-3 text-xl font-bold text-green-600">
-                    {
-                      employee.employeeStatus
-                    }
-                  </h3>
-
-                  <p className="mt-2 text-xs text-gray-400">
-                    Current account status
-                  </p>
-
-                </div>
-
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-100 text-xl">
-                  ✓
-                </div>
-
-              </div>
-
-            </div>
-
-          </section>
+         
 
           {/* ==================================================
               QUICK ACTIONS
@@ -568,7 +576,7 @@ export default function EmployeeDashboardPage() {
               <button
                 onClick={() =>
                   router.push(
-                    "/employee/attendance"
+                    "/employee/task"
                   )
                 }
                 className="group rounded-2xl border border-gray-100 bg-white p-6 text-left shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
@@ -579,11 +587,11 @@ export default function EmployeeDashboardPage() {
                 </div>
 
                 <h3 className="font-bold text-gray-900">
-                  Attendance
+                 Task
                 </h3>
 
                 <p className="mt-1 text-sm text-gray-500">
-                  View your attendance records
+                  View your Daily Task
                 </p>
 
               </button>
@@ -670,103 +678,378 @@ export default function EmployeeDashboardPage() {
 
             {/* Today */}
 
-            <div className="rounded-2xl border border-gray-100 bg-white shadow-sm">
+           <div className="rounded-2xl border border-gray-100 bg-white shadow-sm">
 
-              <div className="border-b border-gray-100 p-6">
+  {/* HEADER */}
 
-                <h2 className="font-bold text-lg">
-                  Today's Overview
-                </h2>
+  <div className="border-b border-gray-100 p-6">
 
-                <p className="mt-1 text-sm text-gray-500">
-                  Your daily employee activity
+    <div className="flex items-center justify-between">
+
+      <div>
+        <h2 className="font-bold text-lg">
+          My Calendar
+        </h2>
+
+        <p className="mt-1 text-sm text-gray-500">
+          Birthdays and company holidays
+        </p>
+      </div>
+
+      <CalendarDays
+        size={22}
+        className="text-gray-500"
+      />
+
+    </div>
+
+  </div>
+
+
+  <div className="p-6">
+
+    {/* MONTH NAVIGATION */}
+
+    <div className="flex items-center justify-between mb-5">
+
+      <button
+        type="button"
+        onClick={previousMonth}
+        className="flex h-9 w-9 items-center justify-center rounded-lg hover:bg-gray-100"
+      >
+        <ChevronLeft size={18} />
+      </button>
+
+
+      <div className="text-center">
+
+        <p className="font-semibold text-gray-900">
+          {monthName} {currentYear}
+        </p>
+
+        <button
+          type="button"
+          onClick={goToToday}
+          className="text-xs text-blue-600 hover:underline mt-1"
+        >
+          Today
+        </button>
+
+      </div>
+
+
+      <button
+        type="button"
+        onClick={nextMonth}
+        className="flex h-9 w-9 items-center justify-center rounded-lg hover:bg-gray-100"
+      >
+        <ChevronRight size={18} />
+      </button>
+
+    </div>
+
+
+    {/* WEEK DAYS */}
+
+    <div className="grid grid-cols-7 mb-2">
+
+      {[
+        "Sun",
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Sat",
+      ].map((day) => (
+        <div
+          key={day}
+          className="py-2 text-center text-xs font-medium text-gray-400"
+        >
+          {day}
+        </div>
+      ))}
+
+    </div>
+
+
+    {/* CALENDAR */}
+
+    <div className="grid grid-cols-7 gap-1">
+
+      {/* EMPTY DAYS */}
+
+      {Array.from({
+        length: firstDay,
+      }).map((_, index) => (
+        <div
+          key={`empty-${index}`}
+          className="min-h-[65px]"
+        />
+      ))}
+
+
+      {/* MONTH DAYS */}
+
+      {Array.from({
+        length: daysInMonth,
+      }).map((_, index) => {
+
+        const day = index + 1;
+
+        const dayEvents =
+          getEventsForDay(day);
+
+        const now =
+          new Date();
+
+        const isToday =
+          now.getDate() === day &&
+          now.getMonth() ===
+            currentMonth &&
+          now.getFullYear() ===
+            currentYear;
+
+        return (
+          <div
+            key={day}
+            className={`min-h-[65px] rounded-lg border p-1.5 ${
+              isToday
+                ? "border-gray-900 bg-gray-50"
+                : "border-gray-100"
+            }`}
+          >
+
+            <div
+              className={`mb-1 text-xs font-semibold ${
+                isToday
+                  ? "text-gray-900"
+                  : "text-gray-500"
+              }`}
+            >
+              {day}
+            </div>
+
+
+            <div className="space-y-1">
+
+              {dayEvents
+                .slice(0, 2)
+                .map((event) => (
+
+                  <div
+                    key={event.id}
+                    title={
+                      event.description ||
+                      event.title
+                    }
+                    className={`flex items-center gap-1 rounded px-1 py-1 text-[9px] truncate ${
+                      event.type ===
+                      "birthday"
+                        ? "bg-pink-50 text-pink-600 border border-pink-100"
+                        : "bg-blue-50 text-blue-600 border border-blue-100"
+                    }`}
+                  >
+
+                    {event.type ===
+                    "birthday" ? (
+                      <Cake
+                        size={11}
+                      />
+                    ) : (
+                      <Star
+                        size={11}
+                      />
+                    )}
+
+                    <span className="truncate">
+                      {event.title}
+                    </span>
+
+                  </div>
+
+                ))}
+
+              {dayEvents.length > 2 && (
+                <span className="text-[9px] text-gray-400 px-1">
+                  +
+                  {dayEvents.length - 2}{" "}
+                  more
+                </span>
+              )}
+
+            </div>
+
+          </div>
+        );
+      })}
+
+    </div>
+
+
+    {/* THIS MONTH */}
+
+    <div className="mt-5 border-t pt-5">
+
+      <div className="flex items-center justify-between mb-3">
+
+        <h3 className="font-semibold text-gray-900">
+          This Month
+        </h3>
+
+        <span className="text-xs text-gray-400">
+          {calendarEvents.filter((event) => {
+            const date = new Date(
+              event.date
+            );
+
+            return (
+              date.getMonth() ===
+                currentMonth &&
+              date.getFullYear() ===
+                currentYear
+            );
+          }).length}{" "}
+          events
+        </span>
+
+      </div>
+
+
+      {calendarEvents
+        .filter((event) => {
+          const date = new Date(
+            event.date
+          );
+
+          return (
+            date.getMonth() ===
+              currentMonth &&
+            date.getFullYear() ===
+              currentYear
+          );
+        })
+        .sort(
+          (a, b) =>
+            new Date(a.date) -
+            new Date(b.date)
+        )
+        .slice(0, 5)
+        .map((event) => {
+
+          const date = new Date(
+            event.date
+          );
+
+          return (
+            <div
+              key={event.id}
+              className={`mb-2 flex items-center justify-between rounded-xl border px-4 py-3 ${
+                event.type ===
+                "birthday"
+                  ? "border-pink-100 bg-pink-50"
+                  : "border-blue-100 bg-blue-50"
+              }`}
+            >
+
+              <div className="flex items-center gap-3">
+
+                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-white">
+
+                  {event.type ===
+                  "birthday" ? (
+                    <Cake
+                      size={16}
+                      className="text-pink-600"
+                    />
+                  ) : (
+                    <Star
+                      size={16}
+                      className="text-blue-600"
+                    />
+                  )}
+
+                </div>
+
+                <div>
+
+                  <p className="text-sm font-medium text-gray-900">
+                    {event.title}
+                  </p>
+
+                  <p className="text-xs text-gray-500">
+                    {event.type ===
+                    "birthday"
+                      ? "Birthday"
+                      : "Company Holiday"}
+                  </p>
+
+                </div>
+
+              </div>
+
+
+              <div className="text-right">
+
+                <p className="text-sm font-semibold text-gray-900">
+                  {date.getDate()}
+                </p>
+
+                <p className="text-[10px] text-gray-400">
+                  {date.toLocaleString(
+                    "default",
+                    {
+                      month: "short",
+                    }
+                  )}
                 </p>
 
               </div>
 
-              <div className="space-y-4 p-6">
-
-                <div className="flex items-center justify-between rounded-xl bg-gray-50 p-4">
-
-                  <div className="flex items-center gap-4">
-
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-green-100">
-                      🟢
-                    </div>
-
-                    <div>
-                      <p className="font-semibold">
-                        Attendance
-                      </p>
-
-                      <p className="text-xs text-gray-500">
-                        Today's attendance
-                      </p>
-                    </div>
-
-                  </div>
-
-                  <span className="text-sm font-semibold text-gray-400">
-                    Not available
-                  </span>
-
-                </div>
-
-                <div className="flex items-center justify-between rounded-xl bg-gray-50 p-4">
-
-                  <div className="flex items-center gap-4">
-
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-orange-100">
-                      📝
-                    </div>
-
-                    <div>
-                      <p className="font-semibold">
-                        Leave
-                      </p>
-
-                      <p className="text-xs text-gray-500">
-                        Leave requests
-                      </p>
-                    </div>
-
-                  </div>
-
-                  <span className="text-sm font-semibold text-gray-400">
-                    No requests
-                  </span>
-
-                </div>
-
-                <div className="flex items-center justify-between rounded-xl bg-gray-50 p-4">
-
-                  <div className="flex items-center gap-4">
-
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-100">
-                      🔔
-                    </div>
-
-                    <div>
-                      <p className="font-semibold">
-                        Notifications
-                      </p>
-
-                      <p className="text-xs text-gray-500">
-                        Important updates
-                      </p>
-                    </div>
-
-                  </div>
-
-                  <span className="text-sm font-semibold text-gray-400">
-                    0
-                  </span>
-
-                </div>
-
-              </div>
-
             </div>
+          );
+        })}
+
+
+      {calendarEvents.filter((event) => {
+        const date = new Date(
+          event.date
+        );
+
+        return (
+          date.getMonth() ===
+            currentMonth &&
+          date.getFullYear() ===
+            currentYear
+        );
+      }).length === 0 && (
+        <p className="py-4 text-center text-sm text-gray-500">
+          No birthdays or holidays this month.
+        </p>
+      )}
+
+    </div>
+
+
+    {/* LEGEND */}
+
+    <div className="mt-4 flex gap-3 border-t pt-4">
+
+      <span className="flex items-center gap-1 rounded-lg bg-pink-50 px-2.5 py-1.5 text-xs text-pink-600">
+        <Cake size={13} />
+        Birthday
+      </span>
+
+      <span className="flex items-center gap-1 rounded-lg bg-blue-50 px-2.5 py-1.5 text-xs text-blue-600">
+        <Star size={13} />
+        Holiday
+      </span>
+
+    </div>
+
+  </div>
+
+</div>
 
           </section>
 
