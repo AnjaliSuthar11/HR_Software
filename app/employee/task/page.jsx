@@ -1103,6 +1103,7 @@ const renderAttachments = (attachments) => {
                       className="text-red-600"
                     />
 
+
                   </div>
 
                   <div className="min-w-0">
