@@ -46,46 +46,53 @@ const ALLOWED_EXTENSIONS = [
 // UPLOAD FILE TO CLOUDINARY
 // ==========================================
 
-const uploadToCloudinary = async (
-  file
-) => {
-  const arrayBuffer =
-    await file.arrayBuffer();
+const uploadToCloudinary = async (file) => {
+  const arrayBuffer = await file.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
 
-  const buffer =
-    Buffer.from(arrayBuffer);
+  const extension =
+    file.name
+      ?.split(".")
+      .pop()
+      ?.toLowerCase();
 
-  return new Promise(
-    (resolve, reject) => {
-      const uploadStream =
-        cloudinary.uploader.upload_stream(
-          {
-            resource_type: "auto",
+  let resourceType = "image";
 
-            folder:
-              "hr_tasks",
+  if (
+    ["doc", "docx", "xls", "xlsx", "ppt", "pptx"].includes(
+      extension
+    )
+  ) {
+    resourceType = "raw";
+  }
 
-            use_filename: true,
-
-            unique_filename: true,
-
-            overwrite: false,
-          },
-
-          (error, result) => {
-            if (error) {
-              reject(error);
-            } else {
-              resolve(result);
-            }
+  return new Promise((resolve, reject) => {
+    const uploadStream =
+      cloudinary.uploader.upload_stream(
+        {
+          resource_type: resourceType,
+          folder: "hr_tasks",
+          use_filename: true,
+          unique_filename: true,
+          overwrite: false,
+        },
+        (error, result) => {
+          if (error) {
+            console.error(
+              "Cloudinary upload error:",
+              error
+            );
+            reject(error);
+          } else {
+            console.log("Cloudinary result:", result);
+            resolve(result);
           }
-        );
+        }
+      );
 
-      uploadStream.end(buffer);
-    }
-  );
+    uploadStream.end(buffer);
+  });
 };
-
 
 // ==========================================
 // DELETE CLOUDINARY FILE

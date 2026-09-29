@@ -18,6 +18,7 @@ import {
   Image as ImageIcon,
   X,
   Download,
+  Eye,
 } from "lucide-react";
 
 export default function EmployeeTaskPage() {
@@ -436,98 +437,96 @@ export default function EmployeeTaskPage() {
   // FILE CHANGE
   // ========================================
 
-  const handleFileChange = (e) => {
-    const selectedFiles = Array.from(
-      e.target.files || []
-    );
+ const handleFileChange = (e) => {
+  const selectedFiles = Array.from(
+    e.target.files || []
+  );
 
-    if (selectedFiles.length === 0) {
+  if (selectedFiles.length === 0) {
+    return;
+  }
+
+  const allowedExtensions = [
+    "jpg",
+    "jpeg",
+    "png",
+    "webp",
+    "gif",
+    "pdf",
+    "doc",
+    "docx",
+    "xls",
+    "xlsx",
+    "ppt",
+    "pptx",
+  ];
+
+  const maxFiles = 5;
+  const maxSize = 10 * 1024 * 1024;
+
+  const validFiles = [];
+  const invalidFiles = [];
+
+  selectedFiles.forEach((file) => {
+    const extension = file.name
+      .split(".")
+      .pop()
+      ?.toLowerCase();
+
+    if (
+      !extension ||
+      !allowedExtensions.includes(
+        extension
+      )
+    ) {
+      invalidFiles.push(
+        `${file.name}: file type not allowed`
+      );
       return;
     }
 
-    const allowedExtensions = [
-      "jpg",
-      "jpeg",
-      "png",
-      "webp",
-      "gif",
-      "pdf",
-      "doc",
-      "docx",
-      "xls",
-      "xlsx",
-      "ppt",
-      "pptx",
-    ];
-
-    const maxFiles = 5;
-
-    const maxSize =
-      10 * 1024 * 1024;
-
-    const validFiles = [];
-
-    const invalidFiles = [];
-
-    selectedFiles.forEach(
-      (file) => {
-        const extension =
-          file.name
-            .split(".")
-            .pop()
-            ?.toLowerCase();
-
-        if (
-          !extension ||
-          !allowedExtensions.includes(
-            extension
-          )
-        ) {
-          invalidFiles.push(
-            `${file.name}: file type not allowed`
-          );
-
-          return;
-        }
-
-        if (file.size > maxSize) {
-          invalidFiles.push(
-            `${file.name}: maximum size is 10 MB`
-          );
-
-          return;
-        }
-
-        validFiles.push(file);
-      }
-    );
-
-    if (
-      invalidFiles.length > 0
-    ) {
-      alert(
-        invalidFiles.join("\n")
+    if (file.size > maxSize) {
+      invalidFiles.push(
+        `${file.name}: maximum size is 10 MB`
       );
+      return;
     }
 
-    setForm((prev) => {
-      const combined = [
-        ...prev.attachments,
-        ...validFiles,
-      ];
+    validFiles.push(file);
+  });
 
-      return {
-        ...prev,
-        attachments:
-          combined.slice(
-            0,
-            maxFiles
-          ),
-      };
-    });
+  if (invalidFiles.length > 0) {
+    alert(invalidFiles.join("\n"));
+  }
 
-    e.target.value = "";
-  };
+  setForm((prev) => {
+    const combined = [
+      ...prev.attachments,
+      ...validFiles,
+    ];
+
+    // Remove duplicate files
+    const uniqueFiles = combined.filter(
+      (file, index, self) =>
+        index ===
+        self.findIndex(
+          (item) =>
+            item.name === file.name &&
+            item.size === file.size &&
+            item.lastModified ===
+              file.lastModified
+        )
+    );
+
+    return {
+      ...prev,
+      attachments:
+        uniqueFiles.slice(0, maxFiles),
+    };
+  });
+
+  e.target.value = "";
+};
 
   // ========================================
   // REMOVE ATTACHMENT
@@ -943,100 +942,234 @@ export default function EmployeeTaskPage() {
   // ATTACHMENT UI
   // ========================================
 
-  const renderAttachments = (
-    attachments
-  ) => {
-    if (
-      !attachments ||
-      attachments.length === 0
-    ) {
-      return null;
-    }
+ // ========================================
+// ATTACHMENT UI
+// ========================================
+// ========================================
+// ATTACHMENT UI
+// ========================================
 
-    return (
-      <div className="mt-5">
-        <p className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
-          <Paperclip size={16} />
-          Attachments
-        </p>
+const getDownloadUrl = (url) => {
+  if (!url) return "";
 
-        <div className="flex flex-wrap gap-3">
-          {attachments.map(
-            (
-              attachment,
-              index
-            ) => {
-              const isImage =
-                attachment?.mimeType?.startsWith(
-                  "image/"
-                ) ||
-                attachment?.resourceType ===
-                  "image";
+  return url.replace(
+    "/upload/",
+    "/upload/fl_attachment/"
+  );
+};
 
+const renderAttachments = (attachments) => {
+  if (
+    !attachments ||
+    attachments.length === 0
+  ) {
+    return null;
+  }
+
+  // Remove duplicate attachments
+  const uniqueAttachments =
+    attachments.filter(
+      (attachment, index, self) =>
+        index ===
+        self.findIndex(
+          (item) =>
+            item.url === attachment.url
+        )
+    );
+
+  return (
+    <div className="mt-5">
+
+      <p className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
+        <Paperclip size={16} />
+        Attachments
+      </p>
+
+      <div className="space-y-3">
+
+        {uniqueAttachments.map(
+          (attachment, index) => {
+
+            const isImage =
+              attachment?.mimeType?.startsWith(
+                "image/"
+              ) ||
+              attachment?.resourceType ===
+                "image";
+
+            const fileName =
+              attachment?.fileName ||
+              "Attachment";
+
+            const extension =
+              fileName
+                .split(".")
+                .pop()
+                ?.toUpperCase() || "";
+
+            const fileSize =
+              attachment?.size
+                ? (
+                    attachment.size /
+                    1024 /
+                    1024
+                  ).toFixed(2) +
+                  " MB"
+                : "";
+
+            const downloadUrl =
+              getDownloadUrl(
+                attachment.url
+              );
+
+            // ==================================
+            // IMAGE
+            // ==================================
+
+            if (isImage) {
               return (
-                <a
-                  key={`${attachment?.publicId || attachment?.url || index}-${index}`}
-                  href={
-                    attachment?.url
-                  }
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group border border-gray-200 rounded-xl overflow-hidden bg-gray-50 hover:border-blue-300 transition"
+                <div
+                  key={`${attachment.url}-${index}`}
+                  className="flex items-center justify-between gap-4 border border-gray-200 rounded-xl bg-white p-3"
                 >
-                  {isImage ? (
-                    <div className="w-32">
-                      <img
-                        src={
-                          attachment.url
-                        }
-                        alt={
-                          attachment.fileName ||
-                          "Attachment"
-                        }
-                        className="w-32 h-24 object-cover"
-                      />
 
-                      <div className="px-2 py-2">
-                        <p className="text-xs text-gray-600 truncate">
-                          {
-                            attachment.fileName
-                          }
-                        </p>
-                      </div>
+                  <div className="flex items-center gap-3 min-w-0">
+
+                    {/* <img
+                      src={attachment.url}
+                      alt={fileName}
+                      className="w-14 h-14 rounded-lg object-cover border"
+                    /> */}
+
+                    <div className="min-w-0">
+
+                      <p className="font-medium text-gray-800 truncate">
+                        {fileName}
+                      </p>
+
+                      <p className="text-xs text-gray-400 mt-1">
+                        {extension}
+
+                        {fileSize
+                          ? ` • ${fileSize}`
+                          : ""}
+                      </p>
+
                     </div>
-                  ) : (
-                    <div className="flex items-center gap-3 px-4 py-3 min-w-[240px]">
-                      <FileText
-                        size={26}
-                        className="text-red-500 shrink-0"
-                      />
 
-                      <div className="min-w-0 flex-1">
-                        <p className="text-sm font-medium text-gray-700 truncate">
-                          {
-                            attachment.fileName
-                          }
-                        </p>
+                  </div>
 
-                        <p className="text-xs text-gray-400">
-                          Open document
-                        </p>
-                      </div>
+                  <div className="flex gap-2 shrink-0">
 
-                      <Download
-                        size={17}
-                        className="text-gray-400"
-                      />
-                    </div>
-                  )}
-                </a>
+                    <a
+                      href={attachment.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-3 py-2 rounded-lg bg-blue-50 text-blue-700 text-sm flex gap-2 items-center font-medium hover:bg-blue-100"
+                    >
+                      <Eye size={15}/> View
+                    </a>
+
+                    <a
+                      href={downloadUrl}
+                      className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100 text-gray-700 text-sm font-medium hover:bg-gray-200"
+                    >
+                      <Download size={15} />
+                      Download
+                    </a>
+
+                  </div>
+
+                </div>
               );
             }
-          )}
-        </div>
+
+            // ==================================
+            // PDF / DOCUMENT
+            // ==================================
+
+            return (
+              <div
+                key={`${attachment.url}-${index}`}
+                className="flex items-center justify-between gap-4 border border-gray-200 rounded-xl bg-white p-4"
+              >
+
+                <div className="flex items-center gap-4 min-w-0">
+
+                  <div className="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center shrink-0">
+
+                    <FileText
+                      size={25}
+                      className="text-red-600"
+                    />
+
+                  </div>
+
+                  <div className="min-w-0">
+
+                    <p className="font-semibold text-gray-800 truncate">
+                      {fileName}
+                    </p>
+
+                    <div className="flex items-center gap-2 mt-1 text-xs text-gray-400">
+
+                      <span className="font-medium text-red-600">
+                        {extension}
+                      </span>
+
+                      {fileSize && (
+                        <>
+                          <span>•</span>
+
+                          <span>
+                            {fileSize}
+                          </span>
+                        </>
+                      )}
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <div className="flex gap-2 shrink-0">
+
+                  {/* VIEW */}
+
+                  <a
+                    href={attachment.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-red-50 text-red-700 text-sm font-medium hover:bg-red-100"
+                  >
+                    <FileText size={15} />
+                    
+                   View
+                  </a>
+
+                  {/* DOWNLOAD */}
+
+                  <a
+                    href={downloadUrl}
+                    className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-900 text-white text-sm font-medium hover:bg-black"
+                  >
+                    <Download size={15} />
+                    Download
+                  </a>
+
+                </div>
+
+              </div>
+            );
+          }
+        )}
+
       </div>
-    );
-  };
+
+    </div>
+  );
+};
 
   // ========================================
   // LOADING
@@ -1816,14 +1949,12 @@ export default function EmployeeTaskPage() {
                       Choose Files
 
                       <input
-                        type="file"
-                        multiple
-                        accept=".jpg,.jpeg,.png,.webp,.gif,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx"
-                        onChange={
-                          handleFileChange
-                        }
-                        className="hidden"
-                      />
+  type="file"
+  multiple
+  accept=".jpg,.jpeg,.png,.webp,.gif,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx"
+  onChange={handleFileChange}
+  className="hidden"
+/>
 
                     </label>
 
