@@ -6020,6 +6020,7 @@ export default function SalaryPage() {
 
                           {/* LOP */}
 
+
                           <td className="px-4 py-4">
                             <span className="inline-flex rounded-full bg-red-100 text-red-700 px-3 py-1 text-xs font-bold">
                               {item.lopDays || 0}
