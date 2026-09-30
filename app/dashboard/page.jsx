@@ -35,11 +35,11 @@ export default function Dashboard() {
         </div>
 
         <Link
-          href="/dashboard/candidates/add"
+          href="/dashboard/candidates/share-link"
           className="bg-[#1E3A8A] text-white px-5 py-3 rounded-xl flex items-center gap-2 hover:bg-[#1d4ed8]"
         >
           <UserPlus size={18}/>
-          Add Candidate
+          Register Candidate 
         </Link>
 
       </div>
@@ -80,7 +80,7 @@ export default function Dashboard() {
 
       {/* Middle */}
 
-      <div className="grid lg:grid-cols-3 gap-6">
+      {/* <div className="grid lg:grid-cols-3 gap-6">
 
         <div className="lg:col-span-2">
 
@@ -90,7 +90,7 @@ export default function Dashboard() {
 
         <HiringPipeline/>
 
-      </div>
+      </div> */}
 
       {/* Bottom */}
 

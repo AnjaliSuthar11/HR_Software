@@ -97,6 +97,7 @@ lateDeductionDays: {
   default: 0,
 },
 
+
 lateDeduction: {
   type: Number,
   default: 0,
@@ -115,6 +116,11 @@ lateDeduction: {
       type: Number,
       default: 0,
     },
+
+    fixedDeduction: {
+  type: Number,
+  default: 200,
+},
 
     lopDeduction: {
       type: Number,

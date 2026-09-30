@@ -432,12 +432,12 @@ export async function POST(req) {
 
           if (
             inMinutes !== null &&
-            inMinutes > 600
+            inMinutes > 630
           ) {
             lateMark = true;
 
             lateMinutes =
-              inMinutes - 600;
+              inMinutes - 630;
           }
         }
       }

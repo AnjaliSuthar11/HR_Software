@@ -334,6 +334,31 @@ export async function POST(request) {
               }
 
               // ==================================================
+// PRIVILEGE LEAVE
+// ==================================================
+
+if (
+  leave.leaveType === "PL"
+) {
+  leaveTreatmentMap[key] = {
+    leaveType: "PL",
+
+    leaveName:
+      "Privilege Leave",
+
+    payment:
+      "Paid",
+
+    paidDays:
+      requestedDays,
+
+    lopDays:
+      0,
+  };
+}
+
+
+              // ==================================================
               // DIRECT LOP
               // ==================================================
 
@@ -683,6 +708,7 @@ export async function POST(request) {
     // ========================================================
     // ABSENCE / LEAVE DEDUCTION
     // ========================================================
+const fixedDeduction = 200;
 
     const absenceLeaveDeduction =
       deductibleDays *
@@ -696,7 +722,7 @@ export async function POST(request) {
 
     const totalDeduction =
       absenceLeaveDeduction +
-      lateDeduction;
+      lateDeduction +fixedDeduction;
 
     // ========================================================
     // NET SALARY
@@ -811,6 +837,8 @@ export async function POST(request) {
 
           lateDeduction,
 
+          fixedDeduction,
+          
           // Final paid days
           payableDays,
 
@@ -871,7 +899,7 @@ export async function POST(request) {
         lateDeduction,
 
         absenceLeaveDeduction,
-
+    fixedDeduction,
         totalDeduction,
 
         netSalary,

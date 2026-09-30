@@ -4,82 +4,24 @@ import { connectDB } from "@/lib/mongodb";
 import Leave from "@/models/Leave";
 import Employee from "@/models/Employee";
 
-
 // ======================================================
-// GET LEAVE HISTORY
-// ======================================================
-
-export async function GET(request) {
-  try {
-    await connectDB();
-
-    const { searchParams } =
-      new URL(request.url);
-
-    const employeeId =
-      searchParams.get("employeeId");
-
-    if (!employeeId) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "Employee ID is required",
-        },
-        { status: 400 }
-      );
-    }
-
-    const leaves = await Leave.find({
-      employeeId,
-    })
-      .sort({
-        appliedDate: -1,
-      })
-      .lean();
-
-    return NextResponse.json({
-      success: true,
-      leaves,
-    });
-  } catch (error) {
-    console.error(
-      "Get leave error:",
-      error
-    );
-
-    return NextResponse.json(
-      {
-        success: false,
-        message:
-          "Unable to fetch leave records",
-      },
-      { status: 500 }
-    );
-  }
-}
-
-
-// ======================================================
-// APPLY LEAVE
+// HR ADD LEAVE / ABSENCE
 // ======================================================
 
 export async function POST(request) {
   try {
     await connectDB();
 
-    const body =
-      await request.json();
+    const body = await request.json();
 
     const {
       employeeId,
       leaveType,
+      date,
       fromDate,
       toDate,
-      duration,
-      numberOfDays,
       reason,
     } = body;
-
 
     // ==================================================
     // VALIDATION
@@ -88,22 +30,17 @@ export async function POST(request) {
     if (
       !employeeId ||
       !leaveType ||
-      !fromDate ||
-      !toDate ||
-      !duration ||
-      !numberOfDays ||
-      !reason
+      (!date && !fromDate) ||
+      !reason?.trim()
     ) {
       return NextResponse.json(
         {
           success: false,
-          message:
-            "Please fill all leave fields",
+          message: "Please fill all required fields",
         },
         { status: 400 }
       );
     }
-
 
     // ==================================================
     // CHECK LEAVE TYPE
@@ -123,51 +60,44 @@ export async function POST(request) {
       );
     }
 
-
     // ==================================================
     // CHECK EMPLOYEE
     // ==================================================
 
     const employee =
-      await Employee.findById(
-        employeeId
-      );
+      await Employee.findById(employeeId);
 
     if (!employee) {
       return NextResponse.json(
         {
           success: false,
-          message:
-            "Employee not found",
+          message: "Employee not found",
         },
         { status: 404 }
       );
     }
 
-
     // ==================================================
-    // CHECK DATE
+    // CREATE START DATE
     // ==================================================
 
-    const startDate =
-      new Date(fromDate);
+    // Support:
+    // date     -> single day
+    // fromDate -> multiple days
 
-    const endDate =
-      new Date(toDate);
+    const startDate = new Date(
+      fromDate || date
+    );
 
     if (
       Number.isNaN(
         startDate.getTime()
-      ) ||
-      Number.isNaN(
-        endDate.getTime()
       )
     ) {
       return NextResponse.json(
         {
           success: false,
-          message:
-            "Invalid leave date",
+          message: "Invalid from date",
         },
         { status: 400 }
       );
@@ -180,6 +110,28 @@ export async function POST(request) {
       0
     );
 
+    // ==================================================
+    // CREATE END DATE
+    // ==================================================
+
+    const endDate = new Date(
+      toDate || fromDate || date
+    );
+
+    if (
+      Number.isNaN(
+        endDate.getTime()
+      )
+    ) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Invalid to date",
+        },
+        { status: 400 }
+      );
+    }
+
     endDate.setHours(
       0,
       0,
@@ -187,10 +139,11 @@ export async function POST(request) {
       0
     );
 
+    // ==================================================
+    // CHECK DATE RANGE
+    // ==================================================
 
-    if (
-      startDate > endDate
-    ) {
+    if (startDate > endDate) {
       return NextResponse.json(
         {
           success: false,
@@ -201,38 +154,30 @@ export async function POST(request) {
       );
     }
 
-
     // ==================================================
-    // CHECK NUMBER OF DAYS
+    // CALCULATE NUMBER OF DAYS
     // ==================================================
 
-    if (
-      Number(numberOfDays) <= 0
-    ) {
-      return NextResponse.json(
-        {
-          success: false,
-          message:
-            "Number of days must be greater than 0",
-        },
-        { status: 400 }
-      );
-    }
+    const difference =
+      endDate.getTime() -
+      startDate.getTime();
 
+    const numberOfDays =
+      Math.floor(
+        difference /
+          (1000 * 60 * 60 * 24)
+      ) + 1;
 
     // ==================================================
     // PRIVILEGE LEAVE RULES
     // ==================================================
 
     if (leaveType === "PL") {
+      // ----------------------------------------------
+      // PL MAXIMUM 6 DAYS
+      // ----------------------------------------------
 
-      // -----------------------------------------------
-      // PL CAN BE MAXIMUM 6 DAYS
-      // -----------------------------------------------
-
-      if (
-        Number(numberOfDays) > 6
-      ) {
+      if (numberOfDays > 6) {
         return NextResponse.json(
           {
             success: false,
@@ -243,28 +188,18 @@ export async function POST(request) {
         );
       }
 
-
-      // -----------------------------------------------
-      // PL CAN BE TAKEN ONLY ONCE PER YEAR
-      // -----------------------------------------------
+      // ----------------------------------------------
+      // PL ONLY ONCE PER YEAR
+      // ----------------------------------------------
 
       const year =
         startDate.getFullYear();
 
       const startOfYear =
-        new Date(
-          year,
-          0,
-          1
-        );
+        new Date(year, 0, 1);
 
       const endOfYear =
-        new Date(
-          year + 1,
-          0,
-          1
-        );
-
+        new Date(year + 1, 0, 1);
 
       const existingPL =
         await Leave.findOne({
@@ -272,7 +207,6 @@ export async function POST(request) {
 
           leaveType: "PL",
 
-          // Pending PL also counts
           status: {
             $in: [
               "Pending",
@@ -289,7 +223,6 @@ export async function POST(request) {
           },
         });
 
-
       if (existingPL) {
         return NextResponse.json(
           {
@@ -302,12 +235,11 @@ export async function POST(request) {
       }
     }
 
-
     // ==================================================
-    // CHECK OVERLAPPING LEAVE
+    // CHECK EXISTING LEAVE / OVERLAP
     // ==================================================
 
-    const overlappingLeave =
+    const existingLeave =
       await Leave.findOne({
         employeeId,
 
@@ -327,48 +259,35 @@ export async function POST(request) {
         },
       });
 
-
-    if (overlappingLeave) {
+    if (existingLeave) {
       return NextResponse.json(
         {
           success: false,
           message:
-            "You already have a leave request for these dates",
+            "Employee already has a leave record for one or more selected dates",
         },
         { status: 400 }
       );
     }
 
-
     // ==================================================
-    // CREATE LEAVE
+    // CREATE HR LEAVE
     // ==================================================
 
-    const leave =
-      await Leave.create({
-        employeeId,
+   const leave = await Leave.create({
+  employeeId,
+  leaveType,
+  fromDate: startDate,
+  toDate: endDate,
 
-        leaveType,
+  duration: "Full Day",
 
-        fromDate:
-          startDate,
+  numberOfDays,
 
-        toDate:
-          endDate,
-
-        duration,
-
-        numberOfDays:
-          Number(numberOfDays),
-
-        reason:
-          reason.trim(),
-
-        // Employee request
-        // must be approved by HR
-        status: "Pending",
-      });
-
+  reason,
+  status: "Approved",
+  hrRemarks: "Added directly by HR.",
+});
 
     // ==================================================
     // SUCCESS
@@ -379,16 +298,15 @@ export async function POST(request) {
         success: true,
 
         message:
-          "Leave applied successfully",
+          "Employee leave added successfully",
 
         leave,
       },
       { status: 201 }
     );
-
   } catch (error) {
     console.error(
-      "Apply leave error:",
+      "HR add leave error:",
       error
     );
 
@@ -396,7 +314,7 @@ export async function POST(request) {
       {
         success: false,
         message:
-          "Unable to apply leave",
+          "Unable to add employee leave",
       },
       { status: 500 }
     );

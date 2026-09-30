@@ -32,7 +32,6 @@
 //   const [calculating, setCalculating] =
 //     useState(false);
 
-
 //   // ==================================================
 //   // MONTH INFORMATION
 //   // ==================================================
@@ -51,7 +50,6 @@
 //     month: "long",
 //   });
 
-
 //   // ==================================================
 //   // DATE KEY
 //   // ==================================================
@@ -65,7 +63,6 @@
 //       d.getDate()
 //     ).padStart(2, "0")}`;
 //   };
-
 
 //   // ==================================================
 //   // LOAD EMPLOYEES
@@ -100,7 +97,6 @@
 //       setLoadingEmployees(false);
 //     }
 //   };
-
 
 //   // ==================================================
 //   // LOAD ATTENDANCE + LEAVES
@@ -158,7 +154,6 @@
 //     }
 //   };
 
-
 //   // ==================================================
 //   // LOAD WHEN SELECTION CHANGES
 //   // ==================================================
@@ -170,7 +165,6 @@
 //     month,
 //     year,
 //   ]);
-
 
 //   // ==================================================
 //   // ATTENDANCE MAP
@@ -186,7 +180,6 @@
 
 //     return map;
 //   }, [attendance]);
-
 
 //   // ==================================================
 //   // APPROVED LEAVES FOR THIS MONTH
@@ -232,7 +225,6 @@
 //     month,
 //     year,
 //   ]);
-
 
 //   // ==================================================
 //   // CREATE LEAVE MAP
@@ -323,7 +315,6 @@
 //                   ? 0.5
 //                   : 1;
 
-
 //               // ----------------------------------------
 //               // FIRST PAID LEAVE
 //               // ----------------------------------------
@@ -348,7 +339,6 @@
 
 //                 paidLeaveUsed +=
 //                   paidDays;
-
 
 //                 map[key] = {
 //                   leaveId:
@@ -401,7 +391,6 @@
 //               }
 //             }
 
-
 //             // ==========================================
 //             // DIRECT LOP
 //             // ==========================================
@@ -453,7 +442,6 @@
 //     year,
 //   ]);
 
-
 //   // ==================================================
 //   // COMPLETE MONTH TABLE
 //   // ==================================================
@@ -499,7 +487,6 @@
 //           }
 //         );
 
-
 //       // ==============================================
 //       // SUNDAY
 //       // ==============================================
@@ -530,7 +517,6 @@
 //         continue;
 //       }
 
-
 //       // ==============================================
 //       // NORMAL DAY
 //       // ==============================================
@@ -560,7 +546,6 @@
 //             0
 //         );
 
-
 //       // ==============================================
 //       // LEAVE
 //       // ==============================================
@@ -583,7 +568,6 @@
 //         leavePayment =
 //           leaveInfo.payment;
 //       }
-
 
 //       rows.push({
 //         date,
@@ -614,7 +598,6 @@
 //     leaveTreatmentMap,
 //   ]);
 
-
 //   // ==================================================
 //   // SUMMARY
 //   // ==================================================
@@ -622,10 +605,8 @@
 //   const totalDays =
 //     tableRows.length;
 
-
 //   const workingDays =
 //     totalDays;
-
 
 //   const holidayDays =
 //     tableRows.filter(
@@ -634,7 +615,6 @@
 //         "Holiday"
 //     ).length;
 
-
 //   const presentDays =
 //     tableRows.filter(
 //       (row) =>
@@ -642,14 +622,12 @@
 //         "Present"
 //     ).length;
 
-
 //   const absenceRows =
 //     tableRows.filter(
 //       (row) =>
 //         row.status ===
 //         "Absent"
 //     );
-
 
 //   // ==================================================
 //   // PAID CL
@@ -689,7 +667,6 @@
 //       0
 //     );
 
-
 //   // ==================================================
 //   // PAID SL
 //   // ==================================================
@@ -728,7 +705,6 @@
 //       0
 //     );
 
-
 //   // ==================================================
 //   // LOP
 //   // ==================================================
@@ -765,7 +741,6 @@
 //       0
 //     );
 
-
 //   // ==================================================
 //   // UNPAID ABSENCE
 //   // ==================================================
@@ -776,7 +751,6 @@
 //         !row.leaveType
 //     ).length;
 
-
 //   // ==================================================
 //   // PAID LEAVE
 //   // ==================================================
@@ -785,7 +759,6 @@
 //     paidClDays +
 //     paidSlDays;
 
-
 //   // ==================================================
 //   // TOTAL DEDUCTIBLE
 //   // ==================================================
@@ -793,7 +766,6 @@
 //   const deductibleDays =
 //     lopDays +
 //     unpaidAbsenceDays;
-
 
 //   // ==================================================
 //   // PAID DAYS
@@ -806,7 +778,6 @@
 //       0
 //     );
 
-
 //   // ==================================================
 //   // LATE
 //   // ==================================================
@@ -818,7 +789,6 @@
 //         true
 //     ).length;
 
-
 //   const totalLateMinutes =
 //     tableRows.reduce(
 //       (total, row) =>
@@ -829,7 +799,6 @@
 //         ),
 //       0
 //     );
-
 
 //   // ==================================================
 //   // CALCULATE SALARY
@@ -845,14 +814,12 @@
 //         return;
 //       }
 
-
 //       if (!monthlySalary) {
 //         alert(
 //           "Please enter monthly salary"
 //         );
 //         return;
 //       }
-
 
 //       if (
 //         attendance.length ===
@@ -864,13 +831,11 @@
 //         return;
 //       }
 
-
 //       try {
 
 //         setCalculating(
 //           true
 //         );
-
 
 //         const response =
 //           await axios.post(
@@ -891,7 +856,6 @@
 //             }
 //           );
 
-
 //         if (
 //           response.data.success
 //         ) {
@@ -902,11 +866,9 @@
 //             ) /
 //             totalDays;
 
-
 //           const totalDeduction =
 //             deductibleDays *
 //             perDaySalary;
-
 
 //           const netSalary =
 //             Math.max(
@@ -916,7 +878,6 @@
 //                 totalDeduction,
 //               0
 //             );
-
 
 //           /*
 //             Use our current page calculation
@@ -998,7 +959,6 @@
 //       }
 //     };
 
-
 //   // ==================================================
 //   // MONEY
 //   // ==================================================
@@ -1016,7 +976,6 @@
 //     );
 //   };
 
-
 //   // ==================================================
 //   // SELECTED EMPLOYEE
 //   // ==================================================
@@ -1027,7 +986,6 @@
 //         employee._id ===
 //         employeeId
 //     );
-
 
 //   // ==================================================
 //   // UI
@@ -1052,7 +1010,6 @@
 
 //       </div>
 
-
 //       {/* ==================================================
 //           PAYROLL DETAILS
 //       ================================================== */}
@@ -1063,9 +1020,7 @@
 //           Payroll Details
 //         </h2>
 
-
 //         <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
-
 
 //           {/* EMPLOYEE */}
 
@@ -1131,7 +1086,6 @@
 
 //           </div>
 
-
 //           {/* MONTH */}
 
 //           <div>
@@ -1195,7 +1149,6 @@
 
 //           </div>
 
-
 //           {/* YEAR */}
 
 //           <div>
@@ -1224,7 +1177,6 @@
 //             />
 
 //           </div>
-
 
 //           {/* SALARY */}
 
@@ -1261,7 +1213,6 @@
 
 //       </div>
 
-
 //       {/* ==================================================
 //           LOADING
 //       ================================================== */}
@@ -1279,7 +1230,6 @@
 //         </div>
 
 //       )}
-
 
 //       {/* ==================================================
 //           EMPLOYEE HEADER
@@ -1312,7 +1262,6 @@
 //           </div>
 
 //         )}
-
 
 //       {/* ==================================================
 //           SUMMARY
@@ -1370,7 +1319,6 @@
 
 //         )}
 
-
 //       {/* ==================================================
 //           LEAVE SUMMARY
 //       ================================================== */}
@@ -1385,9 +1333,7 @@
 //               Leave Summary
 //             </h3>
 
-
 //             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-
 
 //               <LeaveSummaryBox
 //                 title="Paid CL"
@@ -1398,7 +1344,6 @@
 //                 type="green"
 //               />
 
-
 //               <LeaveSummaryBox
 //                 title="Paid SL"
 //                 value={
@@ -1408,7 +1353,6 @@
 //                 type="blue"
 //               />
 
-
 //               <LeaveSummaryBox
 //                 title="LOP"
 //                 value={
@@ -1417,7 +1361,6 @@
 //                 subtitle="Salary deducted"
 //                 type="red"
 //               />
-
 
 //               <LeaveSummaryBox
 //                 title="Unpaid Absence"
@@ -1433,7 +1376,6 @@
 //           </div>
 
 //         )}
-
 
 //       {/* ==================================================
 //           ATTENDANCE TABLE
@@ -1457,7 +1399,6 @@
 //               </p>
 
 //             </div>
-
 
 //             <div className="overflow-x-auto">
 
@@ -1507,7 +1448,6 @@
 
 //                 </thead>
 
-
 //                 <tbody className="divide-y divide-gray-100">
 
 //                   {tableRows.map(
@@ -1538,13 +1478,11 @@
 //                           )}
 //                         </td>
 
-
 //                         {/* WEEKDAY */}
 
 //                         <td className="px-5 py-4 text-sm text-gray-600 whitespace-nowrap">
 //                           {row.weekday}
 //                         </td>
-
 
 //                         {/* IN */}
 
@@ -1556,7 +1494,6 @@
 //                               "-"}
 //                         </td>
 
-
 //                         {/* OUT */}
 
 //                         <td className="px-5 py-4 text-sm">
@@ -1566,7 +1503,6 @@
 //                             : row.outTime ||
 //                               "-"}
 //                         </td>
-
 
 //                         {/* HOURS */}
 
@@ -1578,7 +1514,6 @@
 //                             ? `${row.workingHours} hrs`
 //                             : "-"}
 //                         </td>
-
 
 //                         {/* LATE */}
 
@@ -1617,7 +1552,6 @@
 //                           )}
 
 //                         </td>
-
 
 //                         {/* LEAVE */}
 
@@ -1661,7 +1595,6 @@
 
 //                         </td>
 
-
 //                         {/* PAYROLL */}
 
 //                         <td className="px-5 py-4">
@@ -1704,7 +1637,6 @@
 
 //                         </td>
 
-
 //                         {/* STATUS */}
 
 //                         <td className="px-5 py-4">
@@ -1732,7 +1664,6 @@
 
 //         )}
 
-
 //       {/* ==================================================
 //           CALCULATE SALARY BUTTON
 //       ================================================== */}
@@ -1757,7 +1688,6 @@
 
 //               </div>
 
-
 //               <button
 //                 onClick={
 //                   calculateSalary
@@ -1779,7 +1709,6 @@
 //           </div>
 
 //         )}
-
 
 //       {/* ==================================================
 //           FINAL SALARY
@@ -1809,7 +1738,6 @@
 //             </p>
 
 //           </div>
-
 
 //           <div className="p-6">
 
@@ -1854,11 +1782,9 @@
 
 //             </div>
 
-
 //             {/* CALCULATION */}
 
 //             <div className="rounded-2xl bg-gray-50 border border-gray-100 p-6">
-
 
 //               <CalculationRow
 //                 label="Monthly Salary"
@@ -1867,14 +1793,12 @@
 //                 )}
 //               />
 
-
 //               <CalculationRow
 //                 label="Total Days"
 //                 value={
 //                   `${salary.totalDays} Days`
 //                 }
 //               />
-
 
 //               <CalculationRow
 //                 label="Paid Days"
@@ -1884,7 +1808,6 @@
 //                 valueClass="text-green-600"
 //               />
 
-
 //               <CalculationRow
 //                 label="Absence Days"
 //                 value={
@@ -1893,14 +1816,12 @@
 //                 valueClass="text-red-600"
 //               />
 
-
 //               <CalculationRow
 //                 label="Per Day Salary"
 //                 value={money(
 //                   salary.perDaySalary
 //                 )}
 //               />
-
 
 //               {/* DEDUCTION */}
 
@@ -1918,7 +1839,6 @@
 
 //                 </div>
 
-
 //                 <p className="text-xl font-bold text-red-600">
 //                   -{" "}
 //                   {money(
@@ -1927,7 +1847,6 @@
 //                 </p>
 
 //               </div>
-
 
 //               {/* NET SALARY */}
 
@@ -1968,7 +1887,6 @@
 //     </div>
 //   );
 // }
-
 
 // // ======================================================
 // // FIND LEAVE ID FOR ROW
@@ -2014,7 +1932,6 @@
 //   return leave?._id;
 // }
 
-
 // // ======================================================
 // // DATE KEY
 // // ======================================================
@@ -2029,7 +1946,6 @@
 //     d.getDate()
 //   ).padStart(2, "0")}`;
 // }
-
 
 // // ======================================================
 // // SUMMARY BOX
@@ -2053,7 +1969,6 @@
 //     </div>
 //   );
 // }
-
 
 // // ======================================================
 // // LEAVE SUMMARY BOX
@@ -2103,7 +2018,6 @@
 //   );
 // }
 
-
 // // ======================================================
 // // RESULT BOX
 // // ======================================================
@@ -2126,7 +2040,6 @@
 //     </div>
 //   );
 // }
-
 
 // // ======================================================
 // // CALCULATION ROW
@@ -2154,7 +2067,6 @@
 //     </div>
 //   );
 // }
-
 
 // // ======================================================
 // // STATUS
@@ -2189,7 +2101,6 @@
 //     </span>
 //   );
 // }
-
 
 // 31st holiday hr
 // "use client";
@@ -2233,7 +2144,6 @@
 //   const [calculating, setCalculating] =
 //     useState(false);
 
-
 //   // ==================================================
 //   // MONTH
 //   // ==================================================
@@ -2257,7 +2167,6 @@
 //       }
 //     );
 
-
 //   // ==================================================
 //   // DATE KEY
 //   // ==================================================
@@ -2272,7 +2181,6 @@
 //     ).padStart(2, "0")}`;
 //   };
 
-
 //   // ==================================================
 //   // EMPLOYEES
 //   // ==================================================
@@ -2280,7 +2188,6 @@
 //   useEffect(() => {
 //     loadEmployees();
 //   }, []);
-
 
 //   const loadEmployees =
 //     async () => {
@@ -2321,7 +2228,6 @@
 //       }
 //     };
 
-
 //   // ==================================================
 //   // LOAD ATTENDANCE
 //   // ==================================================
@@ -2339,7 +2245,6 @@
 //           []
 //       );
 //     };
-
 
 //   // ==================================================
 //   // LOAD LEAVES
@@ -2359,7 +2264,6 @@
 //       );
 //     };
 
-
 //   // ==================================================
 //   // LOAD HR HOLIDAYS
 //   // ==================================================
@@ -2377,7 +2281,6 @@
 //           []
 //       );
 //     };
-
 
 //   // ==================================================
 //   // LOAD PAYROLL DATA
@@ -2430,7 +2333,6 @@
 //       }
 //     };
 
-
 //   // ==================================================
 //   // RELOAD
 //   // ==================================================
@@ -2445,7 +2347,6 @@
 //     year,
 //   ]);
 
-
 //   // ==================================================
 //   // SELECTED EMPLOYEE
 //   // ==================================================
@@ -2456,7 +2357,6 @@
 //         employee._id ===
 //         employeeId
 //     );
-
 
 //   // ==================================================
 //   // ATTENDANCE MAP
@@ -2482,7 +2382,6 @@
 //       return map;
 
 //     }, [attendance]);
-
 
 //   // ==================================================
 //   // HOLIDAY MAP
@@ -2513,7 +2412,6 @@
 //       return map;
 
 //     }, [holidays]);
-
 
 //   // ==================================================
 //   // BIRTHDAY
@@ -2555,7 +2453,6 @@
 //       selectedEmployee,
 //       year,
 //     ]);
-
 
 //   // ==================================================
 //   // APPROVED LEAVES
@@ -2636,7 +2533,6 @@
 //       year,
 //     ]);
 
-
 //   // ==================================================
 //   // LEAVE TREATMENT
 //   // ==================================================
@@ -2689,7 +2585,6 @@
 //         const current =
 //           new Date(start);
 
-
 //         while (
 //           current <= end
 //         ) {
@@ -2699,20 +2594,16 @@
 //               current
 //             );
 
-
 //           const isSunday =
 //             current.getDay() ===
 //             0;
 
-
 //           const hrHoliday =
 //             holidayMap[key];
-
 
 //           const isBirthday =
 //             birthdayKey ===
 //             key;
-
 
 //           /*
 //             HOLIDAY ALWAYS WINS.
@@ -2728,7 +2619,6 @@
 
 //             const record =
 //               attendanceMap[key];
-
 
 //             /*
 //               Leave only matters when
@@ -2757,7 +2647,6 @@
 //                     ? 0.5
 //                     : 1;
 
-
 //                 if (
 //                   paidLeaveUsed < 1
 //                 ) {
@@ -2766,13 +2655,11 @@
 //                     1 -
 //                     paidLeaveUsed;
 
-
 //                   const paid =
 //                     Math.min(
 //                       requestedDays,
 //                       available
 //                     );
-
 
 //                   const lop =
 //                     Math.max(
@@ -2781,10 +2668,8 @@
 //                       0
 //                     );
 
-
 //                   paidLeaveUsed +=
 //                     paid;
-
 
 //                   map[key] = {
 
@@ -2840,7 +2725,6 @@
 //                 }
 //               }
 
-
 //               // =======================================
 //               // DIRECT LOP
 //               // =======================================
@@ -2855,7 +2739,6 @@
 //                   "Half Day"
 //                     ? 0.5
 //                     : 1;
-
 
 //                 map[key] = {
 
@@ -2881,7 +2764,6 @@
 //             }
 //           }
 
-
 //           current.setDate(
 //             current.getDate() + 1
 //           );
@@ -2896,7 +2778,6 @@
 //       holidayMap,
 //       birthdayKey,
 //     ]);
-
 
 //   // ==================================================
 //   // COMPLETE MONTH TABLE
@@ -2927,36 +2808,29 @@
 //           0
 //         );
 
-
 //         const key =
 //           getDateKey(
 //             date
 //           );
 
-
 //         const record =
 //           attendanceMap[key];
 
-
 //         const hrHoliday =
 //           holidayMap[key];
-
 
 //         const isSunday =
 //           date.getDay() ===
 //           0;
 
-
 //         const isBirthday =
 //           birthdayKey ===
 //           key;
-
 
 //         const leaveInfo =
 //           leaveTreatmentMap[
 //             key
 //           ];
-
 
 //         const weekday =
 //           date.toLocaleDateString(
@@ -2966,7 +2840,6 @@
 //                 "long",
 //             }
 //           );
-
 
 //         /*
 //           IMPORTANT:
@@ -2980,12 +2853,10 @@
 //           record?.status ||
 //           "Blank";
 
-
 //         let leaveType = "";
 //         let leaveName = "";
 //         let leavePayment = "";
 //         let leaveId = "";
-
 
 //         /*
 //           Do not display leave as payroll leave
@@ -3016,10 +2887,8 @@
 //             leaveInfo.leaveId;
 //         }
 
-
 //         let payrollType =
 //           "Paid";
-
 
 //         if (
 //           isSunday
@@ -3071,7 +2940,6 @@
 //           payrollType =
 //             "Paid";
 //         }
-
 
 //         rows.push({
 
@@ -3136,14 +3004,12 @@
 //       leaveTreatmentMap,
 //     ]);
 
-
 //   // ==================================================
 //   // SIMPLE SUMMARY
 //   // ==================================================
 
 //   const workingDays =
 //     tableRows.length;
-
 
 //   const presentDays =
 //     tableRows.filter(
@@ -3152,7 +3018,6 @@
 //         "Present"
 //     ).length;
 
-
 //   const actualAbsentDays =
 //     tableRows.filter(
 //       (row) =>
@@ -3160,14 +3025,12 @@
 //         "Absent"
 //     ).length;
 
-
 //   const lateMarks =
 //     tableRows.filter(
 //       (row) =>
 //         row.lateMark ===
 //         true
 //     ).length;
-
 
 //   // ==================================================
 //   // PRE-CALCULATION LEAVE SUMMARY
@@ -3192,7 +3055,6 @@
 //       0
 //     );
 
-
 //   const previewLopDays =
 //     tableRows.filter(
 //       (row) =>
@@ -3212,7 +3074,6 @@
 //       0
 //     );
 
-
 //   const previewUnpaidAbsence =
 //     tableRows.filter(
 //       (row) =>
@@ -3223,7 +3084,6 @@
 //         !row.hrHoliday &&
 //         !row.isBirthday
 //     ).length;
-
 
 //   // ==================================================
 //   // CALCULATE SALARY
@@ -3241,7 +3101,6 @@
 //         return;
 //       }
 
-
 //       if (!monthlySalary) {
 
 //         alert(
@@ -3250,7 +3109,6 @@
 
 //         return;
 //       }
-
 
 //       if (
 //         attendance.length ===
@@ -3264,13 +3122,11 @@
 //         return;
 //       }
 
-
 //       try {
 
 //         setCalculating(
 //           true
 //         );
-
 
 //         const response =
 //           await axios.post(
@@ -3292,7 +3148,6 @@
 //             }
 //           );
 
-
 //         if (
 //           !response.data?.success
 //         ) {
@@ -3304,7 +3159,6 @@
 
 //           return;
 //         }
-
 
 //         /*
 //           IMPORTANT:
@@ -3341,7 +3195,6 @@
 //       }
 //     };
 
-
 //   // ==================================================
 //   // MONEY
 //   // ==================================================
@@ -3367,7 +3220,6 @@
 //     );
 //   };
 
-
 //   // ==================================================
 //   // UI
 //   // ==================================================
@@ -3391,7 +3243,6 @@
 
 //       </div>
 
-
 //       {/* ==================================================
 //           PAYROLL DETAILS
 //       ================================================== */}
@@ -3401,7 +3252,6 @@
 //         <h2 className="text-lg font-bold mb-6">
 //           Payroll Details
 //         </h2>
-
 
 //         <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
 
@@ -3442,7 +3292,6 @@
 //                 }
 //               </option>
 
-
 //               {employees.map(
 //                 (
 //                   employee
@@ -3473,7 +3322,6 @@
 //             </select>
 
 //           </div>
-
 
 //           {/* MONTH */}
 
@@ -3540,7 +3388,6 @@
 
 //           </div>
 
-
 //           {/* YEAR */}
 
 //           <div>
@@ -3571,7 +3418,6 @@
 //             />
 
 //           </div>
-
 
 //           {/* SALARY */}
 
@@ -3608,7 +3454,6 @@
 
 //       </div>
 
-
 //       {/* ==================================================
 //           LOADING
 //       ================================================== */}
@@ -3626,7 +3471,6 @@
 //         </div>
 
 //       )}
-
 
 //       {/* ==================================================
 //           EMPLOYEE
@@ -3660,7 +3504,6 @@
 
 //       )}
 
-
 //       {/* ==================================================
 //           SIMPLE SUMMARY
 //       ================================================== */}
@@ -3674,7 +3517,6 @@
 //           <h3 className="text-lg font-bold text-gray-900 mb-5">
 //             Attendance Summary
 //           </h3>
-
 
 //           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
 
@@ -3721,7 +3563,6 @@
 //             />
 
 //           </div>
-
 
 //           <div className="mt-4 flex flex-wrap gap-5 text-sm text-gray-500">
 
@@ -3776,7 +3617,6 @@
 
 //       )}
 
-
 //       {/* ==================================================
 //           ATTENDANCE TABLE
 //       ================================================== */}
@@ -3799,7 +3639,6 @@
 //             </p>
 
 //           </div>
-
 
 //           <div className="overflow-x-auto">
 
@@ -3849,7 +3688,6 @@
 
 //               </thead>
 
-
 //               <tbody className="divide-y divide-gray-100">
 
 //                 {tableRows.map(
@@ -3888,7 +3726,6 @@
 //                       }
 //                     </td>
 
-
 //                     {/* DAY */}
 
 //                     <td className="px-5 py-4 text-sm text-gray-600 whitespace-nowrap">
@@ -3896,7 +3733,6 @@
 //                         row.weekday
 //                       }
 //                     </td>
-
 
 //                     {/* IN */}
 
@@ -3907,7 +3743,6 @@
 //                       }
 //                     </td>
 
-
 //                     {/* OUT */}
 
 //                     <td className="px-5 py-4 text-sm">
@@ -3916,7 +3751,6 @@
 //                         "-"
 //                       }
 //                     </td>
-
 
 //                     {/* HOURS */}
 
@@ -3927,7 +3761,6 @@
 //                           : "-"
 //                       }
 //                     </td>
-
 
 //                     {/* LATE */}
 
@@ -3959,7 +3792,6 @@
 //                       )}
 
 //                     </td>
-
 
 //                     {/* LEAVE */}
 
@@ -4002,7 +3834,6 @@
 //                       )}
 
 //                     </td>
-
 
 //                     {/* PAYROLL */}
 
@@ -4063,7 +3894,6 @@
 
 //                     </td>
 
-
 //                     {/* MACHINE STATUS */}
 
 //                     <td className="px-5 py-4">
@@ -4090,7 +3920,6 @@
 
 //       )}
 
-
 //       {/* ==================================================
 //           CALCULATE BUTTON
 //       ================================================== */}
@@ -4115,7 +3944,6 @@
 
 //             </div>
 
-
 //             <button
 //               onClick={
 //                 calculateSalary
@@ -4139,7 +3967,6 @@
 //         </div>
 
 //       )}
-
 
 //       {/* ==================================================
 //           FINAL SALARY
@@ -4171,7 +3998,6 @@
 //             </p>
 
 //           </div>
-
 
 //           <div className="p-6">
 
@@ -4216,7 +4042,6 @@
 
 //             </div>
 
-
 //             {/* CALCULATION */}
 
 //             <div className="rounded-2xl bg-gray-50 border border-gray-100 p-6">
@@ -4228,7 +4053,6 @@
 //                 )}
 //               />
 
-
 //               <CalculationRow
 //                 label="Working Days"
 //                 value={
@@ -4236,14 +4060,12 @@
 //                 }
 //               />
 
-
 //               <CalculationRow
 //                 label="Present Days"
 //                 value={
 //                   `${salary.presentDays} Days`
 //                 }
 //               />
-
 
 //               <CalculationRow
 //                 label="Paid Leave"
@@ -4253,7 +4075,6 @@
 //                 valueClass="text-green-600"
 //               />
 
-
 //               <CalculationRow
 //                 label="LOP Days"
 //                 value={
@@ -4261,7 +4082,6 @@
 //                 }
 //                 valueClass="text-red-600"
 //               />
-
 
 //               <CalculationRow
 //                 label="Unpaid Absence"
@@ -4271,14 +4091,12 @@
 //                 valueClass="text-orange-600"
 //               />
 
-
 //               <CalculationRow
 //                 label="Per Day Salary"
 //                 value={money(
 //                   salary.perDaySalary
 //                 )}
 //               />
-
 
 //               {/* DEDUCTION */}
 
@@ -4296,7 +4114,6 @@
 
 //                 </div>
 
-
 //                 <p className="text-xl font-bold text-red-600">
 //                   -{" "}
 //                   {
@@ -4307,7 +4124,6 @@
 //                 </p>
 
 //               </div>
-
 
 //               {/* NET */}
 
@@ -4351,7 +4167,6 @@
 //   );
 // }
 
-
 // // ======================================================
 // // SUMMARY BOX
 // // ======================================================
@@ -4375,7 +4190,6 @@
 //   );
 // }
 
-
 // // ======================================================
 // // RESULT BOX
 // // ======================================================
@@ -4398,7 +4212,6 @@
 //     </div>
 //   );
 // }
-
 
 // // ======================================================
 // // CALCULATION ROW
@@ -4426,7 +4239,6 @@
 //     </div>
 //   );
 // }
-
 
 // // ======================================================
 // // STATUS BADGE
@@ -4472,8 +4284,7 @@
 //   );
 // }
 
-
-// 2nd september - petty cash,rigester salry 
+// 2nd september - petty cash,rigester salry
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
@@ -4486,13 +4297,9 @@ export default function SalaryPage() {
   const [employees, setEmployees] = useState([]);
   const [employeeId, setEmployeeId] = useState("");
 
-  const [month, setMonth] = useState(
-    new Date().getMonth() + 1
-  );
+  const [month, setMonth] = useState(new Date().getMonth() + 1);
 
-  const [year, setYear] = useState(
-    new Date().getFullYear()
-  );
+  const [year, setYear] = useState(new Date().getFullYear());
 
   const [monthlySalary, setMonthlySalary] = useState("");
 
@@ -4532,19 +4339,14 @@ export default function SalaryPage() {
   // MONTH
   // =====================================================
 
-  const daysInMonth = new Date(
-    Number(year),
-    Number(month),
-    0
-  ).getDate();
+  const daysInMonth = new Date(Number(year), Number(month), 0).getDate();
 
-  const monthName = new Date(
-    Number(year),
-    Number(month) - 1,
-    1
-  ).toLocaleString("en-IN", {
-    month: "long",
-  });
+  const monthName = new Date(Number(year), Number(month) - 1, 1).toLocaleString(
+    "en-IN",
+    {
+      month: "long",
+    }
+  );
 
   // =====================================================
   // DATE KEY
@@ -4553,11 +4355,10 @@ export default function SalaryPage() {
   const getDateKey = (date) => {
     const d = new Date(date);
 
-    return `${d.getFullYear()}-${String(
-      d.getMonth() + 1
-    ).padStart(2, "0")}-${String(
-      d.getDate()
-    ).padStart(2, "0")}`;
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(
+      2,
+      "0"
+    )}-${String(d.getDate()).padStart(2, "0")}`;
   };
 
   // =====================================================
@@ -4572,20 +4373,13 @@ export default function SalaryPage() {
     try {
       setLoadingEmployees(true);
 
-      const response = await axios.get(
-        "/api/employee/list"
-      );
+      const response = await axios.get("/api/employee/list");
 
-      setEmployees(
-        response.data?.employees || []
-      );
+      setEmployees(response.data?.employees || []);
     } catch (error) {
       console.error(error);
 
-      alert(
-        error.response?.data?.message ||
-          "Unable to load employees"
-      );
+      alert(error.response?.data?.message || "Unable to load employees");
     } finally {
       setLoadingEmployees(false);
     }
@@ -4600,9 +4394,7 @@ export default function SalaryPage() {
       `/api/attendance?employeeId=${employeeId}&month=${month}&year=${year}`
     );
 
-    setAttendance(
-      response.data?.attendance || []
-    );
+    setAttendance(response.data?.attendance || []);
   }
 
   // =====================================================
@@ -4614,9 +4406,7 @@ export default function SalaryPage() {
       `/api/employee/leave?employeeId=${employeeId}`
     );
 
-    setLeaves(
-      response.data?.leaves || []
-    );
+    setLeaves(response.data?.leaves || []);
   }
 
   // =====================================================
@@ -4624,13 +4414,9 @@ export default function SalaryPage() {
   // =====================================================
 
   async function loadHolidays() {
-    const response = await axios.get(
-      `/api/holiday?year=${year}`
-    );
+    const response = await axios.get(`/api/holiday?year=${year}`);
 
-    setHolidays(
-      response.data?.holidays || []
-    );
+    setHolidays(response.data?.holidays || []);
   }
 
   // =====================================================
@@ -4652,30 +4438,18 @@ export default function SalaryPage() {
     }
 
     loadPayrollData();
-  }, [
-    employeeId,
-    month,
-    year,
-    activeSection,
-  ]);
+  }, [employeeId, month, year, activeSection]);
 
   async function loadPayrollData() {
     try {
       setLoadingData(true);
       setSalary(null);
 
-      await Promise.all([
-        loadAttendance(),
-        loadLeaves(),
-        loadHolidays(),
-      ]);
+      await Promise.all([loadAttendance(), loadLeaves(), loadHolidays()]);
     } catch (error) {
       console.error(error);
 
-      alert(
-        error.response?.data?.message ||
-          "Unable to load payroll data"
-      );
+      alert(error.response?.data?.message || "Unable to load payroll data");
     } finally {
       setLoadingData(false);
     }
@@ -4686,8 +4460,7 @@ export default function SalaryPage() {
   // =====================================================
 
   const selectedEmployee = employees.find(
-    (employee) =>
-      employee._id === employeeId
+    (employee) => employee._id === employeeId
   );
 
   // =====================================================
@@ -4712,9 +4485,7 @@ export default function SalaryPage() {
     const map = {};
 
     holidays
-      .filter(
-        (holiday) => holiday.paid !== false
-      )
+      .filter((holiday) => holiday.paid !== false)
       .forEach((holiday) => {
         map[getDateKey(holiday.date)] = holiday;
       });
@@ -4731,15 +4502,9 @@ export default function SalaryPage() {
       return null;
     }
 
-    const dob = new Date(
-      selectedEmployee.dateOfBirth
-    );
+    const dob = new Date(selectedEmployee.dateOfBirth);
 
-    const birthday = new Date(
-      Number(year),
-      dob.getMonth(),
-      dob.getDate()
-    );
+    const birthday = new Date(Number(year), dob.getMonth(), dob.getDate());
 
     birthday.setHours(0, 0, 0, 0);
 
@@ -4751,45 +4516,23 @@ export default function SalaryPage() {
   // =====================================================
 
   const approvedLeaves = useMemo(() => {
-    const firstDay = new Date(
-      Number(year),
-      Number(month) - 1,
-      1
-    );
+    const firstDay = new Date(Number(year), Number(month) - 1, 1);
 
-    const nextMonth = new Date(
-      Number(year),
-      Number(month),
-      1
-    );
+    const nextMonth = new Date(Number(year), Number(month), 1);
 
     firstDay.setHours(0, 0, 0, 0);
     nextMonth.setHours(0, 0, 0, 0);
 
     return leaves
-      .filter(
-        (leave) =>
-          leave.status === "Approved"
-      )
+      .filter((leave) => leave.status === "Approved")
       .filter((leave) => {
-        const from = new Date(
-          leave.fromDate
-        );
+        const from = new Date(leave.fromDate);
 
-        const to = new Date(
-          leave.toDate
-        );
+        const to = new Date(leave.toDate);
 
-        return (
-          from < nextMonth &&
-          to >= firstDay
-        );
+        return from < nextMonth && to >= firstDay;
       })
-      .sort(
-        (a, b) =>
-          new Date(a.fromDate) -
-          new Date(b.fromDate)
-      );
+      .sort((a, b) => new Date(a.fromDate) - new Date(b.fromDate));
   }, [leaves, month, year]);
 
   // =====================================================
@@ -4802,13 +4545,9 @@ export default function SalaryPage() {
     let paidLeaveUsed = 0;
 
     for (const leave of approvedLeaves) {
-      const start = new Date(
-        leave.fromDate
-      );
+      const start = new Date(leave.fromDate);
 
-      const end = new Date(
-        leave.toDate
-      );
+      const end = new Date(leave.toDate);
 
       start.setHours(0, 0, 0, 0);
       end.setHours(0, 0, 0, 0);
@@ -4818,26 +4557,17 @@ export default function SalaryPage() {
       while (current <= end) {
         const key = getDateKey(current);
 
-        const isSunday =
-          current.getDay() === 0;
+        const isSunday = current.getDay() === 0;
 
         const isSecondSaturday =
-          current.getDay() === 6 &&
-          Math.ceil(
-            current.getDate() / 7
-          ) === 2;
+          current.getDay() === 6 && Math.ceil(current.getDate() / 7) === 2;
 
         const isFourthSaturday =
-          current.getDay() === 6 &&
-          Math.ceil(
-            current.getDate() / 7
-          ) === 4;
+          current.getDay() === 6 && Math.ceil(current.getDate() / 7) === 4;
 
-        const hrHoliday =
-          holidayMap[key];
+        const hrHoliday = holidayMap[key];
 
-        const isBirthday =
-          birthdayKey === key;
+        const isBirthday = birthdayKey === key;
 
         const holiday =
           isSunday ||
@@ -4847,85 +4577,75 @@ export default function SalaryPage() {
           isBirthday;
 
         if (!holiday) {
-          const record =
-            attendanceMap[key];
+          const record = attendanceMap[key];
 
-          if (
-            record?.status === "Absent"
-          ) {
-            const requestedDays =
-              leave.duration === "Half Day"
-                ? 0.5
-                : 1;
+          if (record?.status === "Absent") {
+            const requestedDays = leave.duration === "Half Day" ? 0.5 : 1;
 
             // =================================================
             // CL / SL
             // =================================================
 
-            if (
-              leave.leaveType === "CL" ||
-              leave.leaveType === "SL"
-            ) {
+            if (leave.leaveType === "CL" || leave.leaveType === "SL") {
               if (paidLeaveUsed < 1) {
-                const available =
-                  1 - paidLeaveUsed;
+                const available = 1 - paidLeaveUsed;
 
-                const paid = Math.min(
-                  requestedDays,
-                  available
-                );
+                const paid = Math.min(requestedDays, available);
 
-                const lop = Math.max(
-                  requestedDays - paid,
-                  0
-                );
+                const lop = Math.max(requestedDays - paid, 0);
 
                 paidLeaveUsed += paid;
 
                 map[key] = {
-                  leaveType:
-                    leave.leaveType,
+                  leaveType: leave.leaveType,
 
                   leaveName:
-                    leave.leaveType === "CL"
-                      ? "Casual Leave"
-                      : "Sick Leave",
+                    leave.leaveType === "CL" ? "Casual Leave" : "Sick Leave",
 
-                  payment:
-                    lop > 0
-                      ? "LOP"
-                      : "Paid",
+                  payment: lop > 0 ? "LOP" : "Paid",
 
                   paidDays: paid,
                   lopDays: lop,
                 };
               } else {
                 map[key] = {
-                  leaveType:
-                    leave.leaveType,
+                  leaveType: leave.leaveType,
 
                   leaveName:
-                    leave.leaveType === "CL"
-                      ? "Casual Leave"
-                      : "Sick Leave",
+                    leave.leaveType === "CL" ? "Casual Leave" : "Sick Leave",
 
                   payment: "LOP",
 
                   paidDays: 0,
 
-                  lopDays:
-                    requestedDays,
+                  lopDays: requestedDays,
                 };
               }
+            }
+
+            // =================================================
+            // PRIVILEGE LEAVE
+            // =================================================
+
+            if (leave.leaveType === "PL") {
+              map[key] = {
+                leaveType: "PL",
+
+                leaveName: "Privilege Leave",
+
+                payment: "Paid",
+
+                paidDays: requestedDays,
+
+                lopDays: 0,
+              };
             }
 
             // =================================================
             // DIRECT LOP
             // =================================================
 
-            if (
-              leave.leaveType === "LOP"
-            ) {
+            if (leave.leaveType === "LOP") {
               map[key] = {
                 leaveType: "LOP",
                 leaveName: "Loss of Pay",
@@ -4937,19 +4657,12 @@ export default function SalaryPage() {
           }
         }
 
-        current.setDate(
-          current.getDate() + 1
-        );
+        current.setDate(current.getDate() + 1);
       }
     }
 
     return map;
-  }, [
-    approvedLeaves,
-    attendanceMap,
-    holidayMap,
-    birthdayKey,
-  ]);
+  }, [approvedLeaves, attendanceMap, holidayMap, birthdayKey]);
 
   // =====================================================
   // COMPLETE TABLE
@@ -4958,43 +4671,28 @@ export default function SalaryPage() {
   const tableRows = useMemo(() => {
     const rows = [];
 
-    for (
-      let day = 1;
-      day <= daysInMonth;
-      day++
-    ) {
-      const date = new Date(
-        Number(year),
-        Number(month) - 1,
-        day
-      );
+    for (let day = 1; day <= daysInMonth; day++) {
+      const date = new Date(Number(year), Number(month) - 1, day);
 
       date.setHours(0, 0, 0, 0);
 
       const key = getDateKey(date);
 
-      const record =
-        attendanceMap[key];
+      const record = attendanceMap[key];
 
-      const hrHoliday =
-        holidayMap[key];
+      const hrHoliday = holidayMap[key];
 
-      const isSunday =
-        date.getDay() === 0;
+      const isSunday = date.getDay() === 0;
 
       const isSecondSaturday =
-        date.getDay() === 6 &&
-        Math.ceil(date.getDate() / 7) === 2;
+        date.getDay() === 6 && Math.ceil(date.getDate() / 7) === 2;
 
       const isFourthSaturday =
-        date.getDay() === 6 &&
-        Math.ceil(date.getDate() / 7) === 4;
+        date.getDay() === 6 && Math.ceil(date.getDate() / 7) === 4;
 
-      const isBirthday =
-        birthdayKey === key;
+      const isBirthday = birthdayKey === key;
 
-      const leaveInfo =
-        leaveTreatmentMap[key];
+      const leaveInfo = leaveTreatmentMap[key];
 
       let leaveType = "";
       let leaveName = "";
@@ -5011,19 +4709,12 @@ export default function SalaryPage() {
       // LEAVE
       // ===================================================
 
-      if (
-        !isHoliday &&
-        record?.status === "Absent" &&
-        leaveInfo
-      ) {
-        leaveType =
-          leaveInfo.leaveType;
+      if (!isHoliday && record?.status === "Absent" && leaveInfo) {
+        leaveType = leaveInfo.leaveType;
 
-        leaveName =
-          leaveInfo.leaveName;
+        leaveName = leaveInfo.leaveName;
 
-        leavePayment =
-          leaveInfo.payment;
+        leavePayment = leaveInfo.payment;
       }
 
       // ===================================================
@@ -5033,60 +4724,37 @@ export default function SalaryPage() {
       let payrollType = "Paid";
 
       if (isSunday) {
-        payrollType =
-          "Paid Holiday";
+        payrollType = "Paid Holiday";
       } else if (isSecondSaturday) {
-        payrollType =
-          "Paid Holiday";
+        payrollType = "Paid Holiday";
       } else if (isFourthSaturday) {
-        payrollType =
-          "Paid Holiday";
+        payrollType = "Paid Holiday";
       } else if (hrHoliday) {
-        payrollType =
-          "Paid Holiday";
+        payrollType = "Paid Holiday";
       } else if (isBirthday) {
-        payrollType =
-          "Paid Birthday";
-      } else if (
-        leavePayment === "Paid"
-      ) {
-        payrollType =
-          "Paid Leave";
-      } else if (
-        leavePayment === "LOP"
-      ) {
+        payrollType = "Paid Birthday";
+      } else if (leavePayment === "Paid") {
+        payrollType = "Paid Leave";
+      } else if (leavePayment === "LOP") {
         payrollType = "LOP";
-      } else if (
-        record?.status === "Absent"
-      ) {
-        payrollType =
-          "Unpaid Absence";
+      } else if (record?.status === "Absent") {
+        payrollType = "Unpaid Absence";
       }
 
       rows.push({
         date,
 
-        inTime:
-          record?.inTime || "",
+        inTime: record?.inTime || "",
 
-        outTime:
-          record?.outTime || "",
+        outTime: record?.outTime || "",
 
-        workingHours:
-          Number(
-            record?.workingHours || 0
-          ),
+        workingHours: Number(record?.workingHours || 0),
 
-        lateMark:
-          record?.lateMark === true,
+        lateMark: record?.lateMark === true,
 
-        lateMinutes:
-          Number(
-            record?.lateMinutes || 0
-          ),
+        lateMinutes: Number(record?.lateMinutes || 0),
 
-        status:
-          record?.status || "Absent",
+        status: record?.status || "Absent",
 
         leaveType,
         leaveName,
@@ -5119,21 +4787,16 @@ export default function SalaryPage() {
   // ONE DAY = ONE CATEGORY
   // =====================================================
 
-  const presentDays = tableRows.filter(
-    (row) => {
-      const isHoliday =
-        row.isSunday ||
-        row.isSecondSaturday ||
-        row.isFourthSaturday ||
-        row.hrHoliday ||
-        row.isBirthday;
+  const presentDays = tableRows.filter((row) => {
+    const isHoliday =
+      row.isSunday ||
+      row.isSecondSaturday ||
+      row.isFourthSaturday ||
+      row.hrHoliday ||
+      row.isBirthday;
 
-      return (
-        !isHoliday &&
-        row.status === "Present"
-      );
-    }
-  ).length;
+    return !isHoliday && row.status === "Present";
+  }).length;
 
   const holidayDays = tableRows.filter(
     (row) =>
@@ -5144,95 +4807,64 @@ export default function SalaryPage() {
       row.isBirthday
   ).length;
 
-  const paidLeaveDays =
-    tableRows.reduce(
-      (sum, row) => {
-        const isHoliday =
-          row.isSunday ||
-          row.isSecondSaturday ||
-          row.isFourthSaturday ||
-          row.hrHoliday ||
-          row.isBirthday;
+  const paidLeaveDays = tableRows.reduce((sum, row) => {
+    const isHoliday =
+      row.isSunday ||
+      row.isSecondSaturday ||
+      row.isFourthSaturday ||
+      row.hrHoliday ||
+      row.isBirthday;
 
-        if (isHoliday) {
-          return sum;
-        }
+    if (isHoliday) {
+      return sum;
+    }
 
-        return (
-          sum +
-          Number(
-            leaveTreatmentMap[
-              getDateKey(row.date)
-            ]?.paidDays || 0
-          )
-        );
-      },
-      0
-    );
+    return sum + Number(leaveTreatmentMap[getDateKey(row.date)]?.paidDays || 0);
+  }, 0);
 
-  const lopDays =
-    tableRows.reduce(
-      (sum, row) => {
-        const isHoliday =
-          row.isSunday ||
-          row.isSecondSaturday ||
-          row.isFourthSaturday ||
-          row.hrHoliday ||
-          row.isBirthday;
+  const lopDays = tableRows.reduce((sum, row) => {
+    const isHoliday =
+      row.isSunday ||
+      row.isSecondSaturday ||
+      row.isFourthSaturday ||
+      row.hrHoliday ||
+      row.isBirthday;
 
-        if (isHoliday) {
-          return sum;
-        }
+    if (isHoliday) {
+      return sum;
+    }
 
-        return (
-          sum +
-          Number(
-            leaveTreatmentMap[
-              getDateKey(row.date)
-            ]?.lopDays || 0
-          )
-        );
-      },
-      0
-    );
+    return sum + Number(leaveTreatmentMap[getDateKey(row.date)]?.lopDays || 0);
+  }, 0);
 
-  const unpaidAbsenceDays =
-    tableRows.filter((row) => {
-      const isHoliday =
-        row.isSunday ||
-        row.isSecondSaturday ||
-        row.isFourthSaturday ||
-        row.hrHoliday ||
-        row.isBirthday;
+  const unpaidAbsenceDays = tableRows.filter((row) => {
+    const isHoliday =
+      row.isSunday ||
+      row.isSecondSaturday ||
+      row.isFourthSaturday ||
+      row.hrHoliday ||
+      row.isBirthday;
 
-      if (isHoliday) {
-        return false;
-      }
+    if (isHoliday) {
+      return false;
+    }
 
-      if (row.status === "Present") {
-        return false;
-      }
+    if (row.status === "Present") {
+      return false;
+    }
 
-      const leaveInfo =
-        leaveTreatmentMap[
-          getDateKey(row.date)
-        ];
+    const leaveInfo = leaveTreatmentMap[getDateKey(row.date)];
 
-      if (leaveInfo) {
-        return false;
-      }
+    if (leaveInfo) {
+      return false;
+    }
 
-      return row.status === "Absent";
-    }).length;
+    return row.status === "Absent";
+  }).length;
 
-  const paidDays =
-    presentDays +
-    holidayDays +
-    paidLeaveDays;
+  const paidDays = presentDays + holidayDays + paidLeaveDays;
 
-  const deductibleDays =
-    lopDays +
-    unpaidAbsenceDays;
+  const deductibleDays = lopDays + unpaidAbsenceDays;
 
   // =====================================================
   // LATE MARKS - PREVIEW
@@ -5253,9 +4885,7 @@ export default function SalaryPage() {
   // =====================================================
 
   const previewPerDaySalary =
-    monthlySalary && daysInMonth
-      ? Number(monthlySalary) / daysInMonth
-      : 0;
+    monthlySalary && daysInMonth ? Number(monthlySalary) / daysInMonth : 0;
 
   let lateDeductionDays = 0;
 
@@ -5264,83 +4894,41 @@ export default function SalaryPage() {
   } else if (lateMarks === 4) {
     lateDeductionDays = 0.5;
   } else {
-    lateDeductionDays =
-      1 + (lateMarks - 5) * 0.5;
+    lateDeductionDays = 1 + (lateMarks - 5) * 0.5;
   }
 
-  const previewLateDeduction =
-    lateDeductionDays *
-    previewPerDaySalary;
+  const previewLateDeduction = lateDeductionDays * previewPerDaySalary;
 
   // =====================================================
   // VALIDATION
   // =====================================================
 
   const classifiedDays =
-    presentDays +
-    holidayDays +
-    paidLeaveDays +
-    lopDays +
-    unpaidAbsenceDays;
+    presentDays + holidayDays + paidLeaveDays + lopDays + unpaidAbsenceDays;
 
-  console.log(
-    "========== SALARY SUMMARY =========="
-  );
+  console.log("========== SALARY SUMMARY ==========");
 
-  console.log(
-    "Total Calendar Days:",
-    daysInMonth
-  );
+  console.log("Total Calendar Days:", daysInMonth);
 
-  console.log(
-    "Present Days:",
-    presentDays
-  );
+  console.log("Present Days:", presentDays);
 
-  console.log(
-    "Holiday Days:",
-    holidayDays
-  );
+  console.log("Holiday Days:", holidayDays);
 
-  console.log(
-    "Paid Leave Days:",
-    paidLeaveDays
-  );
+  console.log("Paid Leave Days:", paidLeaveDays);
 
-  console.log(
-    "LOP Days:",
-    lopDays
-  );
+  console.log("LOP Days:", lopDays);
 
-  console.log(
-    "Unpaid Absence Days:",
-    unpaidAbsenceDays
-  );
+  console.log("Unpaid Absence Days:", unpaidAbsenceDays);
 
-  console.log(
-    "Classified Days:",
-    classifiedDays
-  );
+  console.log("Classified Days:", classifiedDays);
 
-  console.log(
-    "VALID:",
-    classifiedDays === daysInMonth
-  );
+  console.log("VALID:", classifiedDays === daysInMonth);
 
-  console.log(
-    "Late Marks:",
-    lateMarks
-  );
+  console.log("Late Marks:", lateMarks);
 
-  console.log(
-    "Late Deduction Days:",
-    lateDeductionDays
-  );
+  console.log("Late Deduction Days:", lateDeductionDays);
 
-  console.log(
-    "Late Deduction:",
-    previewLateDeduction
-  );
+  console.log("Late Deduction:", previewLateDeduction);
 
   // =====================================================
   // CALCULATE SALARY
@@ -5353,51 +4941,34 @@ export default function SalaryPage() {
     }
 
     if (!monthlySalary) {
-      alert(
-        "Please enter monthly salary"
-      );
+      alert("Please enter monthly salary");
       return;
     }
 
     try {
       setCalculating(true);
 
-      const response =
-        await axios.post(
-          "/api/salary/calculate",
-          {
-            employeeId,
+      const response = await axios.post("/api/salary/calculate", {
+        employeeId,
 
-            month:
-              Number(month),
+        month: Number(month),
 
-            year:
-              Number(year),
+        year: Number(year),
 
-            monthlySalary:
-              Number(monthlySalary),
-          }
-        );
+        monthlySalary: Number(monthlySalary),
+      });
 
       if (!response.data?.success) {
-        alert(
-          response.data?.message ||
-            "Salary calculation failed"
-        );
+        alert(response.data?.message || "Salary calculation failed");
 
         return;
       }
 
-      setSalary(
-        response.data.salary
-      );
+      setSalary(response.data.salary);
     } catch (error) {
       console.error(error);
 
-      alert(
-        error.response?.data?.message ||
-          "Unable to calculate salary"
-      );
+      alert(error.response?.data?.message || "Unable to calculate salary");
     } finally {
       setCalculating(false);
     }
@@ -5408,41 +4979,28 @@ export default function SalaryPage() {
   // =====================================================
 
   useEffect(() => {
-    if (
-      activeSection === "register"
-    ) {
+    if (activeSection === "register") {
       loadSalaryRegister();
     }
-  }, [
-    activeSection,
-    month,
-    year,
-  ]);
+  }, [activeSection, month, year]);
 
-  const loadSalaryRegister =
-    async () => {
-      try {
-        setLoadingSalaryList(true);
+  const loadSalaryRegister = async () => {
+    try {
+      setLoadingSalaryList(true);
 
-        const response =
-          await axios.get(
-            `/api/salary/list?month=${month}&year=${year}`
-          );
+      const response = await axios.get(
+        `/api/salary/list?month=${month}&year=${year}`
+      );
 
-        setSalaryList(
-          response.data?.salaries || []
-        );
-      } catch (error) {
-        console.error(error);
+      setSalaryList(response.data?.salaries || []);
+    } catch (error) {
+      console.error(error);
 
-        alert(
-          error.response?.data?.message ||
-            "Unable to load salary register"
-        );
-      } finally {
-        setLoadingSalaryList(false);
-      }
-    };
+      alert(error.response?.data?.message || "Unable to load salary register");
+    } finally {
+      setLoadingSalaryList(false);
+    }
+  };
 
   // =====================================================
   // EXCEL
@@ -5450,166 +5008,99 @@ export default function SalaryPage() {
 
   const downloadSalaryExcel = () => {
     if (salaryList.length === 0) {
-      alert(
-        "No salary records found."
-      );
+      alert("No salary records found.");
 
       return;
     }
 
-    const rows = salaryList.map(
-      (item, index) => {
-        const deductedDays =
-          item.deductibleDays ??
-          (
-            Number(item.lopDays || 0) +
-            Number(
-              item.unpaidAbsenceDays || 0
-            )
-          );
+    const rows = salaryList.map((item, index) => {
+      const deductedDays =
+        item.deductibleDays ??
+        Number(item.lopDays || 0) + Number(item.unpaidAbsenceDays || 0);
 
-        const totalDeduction =
-          item.totalDeduction ??
-          item.lopDeduction ??
-          0;
+      const totalDeduction = item.totalDeduction ?? item.lopDeduction ?? 0;
 
-        return {
-          "S.No":
-            index + 1,
+      return {
+        "S.No": index + 1,
 
-          "Employee Code":
-            item.employeeCode,
+        "Employee Code": item.employeeCode,
 
-          "Employee Name":
-            item.employeeName,
+        "Employee Name": item.employeeName,
 
-          Month:
-            `${monthName} ${year}`,
+        Month: `${monthName} ${year}`,
 
-          "Actual Salary":
-            item.actualSalary ??
-            item.monthlySalary ??
-            0,
+        "Actual Salary": item.actualSalary ?? item.monthlySalary ?? 0,
 
-          "Total Days":
-            item.totalDays ??
-            item.workingDays ??
-            0,
+        "Total Days": item.totalDays ?? item.workingDays ?? 0,
 
-          "Present Days":
-            item.presentDays || 0,
+        "Present Days": item.presentDays || 0,
 
-          "Holiday Days":
-            item.holidayDays || 0,
+        "Holiday Days": item.holidayDays || 0,
 
-          "Paid Leave":
-            item.paidLeaveDays || 0,
+        "Paid Leave": item.paidLeaveDays || 0,
 
-          "Paid Days":
-            item.paidDays ??
-            item.payableDays ??
-            0,
+        "Paid Days": item.paidDays ?? item.payableDays ?? 0,
 
-          "LOP Days":
-            item.lopDays || 0,
+        "LOP Days": item.lopDays || 0,
 
-          "Unpaid Absence":
-            item.unpaidAbsenceDays || 0,
+        "Unpaid Absence": item.unpaidAbsenceDays || 0,
 
-          "Deducted Days":
-            deductedDays,
+        "Deducted Days": deductedDays,
 
-          "Late Marks":
-            item.lateMarks || 0,
+        "Late Marks": item.lateMarks || 0,
 
-          "Late Deduction Days":
-            item.lateDeductionDays || 0,
+        "Late Deduction Days": item.lateDeductionDays || 0,
 
-          "Late Deduction":
-            item.lateDeduction || 0,
+        "Late Deduction": item.lateDeduction || 0,
 
-          "Per Day Salary":
-            item.perDaySalary || 0,
+        "Per Day Salary": item.perDaySalary || 0,
 
-          "Total Deduction":
-            totalDeduction,
+        "Total Deduction": totalDeduction,
 
-          "Net Salary":
-            item.netSalary || 0,
+        "Net Salary": item.netSalary || 0,
 
-          Status:
-            item.status ||
-            "Calculated",
-        };
-      }
-    );
+        Status: item.status || "Calculated",
+      };
+    });
 
-    const worksheet =
-      XLSX.utils.json_to_sheet(
-        rows
-      );
+    const worksheet = XLSX.utils.json_to_sheet(rows);
 
-    const workbook =
-      XLSX.utils.book_new();
+    const workbook = XLSX.utils.book_new();
 
-    XLSX.utils.book_append_sheet(
-      workbook,
-      worksheet,
-      "Salary Register"
-    );
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Salary Register");
 
-    XLSX.writeFile(
-      workbook,
-      `Salary_Register_${monthName}_${year}.xlsx`
-    );
+    XLSX.writeFile(workbook, `Salary_Register_${monthName}_${year}.xlsx`);
   };
 
   // =====================================================
   // PETTY CASH
   // =====================================================
 
-  const loadPettyCash =
-    async () => {
-      try {
-        setPettyCashLoading(true);
+  const loadPettyCash = async () => {
+    try {
+      setPettyCashLoading(true);
 
-        const response =
-          await axios.get(
-            `/api/pettycash?month=${month}&year=${year}`
-          );
+      const response = await axios.get(
+        `/api/pettycash?month=${month}&year=${year}`
+      );
 
-        setPettyCash(
-          response.data?.expenses || []
-        );
+      setPettyCash(response.data?.expenses || []);
 
-        setPettyCashTotal(
-          Number(
-            response.data?.total || 0
-          )
-        );
-      } catch (error) {
-        console.error(error);
+      setPettyCashTotal(Number(response.data?.total || 0));
+    } catch (error) {
+      console.error(error);
 
-        alert(
-          error.response?.data?.message ||
-            "Unable to load petty cash"
-        );
-      } finally {
-        setPettyCashLoading(false);
-      }
-    };
+      alert(error.response?.data?.message || "Unable to load petty cash");
+    } finally {
+      setPettyCashLoading(false);
+    }
+  };
 
   useEffect(() => {
-    if (
-      activeSection === "pettycash"
-    ) {
+    if (activeSection === "pettycash") {
       loadPettyCash();
     }
-  }, [
-    activeSection,
-    month,
-    year,
-  ]);
+  }, [activeSection, month, year]);
 
   const addPettyCash = async (e) => {
     e.preventDefault();
@@ -5618,34 +5109,22 @@ export default function SalaryPage() {
       !pettyCashForm.date ||
       !pettyCashForm.category ||
       !pettyCashForm.description ||
-      Number(
-        pettyCashForm.amount
-      ) <= 0
+      Number(pettyCashForm.amount) <= 0
     ) {
-      alert(
-        "Please fill all required fields."
-      );
+      alert("Please fill all required fields.");
 
       return;
     }
 
     try {
-      await axios.post(
-        "/api/pettycash",
-        {
-          ...pettyCashForm,
+      await axios.post("/api/pettycash", {
+        ...pettyCashForm,
 
-          amount:
-            Number(
-              pettyCashForm.amount
-            ),
-        }
-      );
+        amount: Number(pettyCashForm.amount),
+      });
 
       setPettyCashForm({
-        date: new Date()
-          .toISOString()
-          .split("T")[0],
+        date: new Date().toISOString().split("T")[0],
 
         category: "",
         description: "",
@@ -5658,122 +5137,77 @@ export default function SalaryPage() {
 
       await loadPettyCash();
 
-      alert(
-        "Expense added successfully."
-      );
+      alert("Expense added successfully.");
     } catch (error) {
       console.error(error);
 
-      alert(
-        error.response?.data?.message ||
-          "Unable to add expense"
-      );
+      alert(error.response?.data?.message || "Unable to add expense");
     }
   };
 
-  const deletePettyCash =
-    async (id) => {
-      if (
-        !window.confirm(
-          "Delete this expense?"
-        )
-      ) {
-        return;
-      }
+  const deletePettyCash = async (id) => {
+    if (!window.confirm("Delete this expense?")) {
+      return;
+    }
 
-      try {
-        await axios.delete(
-          `/api/pettycash?id=${id}`
-        );
+    try {
+      await axios.delete(`/api/pettycash?id=${id}`);
 
-        await loadPettyCash();
-      } catch (error) {
-        console.error(error);
+      await loadPettyCash();
+    } catch (error) {
+      console.error(error);
 
-        alert(
-          "Unable to delete expense"
-        );
-      }
-    };
+      alert("Unable to delete expense");
+    }
+  };
 
-  const updatePettyField =
-    (field, value) => {
-      setPettyCashForm(
-        (prev) => ({
-          ...prev,
-          [field]: value,
-        })
-      );
-    };
+  const updatePettyField = (field, value) => {
+    setPettyCashForm((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
 
   // =====================================================
   // MONEY
   // =====================================================
 
   const money = (value) =>
-    new Intl.NumberFormat(
-      "en-IN",
-      {
-        style: "currency",
-        currency: "INR",
-        maximumFractionDigits: 2,
-      }
-    ).format(
-      Number(value || 0)
-    );
+    new Intl.NumberFormat("en-IN", {
+      style: "currency",
+      currency: "INR",
+      maximumFractionDigits: 2,
+    }).format(Number(value || 0));
 
   // =====================================================
   // REGISTER TOTALS
   // =====================================================
 
-  const registerTotals =
-    useMemo(() => {
-      return {
-        actualSalary:
-          salaryList.reduce(
-            (sum, item) =>
-              sum +
-              Number(
-                item.actualSalary ??
-                  item.monthlySalary ??
-                  0
-              ),
-            0
-          ),
+  const registerTotals = useMemo(() => {
+    return {
+      actualSalary: salaryList.reduce(
+        (sum, item) =>
+          sum + Number(item.actualSalary ?? item.monthlySalary ?? 0),
+        0
+      ),
 
-        deduction:
-          salaryList.reduce(
-            (sum, item) =>
-              sum +
-              Number(
-                item.totalDeduction ??
-                  item.lopDeduction ??
-                  0
-              ),
-            0
-          ),
+      deduction: salaryList.reduce(
+        (sum, item) =>
+          sum + Number(item.totalDeduction ?? item.lopDeduction ?? 0),
+        0
+      ),
 
-        netSalary:
-          salaryList.reduce(
-            (sum, item) =>
-              sum +
-              Number(
-                item.netSalary || 0
-              ),
-            0
-          ),
+      netSalary: salaryList.reduce(
+        (sum, item) => sum + Number(item.netSalary || 0),
+        0
+      ),
 
-        lateDeduction:
-          salaryList.reduce(
-            (sum, item) =>
-              sum +
-              Number(
-                item.lateDeduction || 0
-              ),
-            0
-          ),
-      };
-    }, [salaryList]);
+      lateDeduction: salaryList.reduce(
+        (sum, item) => sum + Number(item.lateDeduction || 0),
+        0
+      ),
+    };
+  }, [salaryList]);
 
   // =====================================================
   // UI
@@ -5781,13 +5215,11 @@ export default function SalaryPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 p-6 lg:p-8">
-
       {/* =================================================
           HEADER
       ================================================= */}
 
       <div className="mb-8 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-5">
-
         <div>
           <h1 className="text-3xl font-bold text-gray-900">
             Salary Management
@@ -5799,13 +5231,10 @@ export default function SalaryPage() {
         </div>
 
         <div className="flex gap-3">
-
           <select
             value={month}
             onChange={(e) => {
-              setMonth(
-                Number(e.target.value)
-              );
+              setMonth(Number(e.target.value));
 
               setSalary(null);
             }}
@@ -5824,33 +5253,24 @@ export default function SalaryPage() {
               "October",
               "November",
               "December",
-            ].map(
-              (name, index) => (
-                <option
-                  key={name}
-                  value={index + 1}
-                >
-                  {name}
-                </option>
-              )
-            )}
+            ].map((name, index) => (
+              <option key={name} value={index + 1}>
+                {name}
+              </option>
+            ))}
           </select>
 
           <input
             type="number"
             value={year}
             onChange={(e) => {
-              setYear(
-                Number(e.target.value)
-              );
+              setYear(Number(e.target.value));
 
               setSalary(null);
             }}
             className="w-28 rounded-xl border border-gray-200 bg-white px-4 py-3"
           />
-
         </div>
-
       </div>
 
       {/* =================================================
@@ -5858,69 +5278,42 @@ export default function SalaryPage() {
       ================================================= */}
 
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-2 mb-6 flex flex-col md:flex-row gap-2">
-
         <NavigationButton
-          active={
-            activeSection ===
-            "calculate"
-          }
-          onClick={() =>
-            setActiveSection(
-              "calculate"
-            )
-          }
+          active={activeSection === "calculate"}
+          onClick={() => setActiveSection("calculate")}
           icon="🧮"
           title="Calculate Salary"
         />
 
         <NavigationButton
-          active={
-            activeSection ===
-            "register"
-          }
-          onClick={() =>
-            setActiveSection(
-              "register"
-            )
-          }
+          active={activeSection === "register"}
+          onClick={() => setActiveSection("register")}
           icon="📊"
           title="Salary Register"
         />
 
         <NavigationButton
-          active={
-            activeSection ===
-            "pettycash"
-          }
-          onClick={() =>
-            setActiveSection(
-              "pettycash"
-            )
-          }
+          active={activeSection === "pettycash"}
+          onClick={() => setActiveSection("pettycash")}
           icon="💰"
           title="Petty Cash"
         />
-
       </div>
 
       {/* =================================================
           CALCULATE SECTION
       ================================================= */}
 
-      {activeSection ===
-        "calculate" && (
+      {activeSection === "calculate" && (
         <>
-
           {/* PAYROLL DETAILS */}
 
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-6">
-
             <h2 className="text-xl font-bold text-gray-900 mb-6">
               Payroll Details
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
-
               {/* Employee */}
 
               <div>
@@ -5930,46 +5323,25 @@ export default function SalaryPage() {
 
                 <select
                   value={employeeId}
-                  disabled={
-                    loadingEmployees
-                  }
+                  disabled={loadingEmployees}
                   onChange={(e) => {
-                    setEmployeeId(
-                      e.target.value
-                    );
+                    setEmployeeId(e.target.value);
 
                     setSalary(null);
                   }}
                   className="w-full rounded-xl border border-gray-200 px-4 py-3 bg-white"
                 >
-
                   <option value="">
                     {loadingEmployees
                       ? "Loading employees..."
                       : "Select Employee"}
                   </option>
 
-                  {employees.map(
-                    (employee) => (
-                      <option
-                        key={
-                          employee._id
-                        }
-                        value={
-                          employee._id
-                        }
-                      >
-                        {
-                          employee.employeeFullName
-                        }{" "}
-                        -{" "}
-                        {
-                          employee.employeeCode
-                        }
-                      </option>
-                    )
-                  )}
-
+                  {employees.map((employee) => (
+                    <option key={employee._id} value={employee._id}>
+                      {employee.employeeFullName} - {employee.employeeCode}
+                    </option>
+                  ))}
                 </select>
               </div>
 
@@ -6007,13 +5379,9 @@ export default function SalaryPage() {
                 <input
                   type="number"
                   min="0"
-                  value={
-                    monthlySalary
-                  }
+                  value={monthlySalary}
                   onChange={(e) => {
-                    setMonthlySalary(
-                      e.target.value
-                    );
+                    setMonthlySalary(e.target.value);
 
                     setSalary(null);
                   }}
@@ -6021,7 +5389,6 @@ export default function SalaryPage() {
                   className="w-full rounded-xl border border-gray-200 px-4 py-3"
                 />
               </div>
-
             </div>
           </div>
 
@@ -6029,644 +5396,436 @@ export default function SalaryPage() {
 
           {loadingData && (
             <div className="bg-white rounded-2xl border border-gray-100 p-10 text-center mb-6">
-
               <div className="w-10 h-10 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4" />
 
               <p className="text-gray-500">
                 Loading attendance and leave records...
               </p>
-
             </div>
           )}
 
           {/* EMPLOYEE */}
 
-          {!loadingData &&
-            selectedEmployee && (
-              <>
+          {!loadingData && selectedEmployee && (
+            <>
+              {/* EMPLOYEE HEADER */}
 
-                {/* EMPLOYEE HEADER */}
+              <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700 rounded-2xl p-6 text-white mb-6">
+                <p className="text-blue-100 text-sm">Payroll Employee</p>
 
-                <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700 rounded-2xl p-6 text-white mb-6">
+                <h2 className="text-2xl font-bold mt-1">
+                  {selectedEmployee.employeeFullName}
+                </h2>
 
-                  <p className="text-blue-100 text-sm">
-                    Payroll Employee
-                  </p>
+                <p className="text-blue-100 mt-1">
+                  {selectedEmployee.employeeCode} • {monthName} {year}
+                </p>
+              </div>
 
-                  <h2 className="text-2xl font-bold mt-1">
-                    {
-                      selectedEmployee.employeeFullName
-                    }
-                  </h2>
-
-                  <p className="text-blue-100 mt-1">
-                    {
-                      selectedEmployee.employeeCode
-                    }{" "}
-                    • {monthName}{" "}
-                    {year}
-                  </p>
-
-                </div>
-
-                {/* =================================================
+              {/* =================================================
                     ATTENDANCE SUMMARY
                 ================================================= */}
 
-                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-6">
+              <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-6">
+                <h3 className="text-lg font-bold mb-5">Attendance Summary</h3>
 
-                  <h3 className="text-lg font-bold mb-5">
-                    Attendance Summary
-                  </h3>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4">
+                  <SummaryBox label="Total Days" value={daysInMonth} />
 
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4">
+                  <SummaryBox label="Present Days" value={presentDays} />
 
-                    <SummaryBox
-                      label="Total Days"
-                      value={
-                        daysInMonth
-                      }
-                    />
+                  <SummaryBox label="Holiday Days" value={holidayDays} />
 
-                    <SummaryBox
-                      label="Present Days"
-                      value={
-                        presentDays
-                      }
-                    />
+                  <SummaryBox label="Paid Leave" value={paidLeaveDays} />
 
-                    <SummaryBox
-                      label="Holiday Days"
-                      value={
-                        holidayDays
-                      }
-                    />
+                  <SummaryBox label="Paid Days" value={paidDays} />
 
-                    <SummaryBox
-                      label="Paid Leave"
-                      value={
-                        paidLeaveDays
-                      }
-                    />
+                  <SummaryBox label="LOP" value={lopDays} />
 
-                    <SummaryBox
-                      label="Paid Days"
-                      value={
-                        paidDays
-                      }
-                    />
-
-                    <SummaryBox
-                      label="LOP"
-                      value={
-                        lopDays
-                      }
-                    />
-
-                    <SummaryBox
-                      label="Unpaid Absence"
-                      value={
-                        unpaidAbsenceDays
-                      }
-                    />
-
-                  </div>
-
-                  <div className="mt-5 rounded-xl bg-blue-50 border border-blue-100 p-4 text-sm text-blue-700">
-
-                    <strong>
-                      Paid Days =
-                    </strong>{" "}
-                    Present + Holidays + Paid Leave ={" "}
-                    <strong>
-                      {paidDays}
-                    </strong>
-
-                    <span className="mx-2">
-                      |
-                    </span>
-
-                    <strong>
-                      Deducted Days =
-                    </strong>{" "}
-                    LOP + Unpaid Absence ={" "}
-                    <strong>
-                      {deductibleDays}
-                    </strong>
-
-                  </div>
-
+                  <SummaryBox
+                    label="Unpaid Absence"
+                    value={unpaidAbsenceDays}
+                  />
                 </div>
 
-                {/* =================================================
+                <div className="mt-5 rounded-xl bg-blue-50 border border-blue-100 p-4 text-sm text-blue-700">
+                  <strong>Paid Days =</strong> Present + Holidays + Paid Leave ={" "}
+                  <strong>{paidDays}</strong>
+                  <span className="mx-2">|</span>
+                  <strong>Deducted Days =</strong> LOP + Unpaid Absence ={" "}
+                  <strong>{deductibleDays}</strong>
+                </div>
+              </div>
+
+              {/* =================================================
                     ATTENDANCE TABLE
                 ================================================= */}
 
-                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-6">
+              <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-6">
+                <div className="px-6 py-5 border-b border-gray-100">
+                  <h2 className="text-lg font-bold text-gray-900">
+                    Attendance & Leave Details
+                  </h2>
 
-                  <div className="px-6 py-5 border-b border-gray-100">
-
-                    <h2 className="text-lg font-bold text-gray-900">
-                      Attendance & Leave Details
-                    </h2>
-
-                    <p className="text-sm text-gray-500 mt-1">
-                      Complete {monthName}{" "}
-                      {year}
-                    </p>
-
-                  </div>
-
-                  <div className="overflow-x-auto">
-
-                    <table className="w-full">
-
-                      <thead className="bg-gray-50">
-
-                        <tr>
-
-                          {[
-                            "Date",
-                            "Day",
-                            "In",
-                            "Out",
-                            "Hours",
-                            "Late",
-                            "Leave",
-                            "Payroll",
-                            "Status",
-                          ].map(
-                            (heading) => (
-                              <th
-                                key={
-                                  heading
-                                }
-                                className="px-5 py-4 text-left text-xs font-semibold uppercase text-gray-500"
-                              >
-                                {heading}
-                              </th>
-                            )
-                          )}
-
-                        </tr>
-
-                      </thead>
-
-                      <tbody className="divide-y divide-gray-100">
-
-                        {tableRows.map(
-                          (row) => (
-                            <tr
-                              key={getDateKey(
-                                row.date
-                              )}
-                              className={
-                                row.isSunday ||
-                                row.isSecondSaturday ||
-                                row.isFourthSaturday ||
-                                row.hrHoliday ||
-                                row.isBirthday
-                                  ? "bg-purple-50"
-                                  : "hover:bg-gray-50"
-                              }
-                            >
-
-                              <td className="px-5 py-4 text-sm font-semibold whitespace-nowrap">
-                                {row.date.toLocaleDateString(
-                                  "en-IN",
-                                  {
-                                    day: "2-digit",
-                                    month: "short",
-                                    year: "numeric",
-                                  }
-                                )}
-                              </td>
-
-                              <td className="px-5 py-4 text-sm text-gray-600 whitespace-nowrap">
-                                {row.date.toLocaleDateString(
-                                  "en-IN",
-                                  {
-                                    weekday:
-                                      "long",
-                                  }
-                                )}
-                              </td>
-
-                              <td className="px-5 py-4 text-sm">
-                                {row.inTime ||
-                                  "-"}
-                              </td>
-
-                              <td className="px-5 py-4 text-sm">
-                                {row.outTime ||
-                                  "-"}
-                              </td>
-
-                              <td className="px-5 py-4 text-sm">
-                                {row.workingHours
-                                  ? `${row.workingHours} hrs`
-                                  : "-"}
-                              </td>
-
-                              <td className="px-5 py-4">
-
-                                {row.lateMark ? (
-                                  <div>
-
-                                    <span className="inline-flex rounded-full bg-orange-100 px-3 py-1 text-xs font-semibold text-orange-700">
-                                      Late
-                                    </span>
-
-                                    <p className="text-xs text-orange-500 mt-1">
-                                      {
-                                        row.lateMinutes
-                                      }{" "}
-                                      min
-                                    </p>
-
-                                  </div>
-                                ) : (
-                                  "-"
-                                )}
-
-                              </td>
-
-                              <td className="px-5 py-4">
-
-                                {row.leaveType ? (
-                                  <>
-                                    <span className="inline-flex rounded-full bg-blue-100 text-blue-700 px-3 py-1 text-xs font-semibold">
-                                      {
-                                        row.leaveType
-                                      }
-                                    </span>
-
-                                    <p className="text-xs text-gray-500 mt-1">
-                                      {
-                                        row.leaveName
-                                      }
-                                    </p>
-                                  </>
-                                ) : (
-                                  "-"
-                                )}
-
-                              </td>
-
-                              <td className="px-5 py-4">
-
-                                <PayrollBadge
-                                  type={
-                                    row.payrollType
-                                  }
-                                />
-
-                                {row.isSecondSaturday && (
-                                  <p className="text-xs text-purple-600 mt-1">
-                                    2nd Saturday
-                                  </p>
-                                )}
-
-                                {row.isFourthSaturday && (
-                                  <p className="text-xs text-purple-600 mt-1">
-                                    4th Saturday
-                                  </p>
-                                )}
-
-                                {row.hrHoliday && (
-                                  <p className="text-xs text-purple-600 mt-1">
-                                    {
-                                      row.hrHoliday
-                                        .name
-                                    }
-                                  </p>
-                                )}
-
-                                {row.isBirthday && (
-                                  <p className="text-xs text-pink-600 mt-1">
-                                    Birthday
-                                  </p>
-                                )}
-
-                              </td>
-
-                              <td className="px-5 py-4">
-
-                                <StatusBadge
-                                  status={
-                                    row.status
-                                  }
-                                />
-
-                              </td>
-
-                            </tr>
-                          )
-                        )}
-
-                      </tbody>
-
-                    </table>
-
-                  </div>
+                  <p className="text-sm text-gray-500 mt-1">
+                    Complete {monthName} {year}
+                  </p>
                 </div>
 
-                {/* =================================================
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        {[
+                          "Date",
+                          "Day",
+                          "In",
+                          "Out",
+                          "Hours",
+                          "Late",
+                          "Leave",
+                          "Payroll",
+                          "Status",
+                        ].map((heading) => (
+                          <th
+                            key={heading}
+                            className="px-5 py-4 text-left text-xs font-semibold uppercase text-gray-500"
+                          >
+                            {heading}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+
+                    <tbody className="divide-y divide-gray-100">
+                      {tableRows.map((row) => (
+                        <tr
+                          key={getDateKey(row.date)}
+                          className={
+                            row.isSunday ||
+                            row.isSecondSaturday ||
+                            row.isFourthSaturday ||
+                            row.hrHoliday ||
+                            row.isBirthday
+                              ? "bg-purple-50"
+                              : "hover:bg-gray-50"
+                          }
+                        >
+                          <td className="px-5 py-4 text-sm font-semibold whitespace-nowrap">
+                            {row.date.toLocaleDateString("en-IN", {
+                              day: "2-digit",
+                              month: "short",
+                              year: "numeric",
+                            })}
+                          </td>
+
+                          <td className="px-5 py-4 text-sm text-gray-600 whitespace-nowrap">
+                            {row.date.toLocaleDateString("en-IN", {
+                              weekday: "long",
+                            })}
+                          </td>
+
+                          <td className="px-5 py-4 text-sm">
+                            {row.inTime || "-"}
+                          </td>
+
+                          <td className="px-5 py-4 text-sm">
+                            {row.outTime || "-"}
+                          </td>
+
+                          <td className="px-5 py-4 text-sm">
+                            {row.workingHours ? `${row.workingHours} hrs` : "-"}
+                          </td>
+
+                          <td className="px-5 py-4">
+                            {row.lateMark ? (
+                              <div>
+                                <span className="inline-flex rounded-full bg-orange-100 px-3 py-1 text-xs font-semibold text-orange-700">
+                                  Late
+                                </span>
+
+                                <p className="text-xs text-orange-500 mt-1">
+                                  {row.lateMinutes} min
+                                </p>
+                              </div>
+                            ) : (
+                              "-"
+                            )}
+                          </td>
+
+                          <td className="px-5 py-4">
+                            {row.leaveType ? (
+                              <>
+                                <span className="inline-flex rounded-full bg-blue-100 text-blue-700 px-3 py-1 text-xs font-semibold">
+                                  {row.leaveType}
+                                </span>
+
+                                <p className="text-xs text-gray-500 mt-1">
+                                  {row.leaveName}
+                                </p>
+                              </>
+                            ) : (
+                              "-"
+                            )}
+                          </td>
+
+                          <td className="px-5 py-4">
+                            <PayrollBadge type={row.payrollType} />
+
+                            {row.isSecondSaturday && (
+                              <p className="text-xs text-purple-600 mt-1">
+                                2nd Saturday
+                              </p>
+                            )}
+
+                            {row.isFourthSaturday && (
+                              <p className="text-xs text-purple-600 mt-1">
+                                4th Saturday
+                              </p>
+                            )}
+
+                            {row.hrHoliday && (
+                              <p className="text-xs text-purple-600 mt-1">
+                                {row.hrHoliday.name}
+                              </p>
+                            )}
+
+                            {row.isBirthday && (
+                              <p className="text-xs text-pink-600 mt-1">
+                                Birthday
+                              </p>
+                            )}
+                          </td>
+
+                          <td className="px-5 py-4">
+                            <StatusBadge status={row.status} />
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* =================================================
                     LATE MARK PREVIEW
                 ================================================= */}
 
-                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-6">
+              <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-6">
+                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-900">
+                      Late Mark Deduction
+                    </h3>
 
-                  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
-
-                    <div>
-
-                      <h3 className="text-lg font-bold text-gray-900">
-                        Late Mark Deduction
-                      </h3>
-
-                      <p className="text-sm text-gray-500 mt-1">
-                        First 3 late marks are free. The 4th late mark deducts half-day salary, the 5th deducts one full day, and every late mark after that adds another half-day deduction.
-                      </p>
-
-                    </div>
-
-                    <div className="grid grid-cols-3 gap-3">
-
-                      <MiniStat
-                        label="Late Marks"
-                        value={
-                          lateMarks
-                        }
-                      />
-
-                      <MiniStat
-                        label="Deduction Days"
-                        value={
-                          lateDeductionDays
-                        }
-                      />
-
-                      <MiniStat
-                        label="Late Deduction"
-                        value={
-                          money(
-                            previewLateDeduction
-                          )
-                        }
-                      />
-
-                    </div>
-
+                    <p className="text-sm text-gray-500 mt-1">
+                      First 3 late marks are free. The 4th late mark deducts
+                      half-day salary, the 5th deducts one full day, and every
+                      late mark after that adds another half-day deduction.
+                    </p>
                   </div>
 
-                </div>
+                  <div className="grid grid-cols-3 gap-3">
+                    <MiniStat label="Late Marks" value={lateMarks} />
 
-                {/* =================================================
+                    <MiniStat
+                      label="Deduction Days"
+                      value={lateDeductionDays}
+                    />
+
+                    <MiniStat
+                      label="Late Deduction"
+                      value={money(previewLateDeduction)}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* =================================================
                     CALCULATE
                 ================================================= */}
 
-                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-6">
+              <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-6">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-900">
+                      Calculate Salary
+                    </h3>
 
-                  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
-
-                    <div>
-
-                      <h3 className="text-lg font-bold text-gray-900">
-                        Calculate Salary
-                      </h3>
-
-                      <p className="text-sm text-gray-500 mt-1">
-                        Salary will be calculated according to attendance, holidays, approved leaves and late-mark deductions.
-                      </p>
-
-                    </div>
-
-                    <button
-                      onClick={
-                        calculateSalary
-                      }
-                      disabled={
-                        calculating
-                      }
-                      className="bg-green-600 hover:bg-green-700 text-white px-8 py-3.5 rounded-xl font-semibold disabled:opacity-50"
-                    >
-                      {calculating
-                        ? "Calculating..."
-                        : "Calculate & Save Salary"}
-                    </button>
-
+                    <p className="text-sm text-gray-500 mt-1">
+                      Salary will be calculated according to attendance,
+                      holidays, approved leaves and late-mark deductions.
+                    </p>
                   </div>
 
+                  <button
+                    onClick={calculateSalary}
+                    disabled={calculating}
+                    className="bg-green-600 hover:bg-green-700 text-white px-8 py-3.5 rounded-xl font-semibold disabled:opacity-50"
+                  >
+                    {calculating ? "Calculating..." : "Calculate & Save Salary"}
+                  </button>
                 </div>
+              </div>
 
-                {/* =================================================
+              {/* =================================================
                     RESULT
                 ================================================= */}
 
-                {salary && (
-                  <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-8">
+              {salary && (
+                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-8">
+                  <div className="bg-gradient-to-r from-green-600 to-emerald-600 p-7 text-white">
+                    <p className="text-green-100 text-sm">Salary Saved</p>
 
-                    <div className="bg-gradient-to-r from-green-600 to-emerald-600 p-7 text-white">
+                    <h2 className="text-4xl font-bold mt-2">
+                      {money(salary.netSalary)}
+                    </h2>
 
-                      <p className="text-green-100 text-sm">
-                        Salary Saved
-                      </p>
+                    <p className="text-green-100 mt-2">
+                      {monthName} {year}
+                    </p>
+                  </div>
 
-                      <h2 className="text-4xl font-bold mt-2">
-                        {money(
-                          salary.netSalary
-                        )}
-                      </h2>
+                  <div className="p-6">
+                    {/* RESULT BOXES */}
 
-                      <p className="text-green-100 mt-2">
-                        {monthName}{" "}
-                        {year}
-                      </p>
+                    <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+                      <ResultBox
+                        label="Actual Salary"
+                        value={money(salary.monthlySalary)}
+                      />
 
+                      <ResultBox
+                        label="Total Days"
+                        value={salary.workingDays}
+                      />
+
+                      <ResultBox
+                        label="Present Days"
+                        value={salary.presentDays}
+                      />
+
+                      <ResultBox
+                        label="Holiday Days"
+                        value={salary.holidayDays}
+                      />
+
+                      <ResultBox label="Paid Days" value={salary.payableDays} />
                     </div>
 
-                    <div className="p-6">
+                    {/* CALCULATION */}
 
-                      {/* RESULT BOXES */}
+                    <div className="rounded-2xl bg-gray-50 border border-gray-100 p-6">
+                      <CalculationRow
+                        label="Actual Monthly Salary"
+                        value={money(salary.monthlySalary)}
+                      />
 
-                      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+                      <CalculationRow
+                        label="Total Calendar Days"
+                        value={`${salary.workingDays} Days`}
+                      />
 
-                        <ResultBox
-                          label="Actual Salary"
-                          value={money(
-                            salary.monthlySalary
-                          )}
-                        />
+                      <CalculationRow
+                        label="Present Days"
+                        value={`${salary.presentDays} Days`}
+                      />
 
-                        <ResultBox
-                          label="Total Days"
-                          value={
-                            salary.workingDays
-                          }
-                        />
+                      <CalculationRow
+                        label="Holiday Days"
+                        value={`${salary.holidayDays} Days`}
+                        valueClass="text-purple-600"
+                      />
 
-                        <ResultBox
-                          label="Present Days"
-                          value={
-                            salary.presentDays
-                          }
-                        />
+                      <CalculationRow
+                        label="Paid Leave"
+                        value={`${salary.paidLeaveDays} Days`}
+                        valueClass="text-green-600"
+                      />
 
-                        <ResultBox
-                          label="Holiday Days"
-                          value={
-                            salary.holidayDays
-                          }
-                        />
+                      <CalculationRow
+                        label="Paid Days"
+                        value={`${salary.payableDays} Days`}
+                        valueClass="text-green-600"
+                      />
 
-                        <ResultBox
-                          label="Paid Days"
-                          value={
-                            salary.payableDays
-                          }
-                        />
+                      <CalculationRow
+                        label="LOP"
+                        value={`${salary.lopDays} Days`}
+                        valueClass="text-red-600"
+                      />
 
-                      </div>
+                      <CalculationRow
+                        label="Unpaid Absence"
+                        value={`${salary.unpaidAbsenceDays} Days`}
+                        valueClass="text-orange-600"
+                      />
 
-                      {/* CALCULATION */}
+                      <CalculationRow
+                        label="Deducted Days"
+                        value={`${
+                          Number(salary.lopDays || 0) +
+                          Number(salary.unpaidAbsenceDays || 0)
+                        } Days`}
+                        valueClass="text-red-600"
+                      />
 
-                      <div className="rounded-2xl bg-gray-50 border border-gray-100 p-6">
+                      <CalculationRow
+                        label="Late Marks"
+                        value={`${salary.lateMarks || 0} Marks`}
+                        valueClass="text-orange-600"
+                      />
 
-                        <CalculationRow
-                          label="Actual Monthly Salary"
-                          value={money(
-                            salary.monthlySalary
-                          )}
-                        />
+                      <CalculationRow
+                        label="Late Deduction Days"
+                        value={`${salary.lateDeductionDays || 0} Days`}
+                        valueClass="text-orange-600"
+                      />
 
-                        <CalculationRow
-                          label="Total Calendar Days"
-                          value={`${salary.workingDays} Days`}
-                        />
+                      <CalculationRow
+                        label="Late Deduction"
+                        value={`- ${money(salary.lateDeduction || 0)}`}
+                        valueClass="text-orange-600"
+                      />
 
-                        <CalculationRow
-                          label="Present Days"
-                          value={`${salary.presentDays} Days`}
-                        />
+                      <CalculationRow
+                        label="Per Day Salary"
+                        value={money(salary.perDaySalary)}
+                      />
 
-                        <CalculationRow
-                          label="Holiday Days"
-                          value={`${salary.holidayDays} Days`}
-                          valueClass="text-purple-600"
-                        />
+                      <CalculationRow
+                        label="Fixed Deduction"
+                        value={`- ${money(salary.fixedDeduction || 200)}`}
+                        valueClass="text-orange-600"
+                      />
 
-                        <CalculationRow
-                          label="Paid Leave"
-                          value={`${salary.paidLeaveDays} Days`}
-                          valueClass="text-green-600"
-                        />
+                      <CalculationRow
+                        label="Total Deduction"
+                        value={`- ${money(salary.lopDeduction)}`}
+                        valueClass="text-red-600"
+                      />
 
-                        <CalculationRow
-                          label="Paid Days"
-                          value={`${salary.payableDays} Days`}
-                          valueClass="text-green-600"
-                        />
+                      {/* NET SALARY */}
 
-                        <CalculationRow
-                          label="LOP"
-                          value={`${salary.lopDays} Days`}
-                          valueClass="text-red-600"
-                        />
+                      <div className="mt-6 rounded-2xl bg-green-100 border border-green-200 p-6">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="text-sm text-green-700">Net Salary</p>
 
-                        <CalculationRow
-                          label="Unpaid Absence"
-                          value={`${salary.unpaidAbsenceDays} Days`}
-                          valueClass="text-orange-600"
-                        />
-
-                        <CalculationRow
-                          label="Deducted Days"
-                          value={`${
-                            Number(
-                              salary.lopDays || 0
-                            ) +
-                            Number(
-                              salary.unpaidAbsenceDays ||
-                                0
-                            )
-                          } Days`}
-                          valueClass="text-red-600"
-                        />
-
-                        <CalculationRow
-                          label="Late Marks"
-                          value={`${salary.lateMarks || 0} Marks`}
-                          valueClass="text-orange-600"
-                        />
-
-                        <CalculationRow
-                          label="Late Deduction Days"
-                          value={`${salary.lateDeductionDays || 0} Days`}
-                          valueClass="text-orange-600"
-                        />
-
-                        <CalculationRow
-                          label="Late Deduction"
-                          value={`- ${money(
-                            salary.lateDeduction || 0
-                          )}`}
-                          valueClass="text-orange-600"
-                        />
-
-                        <CalculationRow
-                          label="Per Day Salary"
-                          value={money(
-                            salary.perDaySalary
-                          )}
-                        />
-
-                        <CalculationRow
-                          label="Total Deduction"
-                          value={`- ${money(
-                            salary.lopDeduction
-                          )}`}
-                          valueClass="text-red-600"
-                        />
-
-                        {/* NET SALARY */}
-
-                        <div className="mt-6 rounded-2xl bg-green-100 border border-green-200 p-6">
-
-                          <div className="flex items-center justify-between">
-
-                            <div>
-
-                              <p className="text-sm text-green-700">
-                                Net Salary
-                              </p>
-
-                              <p className="text-3xl font-bold text-green-700 mt-1">
-                                {money(
-                                  salary.netSalary
-                                )}
-                              </p>
-
-                            </div>
-
-                            <div className="text-4xl">
-                              💰
-                            </div>
-
+                            <p className="text-3xl font-bold text-green-700 mt-1">
+                              {money(salary.netSalary)}
+                            </p>
                           </div>
 
+                          <div className="text-4xl">💰</div>
                         </div>
-
                       </div>
-
                     </div>
-
                   </div>
-                )}
-
-              </>
-            )}
-
+                </div>
+              )}
+            </>
+          )}
         </>
       )}
 
@@ -6674,125 +5833,80 @@ export default function SalaryPage() {
           SALARY REGISTER
       ================================================= */}
 
-      {activeSection ===
-        "register" && (
+      {activeSection === "register" && (
         <div>
-
           {/* HEADER */}
 
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-6">
-
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
-
               <div>
-
                 <h2 className="text-2xl font-bold text-gray-900">
                   Salary Register
                 </h2>
 
                 <p className="text-gray-500 mt-1">
-                  {monthName}{" "}
-                  {year} monthly salary sheet
+                  {monthName} {year} monthly salary sheet
                 </p>
-
               </div>
 
               <button
-                onClick={
-                  downloadSalaryExcel
-                }
-                disabled={
-                  !salaryList.length
-                }
+                onClick={downloadSalaryExcel}
+                disabled={!salaryList.length}
                 className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl font-semibold disabled:opacity-40"
               >
                 ↓ Download Excel
               </button>
-
             </div>
-
           </div>
 
           {/* TOTALS */}
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-
             <SummaryBox
               label="Actual Salary"
-              value={money(
-                registerTotals.actualSalary
-              )}
+              value={money(registerTotals.actualSalary)}
             />
 
             <SummaryBox
               label="Late Deduction"
-              value={money(
-                registerTotals.lateDeduction
-              )}
+              value={money(registerTotals.lateDeduction)}
             />
 
             <SummaryBox
               label="Total Deduction"
-              value={money(
-                registerTotals.deduction
-              )}
+              value={money(registerTotals.deduction)}
             />
 
             <SummaryBox
               label="Net Payroll"
-              value={money(
-                registerTotals.netSalary
-              )}
+              value={money(registerTotals.netSalary)}
             />
-
           </div>
 
           {/* REGISTER */}
 
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-
             {loadingSalaryList ? (
-
               <div className="p-12 text-center">
-
                 <div className="w-10 h-10 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4" />
 
-                <p className="text-gray-500">
-                  Loading salary register...
-                </p>
-
+                <p className="text-gray-500">Loading salary register...</p>
               </div>
-
             ) : salaryList.length === 0 ? (
-
               <div className="p-12 text-center">
+                <div className="text-4xl mb-4">📋</div>
 
-                <div className="text-4xl mb-4">
-                  📋
-                </div>
-
-                <h3 className="font-bold text-gray-900">
-                  No salary records
-                </h3>
+                <h3 className="font-bold text-gray-900">No salary records</h3>
 
                 <p className="text-sm text-gray-500 mt-2">
-                  No salary has been calculated for{" "}
-                  {monthName}{" "}
-                  {year}.
+                  No salary has been calculated for {monthName} {year}.
                 </p>
-
               </div>
-
             ) : (
-
               <div className="overflow-x-auto">
-
                 <table className="w-full min-w-[1800px]">
-
                   <thead className="bg-slate-900 text-white">
-
                     <tr>
-
                       {[
                         "S.No",
                         "Employee",
@@ -6813,330 +5927,206 @@ export default function SalaryPage() {
                         "Total Deduction",
                         "Net Salary",
                         "Status",
-                      ].map(
-                        (heading) => (
-                          <th
-                            key={
-                              heading
-                            }
-                            className="px-4 py-4 text-left text-xs font-semibold whitespace-nowrap"
-                          >
-                            {heading}
-                          </th>
-                        )
-                      )}
-
+                      ].map((heading) => (
+                        <th
+                          key={heading}
+                          className="px-4 py-4 text-left text-xs font-semibold whitespace-nowrap"
+                        >
+                          {heading}
+                        </th>
+                      ))}
                     </tr>
-
                   </thead>
 
                   <tbody className="divide-y divide-gray-100">
+                    {salaryList.map((item, index) => {
+                      const totalDays = item.totalDays ?? item.workingDays ?? 0;
 
-                    {salaryList.map(
-                      (
-                        item,
-                        index
-                      ) => {
-
-                        const totalDays =
-                          item.totalDays ??
-                          item.workingDays ??
-                          0;
-
-                        const paidDays =
-                          item.paidDays ??
-                          item.payableDays ??
-                          0;
-
-                        const deductedDays =
-                          item.deductibleDays ??
-                          (
-                            Number(
-                              item.lopDays || 0
-                            ) +
-                            Number(
-                              item.unpaidAbsenceDays ||
-                                0
-                            )
-                          );
-
-                        const totalDeduction =
-                          item.totalDeduction ??
-                          item.lopDeduction ??
-                          0;
+                      const paidDays = item.paidDays ?? item.payableDays ?? 0;
 
-                        return (
+                      const deductedDays =
+                        item.deductibleDays ??
+                        Number(item.lopDays || 0) +
+                          Number(item.unpaidAbsenceDays || 0);
 
-                          <tr
-                            key={
-                              item._id
-                            }
-                            className="hover:bg-blue-50/40"
-                          >
+                      const totalDeduction =
+                        item.totalDeduction ?? item.lopDeduction ?? 0;
 
-                            {/* S.NO */}
+                      return (
+                        <tr key={item._id} className="hover:bg-blue-50/40">
+                          {/* S.NO */}
 
-                            <td className="px-4 py-4 text-sm font-semibold">
-                              {
-                                index +
-                                1
-                              }
-                            </td>
+                          <td className="px-4 py-4 text-sm font-semibold">
+                            {index + 1}
+                          </td>
 
-                            {/* EMPLOYEE */}
+                          {/* EMPLOYEE */}
 
-                            <td className="px-4 py-4">
+                          <td className="px-4 py-4">
+                            <p className="font-semibold text-gray-900 whitespace-nowrap">
+                              {item.employeeName}
+                            </p>
+                          </td>
 
-                              <p className="font-semibold text-gray-900 whitespace-nowrap">
-                                {
-                                  item.employeeName
-                                }
-                              </p>
+                          {/* CODE */}
 
-                            </td>
+                          <td className="px-4 py-4 text-sm text-gray-600">
+                            {item.employeeCode}
+                          </td>
 
-                            {/* CODE */}
+                          {/* ACTUAL SALARY */}
 
-                            <td className="px-4 py-4 text-sm text-gray-600">
-                              {
-                                item.employeeCode
-                              }
-                            </td>
+                          <td className="px-4 py-4 font-semibold whitespace-nowrap">
+                            {money(
+                              item.actualSalary ?? item.monthlySalary ?? 0
+                            )}
+                          </td>
 
-                            {/* ACTUAL SALARY */}
+                          {/* TOTAL DAYS */}
 
-                            <td className="px-4 py-4 font-semibold whitespace-nowrap">
-                              {money(
-                                item.actualSalary ??
-                                  item.monthlySalary ??
-                                  0
-                              )}
-                            </td>
+                          <td className="px-4 py-4">{totalDays}</td>
 
-                            {/* TOTAL DAYS */}
+                          {/* PRESENT */}
 
-                            <td className="px-4 py-4">
-                              {
-                                totalDays
-                              }
-                            </td>
+                          <td className="px-4 py-4">
+                            <span className="inline-flex rounded-full bg-green-100 text-green-700 px-3 py-1 text-xs font-bold">
+                              {item.presentDays || 0}
+                            </span>
+                          </td>
 
-                            {/* PRESENT */}
+                          {/* HOLIDAY */}
 
-                            <td className="px-4 py-4">
+                          <td className="px-4 py-4">
+                            <span className="inline-flex rounded-full bg-purple-100 text-purple-700 px-3 py-1 text-xs font-bold">
+                              {item.holidayDays || 0}
+                            </span>
+                          </td>
 
-                              <span className="inline-flex rounded-full bg-green-100 text-green-700 px-3 py-1 text-xs font-bold">
-                                {
-                                  item.presentDays ||
-                                  0
-                                }
-                              </span>
+                          {/* PAID LEAVE */}
 
-                            </td>
+                          <td className="px-4 py-4">
+                            <span className="inline-flex rounded-full bg-blue-100 text-blue-700 px-3 py-1 text-xs font-bold">
+                              {item.paidLeaveDays || 0}
+                            </span>
+                          </td>
 
-                            {/* HOLIDAY */}
+                          {/* PAID DAYS */}
 
-                            <td className="px-4 py-4">
+                          <td className="px-4 py-4">
+                            <span className="font-bold text-green-700">
+                              {paidDays}
+                            </span>
+                          </td>
 
-                              <span className="inline-flex rounded-full bg-purple-100 text-purple-700 px-3 py-1 text-xs font-bold">
-                                {
-                                  item.holidayDays ||
-                                  0
-                                }
-                              </span>
+                          {/* LOP */}
 
-                            </td>
+                          <td className="px-4 py-4">
+                            <span className="inline-flex rounded-full bg-red-100 text-red-700 px-3 py-1 text-xs font-bold">
+                              {item.lopDays || 0}
+                            </span>
+                          </td>
 
-                            {/* PAID LEAVE */}
+                          {/* UNPAID ABSENCE */}
 
-                            <td className="px-4 py-4">
+                          <td className="px-4 py-4">
+                            <span className="inline-flex rounded-full bg-orange-100 text-orange-700 px-3 py-1 text-xs font-bold">
+                              {item.unpaidAbsenceDays || 0}
+                            </span>
+                          </td>
 
-                              <span className="inline-flex rounded-full bg-blue-100 text-blue-700 px-3 py-1 text-xs font-bold">
-                                {
-                                  item.paidLeaveDays ||
-                                  0
-                                }
-                              </span>
+                          {/* DEDUCTED DAYS */}
 
-                            </td>
+                          <td className="px-4 py-4 font-semibold text-red-600">
+                            {deductedDays}
+                          </td>
 
-                            {/* PAID DAYS */}
+                          {/* LATE MARKS */}
 
-                            <td className="px-4 py-4">
+                          <td className="px-4 py-4">
+                            <span className="inline-flex rounded-full bg-yellow-100 text-yellow-700 px-3 py-1 text-xs font-bold">
+                              {item.lateMarks || 0}
+                            </span>
+                          </td>
 
-                              <span className="font-bold text-green-700">
-                                {
-                                  paidDays
-                                }
-                              </span>
+                          {/* LATE DEDUCTION DAYS */}
 
-                            </td>
+                          <td className="px-4 py-4 font-semibold text-orange-600 whitespace-nowrap">
+                            {item.lateDeductionDays || 0} Days
+                          </td>
 
-                            {/* LOP */}
+                          {/* LATE DEDUCTION */}
 
-                            <td className="px-4 py-4">
+                          <td className="px-4 py-4 font-semibold text-orange-600 whitespace-nowrap">
+                            {money(item.lateDeduction || 0)}
+                          </td>
 
-                              <span className="inline-flex rounded-full bg-red-100 text-red-700 px-3 py-1 text-xs font-bold">
-                                {
-                                  item.lopDays ||
-                                  0
-                                }
-                              </span>
+                          {/* PER DAY */}
 
-                            </td>
+                          <td className="px-4 py-4 font-semibold whitespace-nowrap">
+                            {money(item.perDaySalary)}
+                          </td>
 
-                            {/* UNPAID ABSENCE */}
+                          {/* TOTAL DEDUCTION */}
 
-                            <td className="px-4 py-4">
+                          <td className="px-4 py-4 font-bold text-red-600 whitespace-nowrap">
+                            {money(totalDeduction)}
+                          </td>
 
-                              <span className="inline-flex rounded-full bg-orange-100 text-orange-700 px-3 py-1 text-xs font-bold">
-                                {
-                                  item.unpaidAbsenceDays ||
-                                  0
-                                }
-                              </span>
+                          {/* NET */}
 
-                            </td>
+                          <td className="px-4 py-4 whitespace-nowrap">
+                            <span className="font-bold text-green-700">
+                              {money(item.netSalary)}
+                            </span>
+                          </td>
 
-                            {/* DEDUCTED DAYS */}
+                          {/* STATUS */}
 
-                            <td className="px-4 py-4 font-semibold text-red-600">
-                              {
-                                deductedDays
-                              }
-                            </td>
-
-                            {/* LATE MARKS */}
-
-                            <td className="px-4 py-4">
-
-                              <span className="inline-flex rounded-full bg-yellow-100 text-yellow-700 px-3 py-1 text-xs font-bold">
-                                {
-                                  item.lateMarks ||
-                                  0
-                                }
-                              </span>
-
-                            </td>
-
-                            {/* LATE DEDUCTION DAYS */}
-
-                            <td className="px-4 py-4 font-semibold text-orange-600 whitespace-nowrap">
-                              {
-                                item.lateDeductionDays ||
-                                0
-                              }{" "}
-                              Days
-                            </td>
-
-                            {/* LATE DEDUCTION */}
-
-                            <td className="px-4 py-4 font-semibold text-orange-600 whitespace-nowrap">
-                              {money(
-                                item.lateDeduction ||
-                                  0
-                              )}
-                            </td>
-
-                            {/* PER DAY */}
-
-                            <td className="px-4 py-4 font-semibold whitespace-nowrap">
-                              {money(
-                                item.perDaySalary
-                              )}
-                            </td>
-
-                            {/* TOTAL DEDUCTION */}
-
-                            <td className="px-4 py-4 font-bold text-red-600 whitespace-nowrap">
-                              {money(
-                                totalDeduction
-                              )}
-                            </td>
-
-                            {/* NET */}
-
-                            <td className="px-4 py-4 whitespace-nowrap">
-
-                              <span className="font-bold text-green-700">
-                                {money(
-                                  item.netSalary
-                                )}
-                              </span>
-
-                            </td>
-
-                            {/* STATUS */}
-
-                            <td className="px-4 py-4">
-
-                              <span className="inline-flex rounded-full bg-green-100 text-green-700 px-3 py-1 text-xs font-semibold">
-                                Calculated
-                              </span>
-
-                            </td>
-
-                          </tr>
-                        );
-                      }
-                    )}
-
+                          <td className="px-4 py-4">
+                            <span className="inline-flex rounded-full bg-green-100 text-green-700 px-3 py-1 text-xs font-semibold">
+                              Calculated
+                            </span>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
 
                   {/* FOOTER */}
 
                   <tfoot className="bg-gray-50 border-t-2 border-gray-200">
-
                     <tr>
-
-                      <td
-                        colSpan="3"
-                        className="px-4 py-5 font-bold"
-                      >
+                      <td colSpan="3" className="px-4 py-5 font-bold">
                         TOTAL
                       </td>
 
                       <td className="px-4 py-5 font-bold">
-                        {money(
-                          registerTotals.actualSalary
-                        )}
+                        {money(registerTotals.actualSalary)}
                       </td>
 
                       {/* Total Days through Late Marks */}
 
-                      <td
-                        colSpan="10"
-                      ></td>
+                      <td colSpan="10"></td>
 
                       {/* Total Deduction */}
 
                       <td className="px-4 py-5 font-bold text-red-600">
-                        {money(
-                          registerTotals.deduction
-                        )}
+                        {money(registerTotals.deduction)}
                       </td>
 
                       {/* Net */}
 
                       <td className="px-4 py-5 font-bold text-green-700">
-                        {money(
-                          registerTotals.netSalary
-                        )}
+                        {money(registerTotals.netSalary)}
                       </td>
 
                       <td></td>
-
                     </tr>
-
                   </tfoot>
-
                 </table>
-
               </div>
             )}
-
           </div>
-
         </div>
       )}
 
@@ -7144,240 +6134,134 @@ export default function SalaryPage() {
           PETTY CASH
       ================================================= */}
 
-      {activeSection ===
-        "pettycash" && (
+      {activeSection === "pettycash" && (
         <div>
-
           {/* HEADER */}
 
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-6">
-
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
-
               <div>
-
-                <h2 className="text-2xl font-bold text-gray-900">
-                  Petty Cash
-                </h2>
+                <h2 className="text-2xl font-bold text-gray-900">Petty Cash</h2>
 
                 <p className="text-gray-500 mt-1">
-                  Company expense register for{" "}
-                  {monthName}{" "}
-                  {year}
+                  Company expense register for {monthName} {year}
                 </p>
-
               </div>
 
               <div className="text-right">
-
-                <p className="text-xs text-gray-400">
-                  Total Expense
-                </p>
+                <p className="text-xs text-gray-400">Total Expense</p>
 
                 <p className="text-2xl font-bold text-red-600">
-                  {money(
-                    pettyCashTotal
-                  )}
+                  {money(pettyCashTotal)}
                 </p>
-
               </div>
-
             </div>
-
           </div>
 
           {/* ADD EXPENSE */}
 
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-6">
-
-            <h3 className="text-lg font-bold mb-5">
-              Add Expense
-            </h3>
+            <h3 className="text-lg font-bold mb-5">Add Expense</h3>
 
             <form
-              onSubmit={
-                addPettyCash
-              }
+              onSubmit={addPettyCash}
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5"
             >
-
               <PettyField
                 label="Date"
                 type="date"
-                value={
-                  pettyCashForm.date
-                }
-                onChange={(value) =>
-                  updatePettyField(
-                    "date",
-                    value
-                  )
-                }
+                value={pettyCashForm.date}
+                onChange={(value) => updatePettyField("date", value)}
               />
 
               <PettyField
                 label="Category"
-                value={
-                  pettyCashForm.category
-                }
+                value={pettyCashForm.category}
                 placeholder="Office Supplies"
-                onChange={(value) =>
-                  updatePettyField(
-                    "category",
-                    value
-                  )
-                }
+                onChange={(value) => updatePettyField("category", value)}
               />
 
               <PettyField
                 label="Description"
-                value={
-                  pettyCashForm.description
-                }
+                value={pettyCashForm.description}
                 placeholder="Printer paper"
-                onChange={(value) =>
-                  updatePettyField(
-                    "description",
-                    value
-                  )
-                }
+                onChange={(value) => updatePettyField("description", value)}
               />
 
               <PettyField
                 label="Amount"
                 type="number"
-                value={
-                  pettyCashForm.amount
-                }
+                value={pettyCashForm.amount}
                 placeholder="500"
-                onChange={(value) =>
-                  updatePettyField(
-                    "amount",
-                    value
-                  )
-                }
+                onChange={(value) => updatePettyField("amount", value)}
               />
 
               <PettyField
                 label="Paid To"
-                value={
-                  pettyCashForm.paidTo
-                }
+                value={pettyCashForm.paidTo}
                 placeholder="Vendor"
-                onChange={(value) =>
-                  updatePettyField(
-                    "paidTo",
-                    value
-                  )
-                }
+                onChange={(value) => updatePettyField("paidTo", value)}
               />
 
               <div>
-
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Payment Method
                 </label>
 
                 <select
-                  value={
-                    pettyCashForm.paymentMethod
-                  }
+                  value={pettyCashForm.paymentMethod}
                   onChange={(e) =>
-                    updatePettyField(
-                      "paymentMethod",
-                      e.target.value
-                    )
+                    updatePettyField("paymentMethod", e.target.value)
                   }
                   className="w-full rounded-xl border border-gray-200 px-4 py-3"
                 >
+                  <option value="Cash">Cash</option>
 
-                  <option value="Cash">
-                    Cash
-                  </option>
+                  <option value="UPI">UPI</option>
 
-                  <option value="UPI">
-                    UPI
-                  </option>
+                  <option value="Bank">Bank</option>
 
-                  <option value="Bank">
-                    Bank
-                  </option>
+                  <option value="Card">Card</option>
 
-                  <option value="Card">
-                    Card
-                  </option>
-
-                  <option value="Other">
-                    Other
-                  </option>
-
+                  <option value="Other">Other</option>
                 </select>
-
               </div>
 
               <PettyField
                 label="Reference"
-                value={
-                  pettyCashForm.reference
-                }
+                value={pettyCashForm.reference}
                 placeholder="Bill No."
-                onChange={(value) =>
-                  updatePettyField(
-                    "reference",
-                    value
-                  )
-                }
+                onChange={(value) => updatePettyField("reference", value)}
               />
 
               <PettyField
                 label="Notes"
-                value={
-                  pettyCashForm.notes
-                }
+                value={pettyCashForm.notes}
                 placeholder="Notes"
-                onChange={(value) =>
-                  updatePettyField(
-                    "notes",
-                    value
-                  )
-                }
+                onChange={(value) => updatePettyField("notes", value)}
               />
 
               <div className="lg:col-span-4 flex justify-end">
-
                 <button
                   type="submit"
                   className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-semibold"
                 >
                   Add Expense
                 </button>
-
               </div>
-
             </form>
-
           </div>
 
           {/* PETTY TABLE */}
 
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-
             {pettyCashLoading ? (
-
-              <div className="p-10 text-center">
-                Loading petty cash...
-              </div>
-
+              <div className="p-10 text-center">Loading petty cash...</div>
             ) : (
-
               <div className="overflow-x-auto">
-
                 <table className="w-full min-w-[1000px]">
-
                   <thead className="bg-slate-900 text-white">
-
                     <tr>
-
                       {[
                         "Date",
                         "Category",
@@ -7387,111 +6271,55 @@ export default function SalaryPage() {
                         "Amount",
                         "Reference",
                         "Action",
-                      ].map(
-                        (item) => (
-                          <th
-                            key={
-                              item
-                            }
-                            className="px-5 py-4 text-left text-xs uppercase"
-                          >
-                            {item}
-                          </th>
-                        )
-                      )}
-
+                      ].map((item) => (
+                        <th
+                          key={item}
+                          className="px-5 py-4 text-left text-xs uppercase"
+                        >
+                          {item}
+                        </th>
+                      ))}
                     </tr>
-
                   </thead>
 
                   <tbody className="divide-y divide-gray-100">
+                    {pettyCash.map((item) => (
+                      <tr key={item._id} className="hover:bg-gray-50">
+                        <td className="px-5 py-4 text-sm">
+                          {new Date(item.date).toLocaleDateString("en-IN")}
+                        </td>
 
-                    {pettyCash.map(
-                      (item) => (
-                        <tr
-                          key={
-                            item._id
-                          }
-                          className="hover:bg-gray-50"
-                        >
+                        <td className="px-5 py-4">{item.category}</td>
 
-                          <td className="px-5 py-4 text-sm">
-                            {new Date(
-                              item.date
-                            ).toLocaleDateString(
-                              "en-IN"
-                            )}
-                          </td>
+                        <td className="px-5 py-4">{item.description}</td>
 
-                          <td className="px-5 py-4">
-                            {
-                              item.category
-                            }
-                          </td>
+                        <td className="px-5 py-4">{item.paidTo || "-"}</td>
 
-                          <td className="px-5 py-4">
-                            {
-                              item.description
-                            }
-                          </td>
+                        <td className="px-5 py-4">{item.paymentMethod}</td>
 
-                          <td className="px-5 py-4">
-                            {
-                              item.paidTo ||
-                                "-"
-                            }
-                          </td>
+                        <td className="px-5 py-4 font-bold">
+                          {money(item.amount)}
+                        </td>
 
-                          <td className="px-5 py-4">
-                            {
-                              item.paymentMethod
-                            }
-                          </td>
+                        <td className="px-5 py-4">{item.reference || "-"}</td>
 
-                          <td className="px-5 py-4 font-bold">
-                            {money(
-                              item.amount
-                            )}
-                          </td>
-
-                          <td className="px-5 py-4">
-                            {
-                              item.reference ||
-                                "-"
-                            }
-                          </td>
-
-                          <td className="px-5 py-4">
-
-                            <button
-                              onClick={() =>
-                                deletePettyCash(
-                                  item._id
-                                )
-                              }
-                              className="text-red-600 font-semibold"
-                            >
-                              Delete
-                            </button>
-
-                          </td>
-
-                        </tr>
-                      )
-                    )}
-
+                        <td className="px-5 py-4">
+                          <button
+                            onClick={() => deletePettyCash(item._id)}
+                            className="text-red-600 font-semibold"
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
-
                 </table>
-
               </div>
             )}
-
           </div>
-
         </div>
       )}
-
     </div>
   );
 }
@@ -7500,12 +6328,7 @@ export default function SalaryPage() {
 // NAVIGATION BUTTON
 // =========================================================
 
-function NavigationButton({
-  active,
-  onClick,
-  icon,
-  title,
-}) {
+function NavigationButton({ active, onClick, icon, title }) {
   return (
     <button
       onClick={onClick}
@@ -7515,9 +6338,7 @@ function NavigationButton({
           : "hover:bg-gray-50 text-gray-700"
       }`}
     >
-      <span className="text-xl mr-3">
-        {icon}
-      </span>
+      <span className="text-xl mr-3">{icon}</span>
 
       {title}
     </button>
@@ -7528,21 +6349,12 @@ function NavigationButton({
 // SUMMARY BOX
 // =========================================================
 
-function SummaryBox({
-  label,
-  value,
-}) {
+function SummaryBox({ label, value }) {
   return (
     <div className="rounded-xl bg-gray-50 border border-gray-100 p-4">
+      <p className="text-xs text-gray-400">{label}</p>
 
-      <p className="text-xs text-gray-400">
-        {label}
-      </p>
-
-      <p className="text-2xl font-bold text-gray-900 mt-2">
-        {value}
-      </p>
-
+      <p className="text-2xl font-bold text-gray-900 mt-2">{value}</p>
     </div>
   );
 }
@@ -7551,21 +6363,12 @@ function SummaryBox({
 // RESULT BOX
 // =========================================================
 
-function ResultBox({
-  label,
-  value,
-}) {
+function ResultBox({ label, value }) {
   return (
     <div className="rounded-xl bg-gray-50 border border-gray-100 p-4">
+      <p className="text-xs text-gray-400">{label}</p>
 
-      <p className="text-xs text-gray-400">
-        {label}
-      </p>
-
-      <p className="text-lg font-bold text-gray-900 mt-2">
-        {value}
-      </p>
-
+      <p className="text-lg font-bold text-gray-900 mt-2">{value}</p>
     </div>
   );
 }
@@ -7574,24 +6377,12 @@ function ResultBox({
 // CALCULATION ROW
 // =========================================================
 
-function CalculationRow({
-  label,
-  value,
-  valueClass = "text-gray-900",
-}) {
+function CalculationRow({ label, value, valueClass = "text-gray-900" }) {
   return (
     <div className="flex items-center justify-between border-b border-gray-200 py-4">
+      <span className="text-gray-500">{label}</span>
 
-      <span className="text-gray-500">
-        {label}
-      </span>
-
-      <span
-        className={`font-semibold ${valueClass}`}
-      >
-        {value}
-      </span>
-
+      <span className={`font-semibold ${valueClass}`}>{value}</span>
     </div>
   );
 }
@@ -7600,21 +6391,12 @@ function CalculationRow({
 // MINI STAT
 // =========================================================
 
-function MiniStat({
-  label,
-  value,
-}) {
+function MiniStat({ label, value }) {
   return (
     <div className="rounded-xl bg-gray-50 border border-gray-100 px-5 py-4 min-w-[120px]">
+      <p className="text-xs text-gray-400">{label}</p>
 
-      <p className="text-xs text-gray-400">
-        {label}
-      </p>
-
-      <p className="text-lg font-bold text-gray-900 mt-1">
-        {value}
-      </p>
-
+      <p className="text-lg font-bold text-gray-900 mt-1">{value}</p>
     </div>
   );
 }
@@ -7623,34 +6405,25 @@ function MiniStat({
 // PAYROLL BADGE
 // =========================================================
 
-function PayrollBadge({
-  type,
-}) {
+function PayrollBadge({ type }) {
   const styles = {
-    "Paid Holiday":
-      "bg-purple-100 text-purple-700",
+    "Paid Holiday": "bg-purple-100 text-purple-700",
 
-    "Paid Birthday":
-      "bg-pink-100 text-pink-700",
+    "Paid Birthday": "bg-pink-100 text-pink-700",
 
-    "Paid Leave":
-      "bg-green-100 text-green-700",
+    "Paid Leave": "bg-green-100 text-green-700",
 
-    LOP:
-      "bg-red-100 text-red-700",
+    LOP: "bg-red-100 text-red-700",
 
-    "Unpaid Absence":
-      "bg-orange-100 text-orange-700",
+    "Unpaid Absence": "bg-orange-100 text-orange-700",
 
-    Paid:
-      "bg-gray-100 text-gray-700",
+    Paid: "bg-gray-100 text-gray-700",
   };
 
   return (
     <span
       className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
-        styles[type] ||
-        styles.Paid
+        styles[type] || styles.Paid
       }`}
     >
       {type}
@@ -7662,12 +6435,8 @@ function PayrollBadge({
 // STATUS
 // =========================================================
 
-function StatusBadge({
-  status,
-}) {
-  if (
-    status === "Holiday"
-  ) {
+function StatusBadge({ status }) {
+  if (status === "Holiday") {
     return (
       <span className="inline-flex rounded-full bg-purple-100 px-3 py-1 text-xs font-semibold text-purple-700">
         Holiday
@@ -7675,9 +6444,7 @@ function StatusBadge({
     );
   }
 
-  if (
-    status === "Absent"
-  ) {
+  if (status === "Absent") {
     return (
       <span className="inline-flex rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-700">
         Absent
@@ -7696,16 +6463,9 @@ function StatusBadge({
 // PETTY FIELD
 // =========================================================
 
-function PettyField({
-  label,
-  type = "text",
-  value,
-  placeholder,
-  onChange,
-}) {
+function PettyField({ label, type = "text", value, placeholder, onChange }) {
   return (
     <div>
-
       <label className="block text-sm font-semibold text-gray-700 mb-2">
         {label}
       </label>
@@ -7714,14 +6474,9 @@ function PettyField({
         type={type}
         value={value}
         placeholder={placeholder}
-        onChange={(e) =>
-          onChange(
-            e.target.value
-          )
-        }
+        onChange={(e) => onChange(e.target.value)}
         className="w-full rounded-xl border border-gray-200 px-4 py-3 outline-none focus:border-blue-500"
       />
-
     </div>
   );
 }
