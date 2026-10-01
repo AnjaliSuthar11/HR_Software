@@ -6061,6 +6061,8 @@ export default function SalaryPage() {
                             {money(item.lateDeduction || 0)}
                           </td>
 
+                          
+
                           {/* PER DAY */}
 
                           <td className="px-4 py-4 font-semibold whitespace-nowrap">
