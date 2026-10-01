@@ -96,6 +96,7 @@ export async function GET(request) {
           error.message ||
           "Unable to fetch attendance",
       },
+      
       {
         status: 500,
       }
