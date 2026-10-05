@@ -82,6 +82,7 @@ export async function GET(request) {
       attendance,
     });
 
+    
   } catch (error) {
 
     console.error(
