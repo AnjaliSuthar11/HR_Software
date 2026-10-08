@@ -491,6 +491,7 @@ export async function POST(
           result.resource_type ||
           "",
 
+          
         format:
           result.format ||
           extension,

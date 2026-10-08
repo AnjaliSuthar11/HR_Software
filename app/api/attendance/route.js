@@ -28,7 +28,6 @@ export async function GET(request) {
         )
       );
 
-
     if (
       !employeeId ||
       !month ||
@@ -83,7 +82,7 @@ export async function GET(request) {
     });
 
     
-    
+
   } catch (error) {
 
     console.error(
