@@ -89,26 +89,26 @@ function AddEmployeeForm() {
   // AUTO-GENERATE EMPLOYEE CODE
   // ================================================
 
-  useEffect(() => {
-    const loadNextEmployeeCode = async () => {
-      try {
-        const { data } = await axios.get("/api/employee/next-code");
+  // useEffect(() => {
+  //   const loadNextEmployeeCode = async () => {
+  //     try {
+  //       const { data } = await axios.get("/api/employee/next-code");
 
-        if (data.success && data.employeeCode) {
-          setFormData((prev) => ({
-            ...prev,
-            employeeCode: data.employeeCode,
-          }));
-        }
-      } catch (error) {
-        console.error("Generate employee code error:", error);
+  //       if (data.success && data.employeeCode) {
+  //         setFormData((prev) => ({
+  //           ...prev,
+  //           employeeCode: data.employeeCode,
+  //         }));
+  //       }
+  //     } catch (error) {
+  //       console.error("Generate employee code error:", error);
 
-        toast.error("Unable to generate employee code");
-      }
-    };
+  //       toast.error("Unable to generate employee code");
+  //     }
+  //   };
 
-    loadNextEmployeeCode();
-  }, []);
+  //   loadNextEmployeeCode();
+  // }, []);
 
   useEffect(() => {
     if (!candidateId) return;
@@ -360,8 +360,8 @@ function AddEmployeeForm() {
                     name="employeeCode"
                     type="text"
                     value={formData.employeeCode}
-                    readOnly
-                    placeholder="Generating employee code..."
+             onChange={handleChange}
+                    placeholder="Emp-Code"
                     className="w-full border border-gray-300 rounded-xl p-3 bg-gray-100 text-gray-700 cursor-not-allowed outline-none"
                   />
                 </div>
