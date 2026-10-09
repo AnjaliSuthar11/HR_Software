@@ -1,10 +1,12 @@
 import Header from "@/components/Header";
+import HRDashboardGuard from "@/components/HRDashdoardGuard";
 import Sidebar from "@/components/Sidebar";
 import { SearchProvider } from "@/context/SearchContext";
 import { Toaster } from "react-hot-toast";
 
 export default function DashboardLayout({ children }) {
   return (
+    <HRDashboardGuard>
       <SearchProvider>
     <div className="flex h-screen bg-[#F4F7FB]">
 
@@ -23,5 +25,6 @@ export default function DashboardLayout({ children }) {
 
 </div>
 </SearchProvider>
+</HRDashboardGuard>
   );
 }

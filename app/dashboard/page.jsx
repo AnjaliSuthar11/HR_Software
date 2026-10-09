@@ -1,3 +1,4 @@
+"use client"
 import {
   Users,
   UserCheck,
@@ -13,8 +14,11 @@ import RecruitmentChart from "@/components/RecruitmentChart";
 import TodaysInterviews from "@/components/TodaysInterviews";
 import HiringPipeline from "@/components/HiringPipeline";
 import RecentCandidates from "@/components/RecentCandidates";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Dashboard() {
+
   return (
     <div className="space-y-8">
 
