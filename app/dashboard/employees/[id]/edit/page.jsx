@@ -719,7 +719,7 @@ export default function EditEmployee() {
             <div className="p-8 grid md:grid-cols-2 xl:grid-cols-3 gap-6">
 
               <Input
-                label="Father Name"
+                label="Father Name / Spouse Name"
                 name="fatherName"
                 value={formData.fatherName}
                 onChange={handleChange}

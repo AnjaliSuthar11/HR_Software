@@ -417,12 +417,12 @@ function AddEmployeeForm() {
 
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Father Name
+                    Father Name / Spouse Name
                   </label>
 
                   <input
                     name="fatherName"
-                    placeholder="Father Name"
+                    placeholder="Father Name or Spouse Name"
                     value={formData.fatherName}
                     onChange={handleChange}
                     className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none"

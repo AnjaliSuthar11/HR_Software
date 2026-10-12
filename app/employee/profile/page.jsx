@@ -433,7 +433,7 @@ export default function EmployeeProfilePage() {
               />
 
               <InfoItem
-                label="Father Name"
+                label="Father Name or Spouse Name"
                 value={
                   employee.fatherName
                 }

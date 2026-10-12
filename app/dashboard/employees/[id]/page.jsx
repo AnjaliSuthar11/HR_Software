@@ -268,7 +268,7 @@ export default function EmployeeProfile() {
 
               <div className="border rounded-2xl p-5 hover:shadow-md transition">
                 <p className="text-xs uppercase tracking-wider text-gray-400 mb-2">
-                  Father Name
+                  Father Name / Spouse Name
                 </p>
                 <p className="text-lg font-semibold text-gray-900">
                   {employee.fatherName || "-"}
