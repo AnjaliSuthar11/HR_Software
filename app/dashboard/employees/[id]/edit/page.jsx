@@ -1386,6 +1386,8 @@ export default function EditEmployee() {
                           }
                         />
 
+                        
+
                         <Input
                           label="Leaving Date"
                           type="date"
