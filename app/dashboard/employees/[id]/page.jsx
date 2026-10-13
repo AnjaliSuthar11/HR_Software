@@ -86,6 +86,7 @@ export default function EmployeeProfile() {
               Edit Employee
             </Link>
 
+
             <Link
               href={`/dashboard/employees/${employee._id}/documents`}
               className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
@@ -117,7 +118,7 @@ export default function EmployeeProfile() {
                   👤
                 </div>
               )}
-
+              
               <div
                 className={`absolute bottom-3 right-3 w-7 h-7 rounded-full border-4 border-white ${
                   employee.employeeStatus === "Active"
