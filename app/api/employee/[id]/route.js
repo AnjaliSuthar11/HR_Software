@@ -102,6 +102,7 @@ export async function PUT(request, { params }) {
       employeeCode,
       employeeFullName,
       designation,
+      department,
       employeeStatus,
 
       emailId,
@@ -189,6 +190,9 @@ export async function PUT(request, { params }) {
 
       designation:
         designation?.trim() || "",
+
+      department:
+      department?.trim() || "",
 
       employeeStatus:
         employeeStatus || "Active",

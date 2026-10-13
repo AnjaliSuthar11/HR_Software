@@ -139,22 +139,26 @@ export default function EmployeeProfile() {
                   <h1 className="text-4xl font-bold text-gray-900">
                     {employee.employeeFullName}
                   </h1>
-<div className="flex flex-col  pt-2">
-                  
-                  {/* <p className="text-gray-500 mt-2 text-lg">
+                  <div className="flex flex-col  pt-2">
+                    {/* <p className="text-gray-500 mt-2 text-lg">
                     {" "}
                     Department: {employee.department}
                   </p> */}
 
-                  <p className="text-gray-500 mt-2 text-lg">
-                    Employee ID : {employee.employeeCode}
-                  </p>
+                    <p className="text-gray-500 mt-2 text-lg">
+                      Employee ID : {employee.employeeCode}
+                    </p>
 
-
-                  <p className="text-gray-500 mt-2 text-lg">
-                    Designation:{" "}
-                    {employee.designation || "Designation not assigned"}
-                  </p>
+                    <div className="flex gap-8 ">
+                      <p className="text-gray-500 mt-2 text-lg">
+                        Designation:{" "}
+                        {employee.designation || "Designation not assigned"}
+                      </p>
+                      <p className="text-gray-500 mt-2 text-lg">
+                        Department:{" "}
+                        {employee.department || "Designation not assigned"}
+                      </p>
+                    </div>
                   </div>
                 </div>
 
@@ -198,7 +202,6 @@ export default function EmployeeProfile() {
 
                 <div className="border rounded-2xl p-5 hover:shadow-md transition">
                   <p className="text-gray-400 text-sm mb-1">Joining Date</p>
-                  
 
                   <p className="font-semibold">
                     {employee.joiningDate

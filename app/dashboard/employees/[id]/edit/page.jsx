@@ -22,6 +22,7 @@ export default function EditEmployee() {
     employeeCode: "",
     employeeFullName: "",
     designation: "",
+    department:"",
     employeeStatus: "Active",
 
     emailId: "",
@@ -100,6 +101,9 @@ export default function EditEmployee() {
 
         designation:
           employee.designation || "",
+
+        department:
+        employee.department || "",
 
         employeeStatus:
           employee.employeeStatus || "Active",
@@ -360,6 +364,7 @@ export default function EditEmployee() {
           joinDate: "",
           leftDate: "",
           designation: "",
+        
           annualSalary: "",
           reasonForLeaving: "",
         },
@@ -420,6 +425,9 @@ export default function EditEmployee() {
 
         designation:
           formData.designation.trim(),
+
+          department:
+          formData.department.trim(),
 
         employeeStatus:
           formData.employeeStatus,
@@ -643,6 +651,12 @@ export default function EditEmployee() {
                 label="Designation"
                 name="designation"
                 value={formData.designation}
+                onChange={handleChange}
+              />
+              <Input
+                label="Department"
+                name="department"
+                value={formData.department}
                 onChange={handleChange}
               />
 

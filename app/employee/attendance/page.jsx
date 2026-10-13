@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import AttendanceHistory from "@/components/AttendanceHistory";
 
 export default function EmployeeAttendancePage() {
   const router = useRouter();
@@ -300,7 +301,7 @@ export default function EmployeeAttendancePage() {
 
           {/* ================= HISTORY ================= */}
 
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+          {/* <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
 
             <div className="p-6 border-b border-gray-100">
 
@@ -377,7 +378,10 @@ export default function EmployeeAttendancePage() {
 
             </div>
 
-          </div>
+          </div> */}
+
+          {/* attendance history */}
+          <AttendanceHistory/>
 
         </div>
 
