@@ -338,6 +338,7 @@ export default function EmployeeDashboardPage() {
         {/* LOGOUT */}
 
         <div className="border-t border-gray-100 p-4">
+          
 
           <button
             onClick={handleLogout}
