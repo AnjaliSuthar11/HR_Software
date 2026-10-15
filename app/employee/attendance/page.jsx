@@ -365,6 +365,7 @@ function AttendanceCard({
           {icon}
         </div>
 
+
       </div>
 
     </div>
