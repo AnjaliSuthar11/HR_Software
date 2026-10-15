@@ -327,7 +327,7 @@ export default function EmployeeDashboardPage() {
               }
               className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-medium text-gray-600 transition hover:bg-gray-100"
             >
-              <span>📅</span>
+              <span>📝</span>
               Task
             </button>
 
@@ -348,6 +348,7 @@ export default function EmployeeDashboardPage() {
           </button>
 
         </div>
+
 
       </aside>
 

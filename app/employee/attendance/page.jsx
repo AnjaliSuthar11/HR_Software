@@ -201,7 +201,7 @@ export default function EmployeeAttendancePage() {
 
           {/* ================= STATS ================= */}
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mb-8">
+          {/* <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mb-8">
 
             <AttendanceCard
               title="Present"
@@ -235,69 +235,9 @@ export default function EmployeeAttendancePage() {
               iconBg="bg-blue-100"
             />
 
-          </div>
+          </div> */}
 
-          {/* ================= TODAY ================= */}
-
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm mb-6">
-
-            <div className="p-6 border-b border-gray-100">
-
-              <h2 className="text-lg font-bold">
-                Today's Attendance
-              </h2>
-
-              <p className="text-sm text-gray-500 mt-1">
-                Your attendance for today
-              </p>
-
-            </div>
-
-            <div className="p-6">
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-
-                <div className="rounded-xl bg-gray-50 p-5">
-
-                  <p className="text-xs text-gray-400">
-                    Check In
-                  </p>
-
-                  <p className="text-xl font-bold mt-2">
-                    --
-                  </p>
-
-                </div>
-
-                <div className="rounded-xl bg-gray-50 p-5">
-
-                  <p className="text-xs text-gray-400">
-                    Check Out
-                  </p>
-
-                  <p className="text-xl font-bold mt-2">
-                    --
-                  </p>
-
-                </div>
-
-                <div className="rounded-xl bg-gray-50 p-5">
-
-                  <p className="text-xs text-gray-400">
-                    Status
-                  </p>
-
-                  <p className="text-xl font-bold mt-2 text-gray-400">
-                    Not Available
-                  </p>
-
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
+       
 
           {/* ================= HISTORY ================= */}
 
