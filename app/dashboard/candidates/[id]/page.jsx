@@ -237,7 +237,8 @@ export default function CandidateDetails({ params }) {
                 </div>
               </div>
             </div>
-
+            
+  <div className="flex flex-col justify-center gap-4 items-end">
             <div className="flex gap-3 self-start">
               <a
                 href={`tel:${candidate.mobile}`}
@@ -262,7 +263,16 @@ export default function CandidateDetails({ params }) {
 >
   <Mail size={18} />
 </a>
+
             </div>
+  <div>
+                { candidate.registrationDate
+            ? new Date(candidate.registrationDate).toLocaleDateString()
+            : "-"}
+              </div>
+            
+
+              </div>
           </div>
         </div>
         <div className=" grid grid-cols-1 md:grid-cols-2 gap-5 p-5">

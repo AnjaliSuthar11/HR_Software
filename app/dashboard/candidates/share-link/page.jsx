@@ -253,6 +253,9 @@ if (!appliedPosition.trim()) {
       <option value="Creative">
         Creative
       </option>
+      <option value="Cordination / Management">
+        Cordination / Management
+      </option>
 
       <option value="Technology">
         Technology

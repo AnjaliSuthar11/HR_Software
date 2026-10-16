@@ -1033,7 +1033,7 @@ export default function CandidatesPage() {
 
                     <div className="mt-7 pt-5 border-t border-gray-100 flex justify-end">
 
-                      <span className="text-sm text-gray-500">
+                      {/* <span className="text-sm text-gray-500">
                         {candidate.createdAt
                           ? new Date(
                               candidate.createdAt
@@ -1041,6 +1041,15 @@ export default function CandidatesPage() {
                               "en-IN"
                             )
                           : "-"}
+                      </span> */}
+                      <span className="text-sm text-gray-500">
+                        {candidate.registrationDate
+                          ? new Date(
+                              candidate.registrationDate
+                            ).toLocaleString(
+                              "en-IN"
+                            )
+                          : "----"}
                       </span>
 
                     </div>

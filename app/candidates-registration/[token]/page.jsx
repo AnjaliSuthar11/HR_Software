@@ -5,6 +5,15 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useParams } from "next/navigation";
 
+function getTodayDateInput() {
+  const now = new Date();
+  const localDate = new Date(
+    now.getTime() - now.getTimezoneOffset() * 60000
+  );
+
+  return localDate.toISOString().slice(0, 10);
+}
+
 export default function CandidateForm() {
   const params = useParams();
 
@@ -82,6 +91,7 @@ useEffect(() => {
     mobile: "",
     email: "",
     address: "",
+registrationDate: getTodayDateInput(),
 
     highestQualification: "",
     university: "",
@@ -858,6 +868,25 @@ useEffect(() => {
               </div>
 
             </div>
+            <div className="mb-5">
+  <label
+    htmlFor="candidateReceivedDate"
+    className="block text-sm font-semibold text-gray-700 mb-2"
+  >
+    Candidate Received Date
+  </label>
+
+  <input
+    id="registrationDate"
+    name="registrationDate"
+    type="date"
+    value={formData.registrationDate}
+    onChange={handleChange}
+    max={getTodayDateInput()}
+    required
+    className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-gray-800 outline-none focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100"
+  />
+</div>
 
             {/* ================================= */}
             {/* SUBMIT */}

@@ -195,6 +195,11 @@ export async function POST(req) {
 
         registrationTokenUsed:
           true,
+
+          registrationDate: body.reference
+  ? new Date(`${body.registrationDate}T00:00:00.000Z`)
+  : new Date(),
+
       });
 
     // ==========================================

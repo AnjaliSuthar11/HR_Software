@@ -247,6 +247,11 @@ convertedToEmployee: {
   default: false,
 },
 
+registrationDate:{
+    type:Date,
+    default:null,
+},
+
 employeeId: {
   type: mongoose.Schema.Types.ObjectId,
   ref: "Employee",
