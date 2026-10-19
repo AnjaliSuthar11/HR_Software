@@ -14,38 +14,38 @@ import {
   CrossIcon,
   X,
 } from "lucide-react";
-import { useState } from "react";
+
 
 
 const menus = [
   {
     name: "Dashboard",
-    href: "/dashboard",
+    href: "/admin/dashboard",
     icon: LayoutDashboard,
   },
   {
     name: "Candidates",
-    href: "/dashboard/candidates",
+    href: "/admin/candidates",
     icon: Users,
   },
   {
     name: "Employees",
-    href: "/dashboard/employees",
+    href: "/admin/employees",
     icon: UserCheck,
   },
   {
     name: "Leave",
-    href: "/dashboard/leave",
+    href: "/admin/leave",
     icon: UserCheck,
   },
   {
     name: "Attendance",
-    href: "/dashboard/attendance",
+    href: "/admin/attendance",
     icon: Clock3,
   },
   {
     name: "Salary",
-    href: "/dashboard/salary",
+    href: "/admin/salary",
     icon: BarChart3,
   },
   // {
@@ -55,7 +55,7 @@ const menus = [
   // },
   {
     name: "Holiday",
-    href: "/dashboard/holidays",
+    href: "/admin/holidays",
     icon: Settings,
   },
 ];
