@@ -46,6 +46,7 @@ export default function CandidateDetails({ params }) {
     experience: "",
     presentation: "",
     remarks: "",
+    salaryExpectation:"",
     recommendation: "",
   });
 
@@ -607,6 +608,16 @@ export default function CandidateDetails({ params }) {
           </div>
 
           <div className="mb-4">
+            <label className="block mb-2 font-medium">Salary Expectation</label>
+
+            <textarea
+              name="salaryExpectation"
+              value={round1.salaryExpectation}
+              onChange={handleRound1Change}
+              className="border rounded-lg p-3 w-full"
+            />
+          </div>
+          <div className="mb-4">
             <label className="block mb-2 font-medium">Remarks</label>
 
             <textarea
@@ -661,6 +672,10 @@ export default function CandidateDetails({ params }) {
               <p className="font-semibold">{candidate.round1.recommendation}</p>
             </div>
 
+            <div className="flex gap-4">
+              <p className="font-medium">Salary Expectation:</p>
+              <p className="font-semibold">{candidate.round1.salaryExpectation}</p>
+            </div>
             <div className="flex gap-4">
               <p className="font-medium">Remarks:</p>
               <p className="font-semibold">{candidate.round1.remarks}</p>

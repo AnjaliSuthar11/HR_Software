@@ -86,11 +86,8 @@ export default function AdminDashboardPage() {
 
   return (
     <main>
-        <div >
-
-        <Sidebar/>
-        </div>
-        <div className="flex">
+        
+        <div className="">
 
        
       <header className="border-b border-slate-200 bg-white">

@@ -1,5 +1,62 @@
 import mongoose from "mongoose";
 
+const round1Schema = new mongoose.Schema(
+  {
+    communication: {
+      type: Number,
+      default: null,
+    },
+
+    confidence: {
+      type: Number,
+      default: null,
+    },
+
+    technicalSkill: {
+      type: Number,
+      default: null,
+    },
+
+    experience: {
+      type: Number,
+      default: null,
+    },
+
+    presentation: {
+      type: Number,
+      default: null,
+    },
+
+    // Salary expectation - Only for Round 1
+    salaryExpectation: {
+      type: String,
+      default: null,
+    },
+
+    remarks: {
+      type: String,
+      default: "",
+    },
+
+    recommendation: {
+      type: String,
+      enum: [
+        "Selected",
+        "Shortlisted",
+        "Can be Consider",
+        "Rejected",
+        "Hold",
+        "",
+      ],
+      default: "",
+    },
+  },
+  {
+    _id: false,
+  }
+);
+
+
 const interviewRoundSchema = new mongoose.Schema(
 {
   communication:{
@@ -203,7 +260,7 @@ department: {
     // ================= Interview =================
 
     round1: {
-      type: interviewRoundSchema,
+      type: round1Schema,
       default: undefined,
     },
 

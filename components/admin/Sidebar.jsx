@@ -25,27 +25,27 @@ const menus = [
   },
   {
     name: "Candidates",
-    href: "/admin/candidates",
+    href: "/admin/dashboard/candidates",
     icon: Users,
   },
   {
     name: "Employees",
-    href: "/admin/employees",
+    href: "/admin/dashboard/employees",
     icon: UserCheck,
   },
   {
     name: "Leave",
-    href: "/admin/leave",
+    href: "/admin/dashboard/leave",
     icon: UserCheck,
   },
   {
     name: "Attendance",
-    href: "/admin/attendance",
+    href: "/admin/dashboard/attendance",
     icon: Clock3,
   },
   {
     name: "Salary",
-    href: "/admin/salary",
+    href: "/admin/dashboard/salary",
     icon: BarChart3,
   },
   // {
@@ -55,7 +55,7 @@ const menus = [
   // },
   {
     name: "Holiday",
-    href: "/admin/holidays",
+    href: "/admin/dashboard/holidays",
     icon: Settings,
   },
 ];

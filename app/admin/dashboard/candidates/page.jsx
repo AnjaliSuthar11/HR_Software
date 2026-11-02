@@ -436,9 +436,9 @@ export default function CandidatesDashboardPage() {
       <div className="flex min-h-screen w-full">
 
 {/* left aside  */}
-         <aside className="w-64 shrink-0">
+         {/* <aside className="w-64 shrink-0">
       <Sidebar />
-    </aside>
+    </aside> */}
 
         <main className="min-w-0 flex-1 overflow-x-hidden">
 
@@ -493,7 +493,7 @@ export default function CandidatesDashboardPage() {
               value={loading ? "—" : stats.total}
               subtitle={`${stats.monthCandidates} added this month`}
               icon={Users}
-              href="/dashboard/candidates/view"
+              href="/admin/dashboard/candidates/view"
               tone="blue"
             />
             <StatCard
@@ -501,7 +501,7 @@ export default function CandidatesDashboardPage() {
               value={loading ? "—" : stats.interviewQueue}
               subtitle={`${stats.round1Pending} Round 1 • ${stats.round2Pending} Round 2 • ${stats.finalDecisionPending} Final`}
               icon={CalendarDays}
-              href="/dashboard/candidates/interviews/today"
+              href="/admin/dashboard/candidates/interviews/today"
               tone="violet"
             />
             <StatCard
@@ -509,7 +509,7 @@ export default function CandidatesDashboardPage() {
               value={loading ? "—" : stats.round1Completed}
               subtitle="Initial interviews completed"
               icon={ClipboardCheck}
-              href="/dashboard/candidates/round-1"
+              href="/admin/dashboard/candidates/round-1"
               tone="amber"
             />
             <StatCard
@@ -517,7 +517,7 @@ export default function CandidatesDashboardPage() {
               value={loading ? "—" : stats.round2Completed}
               subtitle="Second interviews completed"
               icon={FileSearch}
-              href="/dashboard/candidates/round-2"
+              href="/admin/dashboard/candidates/round-2"
               tone="green"
             />
             <StatCard
@@ -525,7 +525,7 @@ export default function CandidatesDashboardPage() {
               value={loading ? "—" : stats.finalDecision}
               subtitle={`${stats.selected} selected / ${stats.rejected} rejected`}
               icon={UserCheck}
-              href="/dashboard/candidates/final-decisions"
+              href="/admin/dashboard/candidates/final-decisions"
               tone="rose"
             />
             <StatCard
@@ -533,7 +533,7 @@ export default function CandidatesDashboardPage() {
               value={loading ? "—" : stats.convertedEmployees}
               subtitle="Candidates converted to employees"
               icon={UserCheck}
-              href="/dashboard/candidates/converted"
+              href="/admin/dashboard/candidates/converted"
               tone="green"
             />
           </div>
