@@ -131,7 +131,7 @@ export default function Sidebar() {
         <div className="flex gap-3 items-center">
 
           <div className="w-12 h-12 rounded-full bg-sky-600 flex justify-center items-center font-bold">
-            HR
+            MB
           </div>
 
           <div>
