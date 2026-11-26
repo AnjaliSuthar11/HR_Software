@@ -91,10 +91,8 @@ export default function CreateEmployeeLogin() {
   }
 
   return (
-    <div className="flex w-full">
-<aside className="w-64 shrink-0">
-      <Sidebar />
-    </aside>
+    <div className="">
+
 
 <main className="min-w-0 flex-1 overflow-x-hidden">
     <div className="max-w-3xl mx-auto p-8">
@@ -185,7 +183,7 @@ export default function CreateEmployeeLogin() {
             <button
               type="button"
               onClick={() =>
-                router.push("/admin/employees")
+                router.push("/admin/dashboard/employees")
               }
               className="px-6 py-3 rounded-xl border"
             >

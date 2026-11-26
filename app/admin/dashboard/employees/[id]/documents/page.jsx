@@ -132,11 +132,9 @@ export default function EmployeeDocumentsPage() {
   ];
 
   return (
-    <div className="flex min-h-screen w-full">
+    <div className="">
 
-  <aside className="w-64 shrink-0">
-      <Sidebar />
-    </aside>
+
 
         <main className="min-w-0 flex-1 overflow-x-hidden">
     <div className="max-w-7xl mx-auto p-10">

@@ -60,6 +60,7 @@ export default function EmployeeAttendancePage() {
       </div>
     );
   }
+// added new files on 17th november 
 
   return (
     <div className="min-h-screen bg-slate-50">

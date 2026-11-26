@@ -115,9 +115,7 @@ employee.employeeStatus === "Inactive"
   return (
     <div className="w-full flex">
 
-<aside className="w-64 shrink-0">
-      <Sidebar />
-    </aside>
+
     <main className="min-w-0 flex-1 overflow-x-hidden">
 
 
@@ -144,7 +142,7 @@ employee.employeeStatus === "Inactive"
 
           <div className="flex flex-wrap gap-3">
             <Link
-              href="/dashboard/employees"
+              href="/admin/dashboard/employees"
               className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
             >
               <ArrowLeft size={17} />
@@ -152,7 +150,7 @@ employee.employeeStatus === "Inactive"
             </Link>
 
             <Link
-              href="/dashboard/employees/add"
+              href="/admin/dashboard/employees/add"
               className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-500 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
             >
               <Plus size={17} />

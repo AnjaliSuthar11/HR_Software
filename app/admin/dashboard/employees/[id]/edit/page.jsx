@@ -570,11 +570,11 @@ export default function EditEmployee() {
   // ========================================
 
   return (
-    <div className="w-full flex">
+    <div className="">
 
- <aside className="w-64 shrink-0">
+ {/* <aside className="w-64 shrink-0">
        <Sidebar />
-     </aside>
+     </aside> */}
 
      <main className="min-w-0 flex-1 overflow-x-hidden">
     <div className="min-h-screen bg-gray-100">

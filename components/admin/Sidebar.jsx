@@ -136,11 +136,11 @@ export default function Sidebar() {
 
           <div>
             <p className="font-semibold">
-              HR Admin
+               Admin
             </p>
 
             <p className="text-sm text-gray-400">
-              admin@company.com
+              magicalballoons@gmail.com
             </p>
           </div>
 

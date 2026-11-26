@@ -63,10 +63,8 @@ export default function EmployeeProfile() {
   }
 
   return (
-    <div className="flex w-full">
-  <aside className="w-64 shrink-0">
-      <Sidebar />
-    </aside>
+    <div className="">
+ 
     
     <main className="min-w-0 flex-1 overflow-x-hidden">
     <div className="min-h-screen bg-gray-100">
@@ -76,7 +74,7 @@ export default function EmployeeProfile() {
         <div className="max-w-7xl mx-auto px-8 py-6 flex justify-between items-center">
           <div>
             <button
-              onClick={() => router.push("/admin/employees")}
+              onClick={() => router.push("/admin/dashboard/employees")}
               className="text-blue-600 hover:underline mb-2"
             >
               ← Back
@@ -87,7 +85,7 @@ export default function EmployeeProfile() {
 
           <div className="flex gap-4">
             <Link
-              href={`/admin/employees/${employee._id}/edit`}
+              href={`/admin/dashboard/employees/${employee._id}/edit`}
               className="px-6 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
             >
               Edit Employee
@@ -95,7 +93,7 @@ export default function EmployeeProfile() {
 
 
             <Link
-              href={`/admin/employees/${employee._id}/documents`}
+              href={`/admin/dashboard/employees/${employee._id}/documents`}
               className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
             >
               Upload Documents
@@ -223,14 +221,14 @@ export default function EmployeeProfile() {
 
               <div className="flex flex-wrap gap-4 mt-8">
                 <Link
-                  href={`/admin/employees/${employee._id}/edit`}
+                  href={`/admin/dashboard/employees/${employee._id}/edit`}
                   className="px-6 py-3 rounded-xl bg-black text-white hover:bg-gray-800 transition font-medium"
                 >
                   ✏️ Edit Employee
                 </Link>
 
                 <Link
-                  href={`/admin/employees/${employee._id}/documents`}
+                  href={`/admin/dashboard/employees/${employee._id}/documents`}
                   className="px-6 py-3 rounded-xl border border-gray-300 hover:bg-gray-100 transition font-medium"
                 >
                   📄 Documents
