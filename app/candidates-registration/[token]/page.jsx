@@ -358,14 +358,16 @@ registrationDate: getTodayDateInput(),
 
                 <div>
                   <label className="block mb-2 font-medium">
-                    Gender
+                    Gender *
                   </label>
 
                   <select
                     name="gender"
                     value={formData.gender}
+                    required
                     onChange={handleChange}
                     className="w-full border border-gray-300 rounded-xl p-3 bg-white"
+                    
                   >
                     <option value="">Select</option>
                     <option>Male</option>
@@ -378,12 +380,13 @@ registrationDate: getTodayDateInput(),
 
                 <div>
                   <label className="block mb-2 font-medium">
-                    Date of Birth
+                    Date of Birth *
                   </label>
 
                   <input
                     type="date"
                     name="dateOfBirth"
+                    required
                     value={formData.dateOfBirth}
                     onChange={handleChange}
                     className="w-full border border-gray-300 rounded-xl p-3"
@@ -394,12 +397,13 @@ registrationDate: getTodayDateInput(),
 
                 <div>
                   <label className="block mb-2 font-medium">
-                    Marital Status
+                    Marital Status *
                   </label>
 
                   <select
                     name="maritalStatus"
                     value={formData.maritalStatus}
+                    required
                     onChange={handleChange}
                     className="w-full border border-gray-300 rounded-xl p-3 bg-white"
                   >
@@ -450,12 +454,13 @@ registrationDate: getTodayDateInput(),
                 <div className="md:col-span-2 lg:col-span-3">
 
                   <label className="block mb-2 font-medium">
-                    Address
+                    Address *
                   </label>
 
                   <textarea
                     rows={3}
                     name="address"
+                    required
                     value={formData.address}
                     onChange={handleChange}
                     className="w-full border border-gray-300 rounded-xl p-3 resize-none"
@@ -476,7 +481,7 @@ registrationDate: getTodayDateInput(),
               <div className="border-b border-gray-200 pb-4 mb-7">
 
                 <h2 className="text-xl font-bold">
-                  Education
+                  Education 
                 </h2>
 
                 <p className="text-sm text-gray-500 mt-1">
@@ -489,12 +494,13 @@ registrationDate: getTodayDateInput(),
 
                 <div>
                   <label className="block mb-2 font-medium">
-                    Highest Qualification
+                    Highest Qualification *
                   </label>
 
                   <input
                     type="text"
                     name="highestQualification"
+                    required
                     value={formData.highestQualification}
                     onChange={handleChange}
                     className="w-full border border-gray-300 rounded-xl p-3"
@@ -503,12 +509,13 @@ registrationDate: getTodayDateInput(),
 
                 <div>
                   <label className="block mb-2 font-medium">
-                    University
+                    University *
                   </label>
 
                   <input
                     type="text"
                     name="university"
+                    required
                     value={formData.university}
                     onChange={handleChange}
                     className="w-full border border-gray-300 rounded-xl p-3"
@@ -517,12 +524,13 @@ registrationDate: getTodayDateInput(),
 
                 <div>
                   <label className="block mb-2 font-medium">
-                    Passing Year
-                  </label>
+                    Passing Year *
+                  </label> 
 
                   <input
                     type="text"
                     name="passingYear"
+                    required
                     value={formData.passingYear}
                     onChange={handleChange}
                     className="w-full border border-gray-300 rounded-xl p-3"
@@ -531,12 +539,13 @@ registrationDate: getTodayDateInput(),
 
                 <div>
                   <label className="block mb-2 font-medium">
-                    Percentage / CGPA
+                    Percentage / CGPA *
                   </label>
 
                   <input
                     type="text"
                     name="percentage"
+                    required
                     value={formData.percentage}
                     onChange={handleChange}
                     className="w-full border border-gray-300 rounded-xl p-3"
@@ -556,11 +565,11 @@ registrationDate: getTodayDateInput(),
               <div className="border-b border-gray-200 pb-4 mb-7">
 
                 <h2 className="text-xl font-bold">
-                  Software Knowledge
+                  Software Knowledge 
                 </h2>
 
                 <p className="text-sm text-gray-500 mt-1">
-                  Mention the software and technologies you know
+                  Mention the software and technologies you know *
                 </p>
 
               </div>
@@ -569,6 +578,7 @@ registrationDate: getTodayDateInput(),
                 rows={4}
                 name="softwareKnowledge"
                 value={formData.softwareKnowledge}
+                required
                 onChange={handleChange}
                 placeholder="Example: MS Office, Excel, Tally, Photoshop, React, Node.js, MongoDB"
                 className="w-full border border-gray-300 rounded-xl p-3 resize-none"
@@ -585,7 +595,7 @@ registrationDate: getTodayDateInput(),
               <div className="border-b border-gray-200 pb-4 mb-7">
 
                 <h2 className="text-xl font-bold">
-                  Work Experience
+                  Work Experience 
                 </h2>
 
                 <p className="text-sm text-gray-500 mt-1">
@@ -608,7 +618,7 @@ registrationDate: getTodayDateInput(),
                   />
 
                   <span>
-                    Experienced
+                    Experienced 
                   </span>
 
                 </label>
@@ -641,6 +651,28 @@ registrationDate: getTodayDateInput(),
             {formData.experience === "Yes" && (
 
               <div>
+              
+<div className="border-b border-gray-200 pb-4 mb-7">
+
+                  <h2 className="text-xl font-bold">
+                   Experience
+                  </h2>
+
+                </div>
+                  <div className="pb-5">
+                    <label className="block mb-2 font-medium">
+                      Total Experience *
+                    </label>
+
+                    <input
+                      type="text"
+                      name="experienceYears"
+                      required
+                      value={formData.experienceYears}
+                      onChange={handleChange}
+                      className="w-full border border-gray-300 rounded-xl p-3"
+                    />
+                  </div>
 
                 <div className="border-b border-gray-200 pb-4 mb-7">
 
@@ -654,12 +686,13 @@ registrationDate: getTodayDateInput(),
 
                   <div>
                     <label className="block mb-2 font-medium">
-                      Previous Company
+                      Previous Company *
                     </label>
 
                     <input
                       type="text"
                       name="previousCompany"
+                      required
                       value={formData.previousCompany}
                       onChange={handleChange}
                       className="w-full border border-gray-300 rounded-xl p-3"
@@ -668,40 +701,43 @@ registrationDate: getTodayDateInput(),
 
                   <div>
                     <label className="block mb-2 font-medium">
-                      Previous Designation
+                      Previous Designation *
                     </label>
 
                     <input
                       type="text"
                       name="previousDesignation"
+                      required
                       value={formData.previousDesignation}
                       onChange={handleChange}
                       className="w-full border border-gray-300 rounded-xl p-3"
                     />
                   </div>
 
-                  <div>
+                  {/* <div>
                     <label className="block mb-2 font-medium">
-                      Experience (Years)
+                      Experience *
                     </label>
 
                     <input
                       type="text"
                       name="experienceYears"
+                      required
                       value={formData.experienceYears}
                       onChange={handleChange}
                       className="w-full border border-gray-300 rounded-xl p-3"
                     />
-                  </div>
+                  </div> */}
 
                   <div>
                     <label className="block mb-2 font-medium">
-                      Last Salary (per month)
+                      Last Salary (per month) *
                     </label>
 
                     <input
                       type="text"
                       name="lastSalary"
+                      required
                       value={formData.lastSalary}
                       onChange={handleChange}
                       className="w-full border border-gray-300 rounded-xl p-3"
@@ -710,12 +746,13 @@ registrationDate: getTodayDateInput(),
 
                   <div>
                     <label className="block mb-2 font-medium">
-                      Last In-Hand Salary
+                      Last In-Hand Salary *
                     </label>
 
                     <input
                       type="text"
                       name="lastInHandSalary"
+                      required
                       value={formData.lastInHandSalary}
                       onChange={handleChange}
                       className="w-full border border-gray-300 rounded-xl p-3"
@@ -724,11 +761,12 @@ registrationDate: getTodayDateInput(),
 
                   <div>
                     <label className="block mb-2 font-medium">
-                      Salary Slip Available
+                      Salary Slip Available *
                     </label>
 
                     <select
                       name="salarySlip"
+                      required
                       value={formData.salarySlip}
                       onChange={handleChange}
                       className="w-full border border-gray-300 rounded-xl p-3 bg-white"
@@ -742,11 +780,12 @@ registrationDate: getTodayDateInput(),
 
                   <div>
                     <label className="block mb-2 font-medium">
-                      Currently Working
+                      Currently Working *
                     </label>
 
                     <select
                       name="currentlyWorking"
+                      required
                       value={formData.currentlyWorking}
                       onChange={handleChange}
                       className="w-full border border-gray-300 rounded-xl p-3 bg-white"
@@ -760,11 +799,12 @@ registrationDate: getTodayDateInput(),
 
                   <div>
                     <label className="block mb-2 font-medium">
-                      Experience Letter
+                      Experience Letter *
                     </label>
 
                     <select
                       name="experienceLetter"
+                      required
                       value={formData.experienceLetter}
                       onChange={handleChange}
                       className="w-full border border-gray-300 rounded-xl p-3 bg-white"
@@ -777,11 +817,12 @@ registrationDate: getTodayDateInput(),
 
                   <div>
                     <label className="block mb-2 font-medium">
-                      Notice Period
+                      Notice Period *
                     </label>
 
                     <select
                       name="noticePeriod"
+                      required
                       value={formData.noticePeriod}
                       onChange={handleChange}
                       className="w-full border border-gray-300 rounded-xl p-3 bg-white"
@@ -817,11 +858,12 @@ registrationDate: getTodayDateInput(),
                 <div>
 
                   <label className="block mb-2 font-medium">
-                    When can you join
+                    When can you join *
                   </label>
 
                   <input
                     type="date"
+                    required
                     name="preferredJoiningDate"
                     value={formData.preferredJoiningDate}
                     onChange={handleChange}
@@ -833,11 +875,12 @@ registrationDate: getTodayDateInput(),
                 <div>
 
                   <label className="block mb-2 font-medium">
-                    Do you have any criminal record?
+                    Do you have any criminal record? *
                   </label>
 
                   <select
                     name="criminalRecord"
+                    required
                     value={formData.criminalRecord}
                     onChange={handleChange}
                     className="w-full border border-gray-300 rounded-xl p-3 bg-white"
@@ -849,21 +892,49 @@ registrationDate: getTodayDateInput(),
 
                 </div>
 
-                <div className="md:col-span-2">
+              
+               <div>
+  <label className="block mb-2 font-medium">
+    Reference *
+  </label>
 
-                  <label className="block mb-2 font-medium">
-                    Reference
-                  </label>
+  <div className="flex gap-3">
+    <select
+      name="reference"
+      required
+      value={formData.reference?.split(" - ")[0] || ""}
+      onChange={handleChange}
+      className="w-full border border-gray-300 rounded-xl p-3 bg-white"
+    >
+      <option value="">Select</option>
+      <option value="Naukri">Naukri</option>
+      <option value="Apna">Apna</option>
+      <option value="Workindia">Workindia</option>
+      <option value="Monster">Monster</option>
+      <option value="Class/ College">Class/ College</option>
+      <option value="Friend/Relative">Friend/Relative</option>
+      <option value="Other">Other</option>
+    </select>
 
-                  <input
-                    type="text"
-                    name="reference"
-                    value={formData.reference}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-xl p-3"
-                  />
-
-                </div>
+    {["Class/ College", "Friend/Relative", "Other"].includes(
+      formData.reference?.split(" - ")[0]
+    ) && (
+      <input
+        type="text"
+        value={formData.reference.split(" - ").slice(1).join(" - ")}
+        onChange={(e) =>
+          setFormData((prev) => ({
+            ...prev,
+            reference: `${prev.reference.split(" - ")[0]} - ${e.target.value}`,
+          }))
+        }
+        placeholder="Please specify"
+        required
+        className="w-full border border-gray-300 rounded-xl p-3 bg-white"
+      />
+    )}
+  </div>
+</div>
 
               </div>
 
