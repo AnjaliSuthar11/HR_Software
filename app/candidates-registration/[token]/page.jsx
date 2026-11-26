@@ -913,7 +913,7 @@ registrationDate: getTodayDateInput(),
       <option value="Monster">Monster</option>
       <option value="Class/ College">Class/ College</option>
       <option value="Friend/Relative">Friend/Relative</option>
-      <option value="Friend/Relative">Social Media</option>
+      <option value="Social Media">Social Media</option>
       <option value="Other">Other</option>
     </select>
 
